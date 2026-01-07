@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ module.title }}{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow-lg p-4">
+    <h2 class="card-title text-center">{{ module.title }}</h2>
+    <hr>
+    <p class="card-text">{{ module.description }}</p>
+
+    <div class="mt-4 text-center">
+      <a href="{{ url_for('course', name='Data Science') }}" class="btn btn-secondary">← Back to Course</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

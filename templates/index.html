@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+  <!-- Hero Section -->
+  <section class="hero text-center py-5">
+    <!-- Logo -->
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="DataSolve Logo" class="logo img-fluid mb-3">
+
+    <!-- Headline -->
+    <h1 class="display-4 fw-bold">Welcome to DataSolve Learning!</h1>
+    <p class="lead tagline">Empowering growth through data, technology, and learning</p>
+
+    <!-- Call to Action -->
+    <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg mt-3 shadow">
+      🚀 Start Free Course
+    </a>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features mt-5">
+    <div class="row text-center">
+      <div class="col-md-4">
+        <h4>📊 Data Science</h4>
+        <p>Learn the fundamentals of data analysis and visualization.</p>
+      </div>
+      <div class="col-md-4">
+        <h4>📈 Statistics</h4>
+        <p>Master probability, inference, and statistical modeling.</p>
+      </div>
+      <div class="col-md-4">
+        <h4>💻 R Programming</h4>
+        <p>Build reproducible workflows and powerful analytics with R.</p>
+      </div>
+    </div>
+  </section>
+{% endblock %}

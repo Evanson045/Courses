@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block title %}{{ course.title }}{% endblock %}
+{% block content %}
+  <!-- Hero Section -->
+  <div class="hero text-center mb-5">
+    <h1>{{ course.icon }} {{ course.title }}</h1>
+    <p class="lead">{{ course.description }}</p>
+  </div>
+
+  <!-- Course Overview -->
+  <div class="container mb-4">
+    <h3>Course Overview</h3>
+    <p>{{ course.overview }}</p>
+  </div>
+
+  <!-- Progress Indicator -->
+  <div class="container mb-4">
+    {% set unlocked = 15 if user.is_subscribed else 5 %}
+    <div class="alert alert-info text-center mb-3 d-flex justify-content-between align-items-center">
+      <div>
+        {% if user.is_subscribed %}
+          ✅ All 15 modules unlocked
+        {% else %}
+          🔓 Free access: 5/15 modules unlocked
+        {% endif %}
+      </div>
+      {% if not user.is_subscribed %}
+        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#mpesaUnlockAllModal">
+          Unlock All (KES 2500)
+        </button>
+      {% endif %}
+    </div>
+
+    <div class="progress" style="height: 25px;">
+      <div class="progress-bar bg-success" role="progressbar"
+           style="width: {{ (unlocked / 15) * 100 }}%;"
+           aria-valuenow="{{ unlocked }}" aria-valuemin="0" aria-valuemax="15">
+        {{ unlocked }}/15 Modules
+      </div>
+    </div>
+  </div>
+
+  <!-- Modules Grid -->
+  <div class="container mt-4">
+    <div class="row">
+      {% for module in course.modules %}
+        <div class="col-12 mb-4">
+          <div class="card h-100 d-flex flex-row justify-content-between align-items-center">
+            <div class="card-body">
+              <h5 class="card-title">Module {{ loop.index }}: {{ module.title }}</h5>
+              <p class="card-text">{{ module.description }}</p>
+            </div>
+            <div class="card-footer bg-white border-0">
+              {% if user.is_subscribed or loop.index <= 5 %}
+                <a href="{{ url_for('module', course_name=course.title, id=module.id) }}" class="btn btn-primary">Open</a>
+              {% else %}
+                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#mpesaModuleModal" data-module="{{ module.id }}">
+                  Unlock Module
+                </button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Unlock Single Module Modal -->
+  <div class="modal fade" id="mpesaModuleModal" tabindex="-1" aria-labelledby="mpesaModuleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="mpesaModuleModalLabel">Unlock Module</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Enter your phone number to pay KES 500 and unlock this module.</p>
+          <input type="text" class="form-control mb-3" id="mpesaPhoneSingle" placeholder="07XXXXXXXX">
+          <input type="hidden" id="mpesaModuleId">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-success" id="mpesaPaySingleBtn">Pay with M-Pesa</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Unlock All Modules Modal -->
+  <div class="modal fade" id="mpesaUnlockAllModal" tabindex="-1" aria-labelledby="mpesaUnlockAllModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="mpesaUnlockAllModalLabel">Unlock All Modules</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Enter your phone number to pay KES 2500 and unlock all modules across this course.</p>
+          <input type="text" class="form-control mb-3" id="mpesaPhoneAll" placeholder="07XXXXXXXX">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-success" id="mpesaPayAllBtn">Pay with M-Pesa</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    // Pass module id into single unlock modal
+    var mpesaModuleModal = document.getElementById('mpesaModuleModal');
+    mpesaModuleModal.addEventListener('show.bs.modal', function (event) {
+      var button = event.relatedTarget;
+      var moduleId = button.getAttribute('data-module');
+      document.getElementById('mpesaModuleId').value = moduleId;
+    });
+
+    // Handle single module payment
+    document.getElementById('mpesaPaySingleBtn').addEventListener('click', async () => {
+      const phone = document.getElementById('mpesaPhoneSingle').value;
+      const moduleId = document.getElementById('mpesaModuleId').value;
+      if (!phone) { alert("Please enter your phone number."); return; }
+      const response = await fetch("/mpesa-pay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone, moduleId })
+      });
+      const result = await response.json();
+      alert(result.message || "Payment initiated. Check your phone.");
+    });
+
+    // Handle unlock all payment
+    document.getElementById('mpesaPayAllBtn').addEventListener('click', async () => {
+      const phone = document.getElementById('mpesaPhoneAll').value;
+      if (!phone) { alert("Please enter your phone number."); return; }
+      const response = await fetch("/mpesa-pay-all", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone })
+      });
+      const result = await response.json();
+      alert(result.message || "Payment initiated. Check your phone.");
+    });
+  </script>
+{% endblock %}

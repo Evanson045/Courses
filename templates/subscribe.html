@@ -1,0 +1,18 @@
+<h2>Subscribe with M-Pesa</h2>
+<input type="text" id="phone" placeholder="Enter M-Pesa number">
+<button onclick="pay()">Pay</button>
+
+<script>
+function pay() {
+  const phone = document.getElementById('phone').value;
+  fetch('/mpesa-pay', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ phone })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert("Payment request sent. Enter your PIN on your phone to confirm.");
+  });
+}
+</script>
