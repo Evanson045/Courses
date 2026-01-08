@@ -45,19 +45,23 @@
     <div class="row">
       {% for module in course.modules %}
         <div class="col-12 mb-4">
-          <div class="card h-100 d-flex flex-row justify-content-between align-items-center">
-            <div class="card-body">
-              <h5 class="card-title">Module {{ loop.index }}: {{ module.title }}</h5>
-              <p class="card-text">{{ module.description }}</p>
-            </div>
-            <div class="card-footer bg-white border-0">
-              {% if user.is_subscribed or loop.index <= 5 %}
-                <a href="{{ url_for('module', course_name=course.title, id=module.id) }}" class="btn btn-primary">Open</a>
-              {% else %}
-                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#paypalModuleModal" data-module="{{ module.id }}">
-                  Unlock Module
-                </button>
-              {% endif %}
+          <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex justify-content-between align-items-center">
+              <div>
+                <h5 class="card-title mb-2">Module {{ loop.index }}: {{ module.title }}</h5>
+                <p class="card-text">{{ module.description }}</p>
+              </div>
+              <div>
+                {% if user.is_subscribed or loop.index <= 5 %}
+                  <a href="{{ url_for('module', course_name=course.title, id=module.id) }}" class="btn btn-primary">
+                    Open
+                  </a>
+                {% else %}
+                  <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#paypalModuleModal" data-module="{{ module.id }}">
+                    Unlock Module
+                  </button>
+                {% endif %}
+              </div>
             </div>
           </div>
         </div>

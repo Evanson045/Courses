@@ -230,3 +230,29 @@ img.logo:hover {
   }
   body.dark-mode .hero .btn:hover { background-color: #ffcd39; }
 }
+
+/* Light mode appearance */
+.login-prompt,
+.auth-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333; /* dark gray for readability */
+  margin-top: 10px;
+}
+
+/* Dark mode appearance */
+body.dark-mode .login-prompt,
+body.dark-mode .auth-text {
+  color: #fff !important; /* white text in dark mode */
+}
+
+body.dark-mode .auth-text a,
+body.dark-mode .login-prompt a {
+  color: #7ab3d8 !important; /* subtle accent for links */
+}
+
+body.dark-mode .auth-text a:hover,
+body.dark-mode .login-prompt a:hover {
+  color: #ffc107 !important; /* highlight on hover */
+}
+
