@@ -9,14 +9,13 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <style>
-    /* Dark Mode Base */
     body.dark-mode {
-      background-color: #222; /* slightly softer black */
+      background-color: #222;
       color: #f1f1f1;
       transition: background-color 0.3s ease, color 0.3s ease;
     }
     body.dark-mode .card {
-      background-color: #000; /* pure black for sleek look */
+      background-color: #000;
       color: #f1f1f1;
       border: none;
     }
@@ -25,43 +24,8 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.6);
     }
     #toggle-dark i {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       vertical-align: middle;
-    }
-
-    /* Dark Mode Buttons (scoped to cards) */
-    body.dark-mode .card .btn-primary {
-      background-color: #28a745 !important; /* Green open buttons */
-      border: none !important;
-      color: #fff !important;
-      box-shadow: none !important;
-    }
-    body.dark-mode .card .btn-primary:hover {
-      background-color: #218838 !important;
-    }
-
-    body.dark-mode .card .btn-warning {
-      background-color: #ffc107 !important; /* Yellow unlock/next/prev buttons */
-      border: none !important;
-      color: #000 !important;
-      box-shadow: none !important;
-    }
-    body.dark-mode .card .btn-warning:hover {
-      background-color: #e0a800 !important;
-    }
-
-    /* Auth prompts in dark mode */
-    body.dark-mode .login-prompt,
-    body.dark-mode .auth-text {
-      color: #fff !important;
-    }
-    body.dark-mode .login-prompt a,
-    body.dark-mode .auth-text a {
-      color: #7ab3d8 !important;
-    }
-    body.dark-mode .login-prompt a:hover,
-    body.dark-mode .auth-text a:hover {
-      color: #ffc107 !important;
     }
   </style>
 </head>
@@ -71,28 +35,29 @@
     <div class="container d-flex justify-content-between align-items-center">
       <!-- Brand -->
       <a class="navbar-brand fw-bold text-white" href="{{ url_for('index') }}">
-        Welcome to DataSolve - Data Consultancy
+        Welcome to DSE Courses!
       </a>
 
-      <!-- Nav Items (always visible) -->
+      <!-- Nav Items -->
       <div class="d-flex align-items-center">
         {% if session.get('user_id') %}
-          <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light me-2">
-            <i class="bi bi-house-door-fill me-1"></i> Home
+          <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light me-2" data-bs-toggle="tooltip" title="Home">
+            <i class="bi bi-house-door-fill"></i>
           </a>
-          <a href="{{ url_for('logout') }}" class="btn btn-danger me-2">
-            <i class="bi bi-box-arrow-right me-1"></i> Logout
+          <a href="{{ url_for('logout') }}" class="btn btn-danger me-2" data-bs-toggle="tooltip" title="Logout">
+            <i class="bi bi-box-arrow-right"></i>
           </a>
         {% else %}
-          <a href="{{ url_for('login') }}" class="btn btn-outline-light me-2">
-            <i class="bi bi-box-arrow-in-right me-1"></i> Login
+          <a href="{{ url_for('login') }}" class="btn btn-outline-light me-2" data-bs-toggle="tooltip" title="Login">
+            <i class="bi bi-box-arrow-in-right"></i>
           </a>
-          <a href="{{ url_for('register') }}" class="btn btn-success me-2">
-            <i class="bi bi-person-plus-fill me-1"></i> Register
+          <a href="{{ url_for('register') }}" class="btn btn-success me-2" data-bs-toggle="tooltip" title="Register">
+            <i class="bi bi-person-plus-fill"></i>
           </a>
         {% endif %}
-        <button id="toggle-dark" class="btn btn-sm btn-outline-light">
-          <i class="bi bi-moon-fill me-1"></i> Dark Mode
+        <!-- Toggle button with tooltip -->
+        <button id="toggle-dark" class="btn btn-sm btn-outline-light" data-bs-toggle="tooltip" title="Switch to Dark Mode">
+          <i class="bi bi-moon-fill"></i>
         </button>
       </div>
     </div>
@@ -116,20 +81,26 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    // Enable tooltips globally
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
     const toggleBtn = document.getElementById('toggle-dark');
     if (toggleBtn) {
-      // Apply saved theme
       if (localStorage.getItem('theme') === 'dark') {
         document.body.classList.add('dark-mode');
-        toggleBtn.innerHTML = '<i class="bi bi-sun-fill me-1"></i> Light Mode';
+        toggleBtn.innerHTML = '<i class="bi bi-sun-fill"></i>';
+        toggleBtn.setAttribute('title', 'Switch to Light Mode');
       }
-      // Toggle on click
       toggleBtn.addEventListener('click', function() {
         document.body.classList.toggle('dark-mode');
         const isDark = document.body.classList.contains('dark-mode');
         this.innerHTML = isDark
-          ? '<i class="bi bi-sun-fill me-1"></i> Light Mode'
-          : '<i class="bi bi-moon-fill me-1"></i> Dark Mode';
+          ? '<i class="bi bi-sun-fill"></i>'
+          : '<i class="bi bi-moon-fill"></i>';
+        this.setAttribute('title', isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode');
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
       });
     }
