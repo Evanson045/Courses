@@ -1,17 +1,14 @@
 import os
-import base64
-import requests
-from datetime import datetime
 from flask import (
     Flask, render_template, redirect, url_for,
     request, session, flash, jsonify
 )
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from dotenv import load_dotenv   # <-- import dotenv at the top
+from dotenv import load_dotenv
 
 # -------------------- Load Environment Variables --------------------
-load_dotenv()  # this loads variables from .env
+load_dotenv()
 
 # -------------------- App Setup --------------------
 app = Flask(__name__)
@@ -19,13 +16,6 @@ app.secret_key = os.getenv("SECRET_KEY", "dev_secret")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
-# -------------------- M-Pesa Config --------------------
-MPESA_CONSUMER_KEY = os.getenv("MPESA_CONSUMER_KEY")
-MPESA_CONSUMER_SECRET = os.getenv("MPESA_CONSUMER_SECRET")
-MPESA_SHORTCODE = os.getenv("MPESA_SHORTCODE")
-MPESA_PASSKEY = os.getenv("MPESA_PASSKEY")
-MPESA_CALLBACK_URL = os.getenv("MPESA_CALLBACK_URL")
 
 # -------------------- Models --------------------
 class User(db.Model):
@@ -40,6 +30,11 @@ def current_user():
         return User.query.get(session['user_id'])
     return None
 
+# -------------------- Health --------------------
+@app.route('/health')
+def health():
+    return "App is running ✅"
+
 # -------------------- Auth Routes --------------------
 @app.route('/register', methods=['GET','POST'])
 def register():
@@ -48,12 +43,16 @@ def register():
         password = request.form['password']
         confirm = request.form.get('confirm_password')
 
+        if not email or not password or not confirm:
+            flash("All fields are required.", "danger")
+            return redirect(url_for('register'))
+
         if password != confirm:
             flash("Passwords do not match.", "danger")
             return redirect(url_for('register'))
 
         if User.query.filter_by(email=email).first():
-            flash("Email already registered.", "warning")
+            flash("Email already registered. Please log in.", "warning")
             return redirect(url_for('login'))
 
         hashed_pw = generate_password_hash(password)
@@ -156,39 +155,40 @@ def module(course_name, id):
 
     return render_template("module.html", module=module_data, course=course, user=user)
 
-# -------------------- M-Pesa Payment Routes --------------------
-@app.route('/mpesa-pay-course/<string:course_name>', methods=['POST'])
-def mpesa_pay_course(course_name):
+# -------------------- PayPal Hosted Buttons --------------------
+# Hosted Button IDs from your PayPal dashboard
+MODULE_BUTTON_ID = "25ZB5B5M2Z9F8"   # single module unlock
+COURSE_BUTTON_ID = "E4QRSZMBN6Q4E"   # full course unlock
+
+@app.route('/unlock-module')
+def unlock_module():
     user = current_user()
     if not user:
-        return jsonify({"success": False, "message": "Login required"}), 403
+        flash("Login required to unlock modules.", "danger")
+        return redirect(url_for('login'))
+    return render_template("unlock_module.html", hosted_button_id=MODULE_BUTTON_ID, user=user)
 
-    phone = request.form.get('phone')
-    amount = 500  # Example: KES 500 per course
-
-    # TODO: Integrate with M-Pesa Daraja API
-    flash(f"Payment request sent for {course_name}. Amount: KES {amount}", "info")
-
-    user.is_subscribed = True
-    db.session.commit()
-    return redirect(url_for('course', name=course_name))
-
-@app.route('/mpesa-pay-module/<string:course_name>/<int:id>', methods=['POST'])
-def mpesa_pay_module(course_name, id):
+@app.route('/unlock-course')
+def unlock_course():
     user = current_user()
     if not user:
-        return jsonify({"success": False, "message": "Login required"}), 403
+        flash("Login required to unlock courses.", "danger")
+        return redirect(url_for('login'))
+    return render_template("unlock_course.html", hosted_button_id=COURSE_BUTTON_ID, user=user)
 
-    phone = request.form.get('phone')
-    amount = 50  # Example: KES 50 per module
+@app.route('/paypal-success')
+def paypal_success():
+    user = current_user()
+    if user:
+        user.is_subscribed = True
+        db.session.commit()
+    flash("PayPal payment successful. Subscription activated.", "success")
+    return redirect(url_for('dashboard'))
 
-    # TODO: Integrate with M-Pesa Daraja API
-    flash(f"Payment request sent for {course_name} - Module {id}. Amount: KES {amount}", "info")
-
-    # For demo: mark user as subscribed globally
-    user.is_subscribed = True
-    db.session.commit()
-    return redirect(url_for('module', course_name=course_name, id=id))
+@app.route('/paypal-cancel')
+def paypal_cancel():
+    flash("PayPal payment cancelled.", "warning")
+    return redirect(url_for('dashboard'))
 
 # -------------------- Run App --------------------
 if __name__ == '__main__':

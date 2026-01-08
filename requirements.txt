@@ -1,6 +1,5 @@
 Flask
-Flask-SQLAlchemy
-Werkzeug
-requests
+flask_sqlalchemy
 python-dotenv
 gunicorn
+werkzeug

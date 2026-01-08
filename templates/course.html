@@ -25,7 +25,7 @@
         {% endif %}
       </div>
       {% if not user.is_subscribed %}
-        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#mpesaUnlockAllModal">
+        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal">
           Unlock All (KES 2500)
         </button>
       {% endif %}
@@ -54,7 +54,7 @@
               {% if user.is_subscribed or loop.index <= 5 %}
                 <a href="{{ url_for('module', course_name=course.title, id=module.id) }}" class="btn btn-primary">Open</a>
               {% else %}
-                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#mpesaModuleModal" data-module="{{ module.id }}">
+                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#paypalModuleModal" data-module="{{ module.id }}">
                   Unlock Module
                 </button>
               {% endif %}
@@ -66,81 +66,50 @@
   </div>
 
   <!-- Unlock Single Module Modal -->
-  <div class="modal fade" id="mpesaModuleModal" tabindex="-1" aria-labelledby="mpesaModuleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="paypalModuleModal" tabindex="-1" aria-labelledby="paypalModuleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content shadow-lg">
         <div class="modal-header">
-          <h5 class="modal-title" id="mpesaModuleModalLabel">Unlock Module</h5>
+          <h5 class="modal-title" id="paypalModuleModalLabel">Unlock Module</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body">
-          <p>Enter your phone number to pay KES 500 and unlock this module.</p>
-          <input type="text" class="form-control mb-3" id="mpesaPhoneSingle" placeholder="07XXXXXXXX">
-          <input type="hidden" id="mpesaModuleId">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-success" id="mpesaPaySingleBtn">Pay with M-Pesa</button>
+        <div class="modal-body text-center">
+          <p>To unlock this module, please pay <strong>KES 500</strong> via PayPal.</p>
+          <!-- PayPal Hosted Button for single module -->
+          <div id="paypal-container-25ZB5B5M2Z9F8"></div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Unlock All Modules Modal -->
-  <div class="modal fade" id="mpesaUnlockAllModal" tabindex="-1" aria-labelledby="mpesaUnlockAllModalLabel" aria-hidden="true">
+  <div class="modal fade" id="paypalUnlockAllModal" tabindex="-1" aria-labelledby="paypalUnlockAllModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content shadow-lg">
         <div class="modal-header">
-          <h5 class="modal-title" id="mpesaUnlockAllModalLabel">Unlock All Modules</h5>
+          <h5 class="modal-title" id="paypalUnlockAllModalLabel">Unlock All Modules</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body">
-          <p>Enter your phone number to pay KES 2500 and unlock all modules across this course.</p>
-          <input type="text" class="form-control mb-3" id="mpesaPhoneAll" placeholder="07XXXXXXXX">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-success" id="mpesaPayAllBtn">Pay with M-Pesa</button>
+        <div class="modal-body text-center">
+          <p>To unlock all modules in this course, please pay <strong>KES 2500</strong> via PayPal.</p>
+          <!-- PayPal Hosted Button for full course -->
+          <div id="paypal-container-E4QRSZMBN6Q4E"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Script -->
+  <!-- PayPal SDK Script -->
+  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD"></script>
   <script>
-    // Pass module id into single unlock modal
-    var mpesaModuleModal = document.getElementById('mpesaModuleModal');
-    mpesaModuleModal.addEventListener('show.bs.modal', function (event) {
-      var button = event.relatedTarget;
-      var moduleId = button.getAttribute('data-module');
-      document.getElementById('mpesaModuleId').value = moduleId;
-    });
+    // Hosted button for single module
+    paypal.HostedButtons({
+      hostedButtonId: "25ZB5B5M2Z9F8"
+    }).render("#paypal-container-25ZB5B5M2Z9F8");
 
-    // Handle single module payment
-    document.getElementById('mpesaPaySingleBtn').addEventListener('click', async () => {
-      const phone = document.getElementById('mpesaPhoneSingle').value;
-      const moduleId = document.getElementById('mpesaModuleId').value;
-      if (!phone) { alert("Please enter your phone number."); return; }
-      const response = await fetch("/mpesa-pay", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone, moduleId })
-      });
-      const result = await response.json();
-      alert(result.message || "Payment initiated. Check your phone.");
-    });
-
-    // Handle unlock all payment
-    document.getElementById('mpesaPayAllBtn').addEventListener('click', async () => {
-      const phone = document.getElementById('mpesaPhoneAll').value;
-      if (!phone) { alert("Please enter your phone number."); return; }
-      const response = await fetch("/mpesa-pay-all", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone })
-      });
-      const result = await response.json();
-      alert(result.message || "Payment initiated. Check your phone.");
-    });
+    // Hosted button for full course
+    paypal.HostedButtons({
+      hostedButtonId: "E4QRSZMBN6Q4E"
+    }).render("#paypal-container-E4QRSZMBN6Q4E");
   </script>
 {% endblock %}

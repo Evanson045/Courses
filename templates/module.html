@@ -8,8 +8,42 @@
     <p class="card-text">{{ module.description }}</p>
 
     <div class="mt-4 text-center">
-      <a href="{{ url_for('course', name='Data Science') }}" class="btn btn-secondary">← Back to Course</a>
+      <a href="{{ url_for('course', name=course.title) }}" class="btn btn-secondary">← Back to Course</a>
     </div>
   </div>
 </div>
+
+{% if not user.is_subscribed and module.id > 5 %}
+<!-- PayPal Unlock Modal -->
+<div class="modal fade" id="paypalUnlockModal" tabindex="-1" aria-labelledby="paypalUnlockModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content shadow-lg">
+      <div class="modal-header">
+        <h5 class="modal-title" id="paypalUnlockModalLabel">Unlock Module</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p>To unlock this module, please pay <strong>KES 500</strong> via PayPal.</p>
+        <!-- PayPal Hosted Button -->
+        <div id="paypal-container-25ZB5B5M2Z9F8"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Trigger Button -->
+<div class="container mt-3">
+  <button class="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#paypalUnlockModal">
+    Unlock Module
+  </button>
+</div>
+
+<!-- PayPal SDK Script -->
+<script src="https://www.paypal.com/sdk/js?client-id=AUvxeWZl_Jhm4R0bJ4AAE5RcEE8074-jcEHw81Vd4qMncGa5ABA15ZPHCrSHRfZkzohWmq0nrKljNrqv&currency=USD"></script>
+<script>
+  paypal.HostedButtons({
+    hostedButtonId: "25ZB5B5M2Z9F8" // your hosted button ID for single module
+  }).render("#paypal-container-25ZB5B5M2Z9F8");
+</script>
+{% endif %}
 {% endblock %}
