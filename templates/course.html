@@ -13,35 +13,8 @@
     <p>{{ course.overview }}</p>
   </div>
 
-  <!-- Progress Indicator -->
-  <div class="container mb-4">
-    {% set unlocked = 15 if user.is_subscribed else 5 %}
-    <div class="alert alert-info text-center mb-3 d-flex justify-content-between align-items-center">
-      <div>
-        {% if user.is_subscribed %}
-          ✅ All 15 modules unlocked
-        {% else %}
-          🔓 Free access: 5/15 modules unlocked
-        {% endif %}
-      </div>
-      {% if not user.is_subscribed %}
-        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal">
-          Unlock All (KES 2500)
-        </button>
-      {% endif %}
-    </div>
-
-    <div class="progress" style="height: 25px;">
-      <div class="progress-bar bg-success" role="progressbar"
-           style="width: {{ (unlocked / 15) * 100 }}%;"
-           aria-valuenow="{{ unlocked }}" aria-valuemin="0" aria-valuemax="15">
-        {{ unlocked }}/15 Modules
-      </div>
-    </div>
-  </div>
-
   <!-- Modules Grid -->
-  <div class="container mt-4">
+  <div class="container mt-4 mb-5">
     <div class="row">
       {% for module in course.modules %}
         <div class="col-12 mb-4">
@@ -69,6 +42,32 @@
     </div>
   </div>
 
+  <!-- Sticky Progress Indicator at Bottom -->
+  <div class="fixed-bottom bg-dark text-white text-center py-3 shadow-lg">
+    {% set unlocked = 15 if user.is_subscribed else 5 %}
+    <div class="d-flex justify-content-between align-items-center container">
+      <div>
+        {% if user.is_subscribed %}
+          ✅ All 15 modules unlocked
+        {% else %}
+          🔓 Free access: 5/15 modules unlocked
+        {% endif %}
+      </div>
+      {% if not user.is_subscribed %}
+        <button class="btn btn-warning btn-sm ms-3" data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal">
+          Unlock All (KES 2500)
+        </button>
+      {% endif %}
+    </div>
+    <div class="progress mt-2" style="height: 20px;">
+      <div class="progress-bar bg-success" role="progressbar"
+           style="width: {{ (unlocked / 15) * 100 }}%;"
+           aria-valuenow="{{ unlocked }}" aria-valuemin="0" aria-valuemax="15">
+        {{ unlocked }}/15 Modules
+      </div>
+    </div>
+  </div>
+
   <!-- Unlock Single Module Modal -->
   <div class="modal fade" id="paypalModuleModal" tabindex="-1" aria-labelledby="paypalModuleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -78,11 +77,9 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body text-center">
-          <!-- Visible unlock message -->
           <p class="fw-bold text-warning mb-3">
             To unlock this module, please pay <strong>KES 500</strong> via PayPal.
           </p>
-          <!-- PayPal Hosted Button directly below -->
           <div id="paypal-container-25ZB5B5M2Z9F8" class="mt-2"></div>
         </div>
       </div>
@@ -98,14 +95,10 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body text-center">
-          <!-- Visible unlock message -->
           <p class="fw-bold text-warning mb-3">
             To unlock all modules in this course, please pay <strong>KES 2500</strong> via PayPal.
           </p>
-          <!-- PayPal Hosted Button directly below -->
           <div id="paypal-container-E4QRSZMBN6Q4E" class="mt-2"></div>
-
-          <!-- Subscription Option -->
           <hr>
           <p class="fw-bold text-info mb-3">Or subscribe for unlimited access:</p>
           <div id="paypal-subscription-container"></div>
@@ -117,21 +110,18 @@
   <!-- PayPal SDK Script -->
   <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&vault=true&intent=subscription&currency=USD"></script>
   <script>
-    // Hosted button for single module
     paypal.HostedButtons({
       hostedButtonId: "25ZB5B5M2Z9F8"
     }).render("#paypal-container-25ZB5B5M2Z9F8");
 
-    // Hosted button for full course
     paypal.HostedButtons({
       hostedButtonId: "E4QRSZMBN6Q4E"
     }).render("#paypal-container-E4QRSZMBN6Q4E");
 
-    // Subscription button
     paypal.Buttons({
       createSubscription: function(data, actions) {
         return actions.subscription.create({
-          plan_id: 'YOUR_PLAN_ID' // Replace with your PayPal subscription plan ID
+          plan_id: 'YOUR_PLAN_ID'
         });
       },
       onApprove: function(data, actions) {
