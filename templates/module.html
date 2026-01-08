@@ -7,21 +7,8 @@
     <hr>
     <p class="card-text">{{ module.description }}</p>
 
-    <!-- Navigation buttons -->
-    <div class="mt-4 d-flex justify-content-between">
-      <a href="{{ url_for('course', name=course.title) }}" class="btn btn-secondary">
-        ← Back to Course
-      </a>
-      {% if prev_module %}
-        <a href="{{ url_for('module', course_name=course.title, id=prev_module.id) }}" class="btn btn-warning">
-          ← Previous Module
-        </a>
-      {% endif %}
-      {% if next_module %}
-        <a href="{{ url_for('module', course_name=course.title, id=next_module.id) }}" class="btn btn-warning ms-auto">
-          Next Module →
-        </a>
-      {% endif %}
+    <div class="mt-4 text-center">
+      <a href="{{ url_for('course', name=course.title) }}" class="btn btn-secondary">← Back to Course</a>
     </div>
   </div>
 </div>
