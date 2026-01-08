@@ -61,7 +61,7 @@
     </div>
     <div class="progress mt-2" style="height: 20px;">
       <div class="progress-bar bg-success" role="progressbar"
-           style="width: {{ (unlocked / 15) * 100 }}%;"
+           style="width: {{ ((unlocked / 15) * 100)|round(2) }}%;"
            aria-valuenow="{{ unlocked }}" aria-valuemin="0" aria-valuemax="15">
         {{ unlocked }}/15 Modules
       </div>
@@ -100,7 +100,6 @@
           </p>
           <div id="paypal-container-E4QRSZMBN6Q4E" class="mt-2"></div>
           <hr>
-          <p class="fw-bold text-info mb-3">Or subscribe for unlimited access:</p>
           <div id="paypal-subscription-container"></div>
         </div>
       </div>
