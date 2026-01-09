@@ -145,3 +145,36 @@ img.logo:hover {
   margin-bottom: 0.8rem;
   line-height: 1.5;
 }
+
+/* Start Course Buttons */
+.btn-start {
+  display: inline-block;
+  min-width: 200px;   /* longer button */
+  padding: 0.75rem 1.5rem; /* taller and wider */
+  font-weight: 600;
+  text-align: center;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-start.btn-primary {
+  background-color: #14b8a6 !important; /* teal accent */
+  color: #fff !important;
+  border: none !important;
+}
+
+.btn-start.btn-primary:hover {
+  background-color: #0d9488 !important;
+  transform: translateY(-2px);
+}
+
+.btn-start.btn-warning {
+  background-color: #facc15 !important; /* yellow accent */
+  color: #000 !important;
+  border: none !important;
+}
+
+.btn-start.btn-warning:hover {
+  background-color: #eab308 !important;
+  transform: translateY(-2px);
+}
