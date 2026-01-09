@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}{{ course.title }}{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <!-- Course Header -->
+  <div class="text-center mb-4">
+    <h2>{{ course.icon }} {{ course.title }}</h2>
+    <p class="lead">{{ course.description }}</p>
+  </div>
+  <hr>
+
+  <!-- Unlock All Button -->
+  {% if not user.is_subscribed %}
+    <div class="text-center mb-4">
+      <button class="btn btn-lg btn-warning shadow-sm" data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal">
+        🔓 Unlock All Modules (KES 2500)
+      </button>
+    </div>
+  {% endif %}
+
+  <!-- Modules List -->
+  <h4 class="mb-3">Modules</h4>
+  <ul class="list-group mb-4">
+    {% for module in course.modules %}
+      <li class="list-group-item module-card d-flex justify-content-between align-items-start shadow-sm mb-3">
+        <div class="flex-grow-1">
+          <strong>Module {{ loop.index }}:</strong> {{ module.title }}
+          {% if module.free %}
+            <span class="badge bg-success ms-2">Free</span>
+          {% else %}
+            <span class="badge bg-warning text-dark ms-2">Locked</span>
+          {% endif %}
+          <!-- Refined description styling -->
+          <p class="module-description mt-2 mb-0">{{ module.description }}</p>
+        </div>
+        <div class="ms-3" style="min-width: 120px;">
+          {% if user and (user.is_subscribed or module.free) %}
+            <a href="{{ url_for('module', course_name=course_name, id=module.id) }}" class="btn btn-sm btn-primary w-100">
+              Open
+            </a>
+          {% else %}
+            <a href="{{ url_for('unlock_module') }}" class="btn btn-sm btn-warning w-100">
+              Unlock
+            </a>
+          {% endif %}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<!-- Unlock All Modal -->
+<div class="modal fade" id="paypalUnlockAllModal" tabindex="-1" aria-labelledby="paypalUnlockAllModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content shadow-lg">
+      <div class="modal-header">
+        <h5 class="modal-title" id="paypalUnlockAllModalLabel">Unlock All Modules</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p class="fw-bold text-warning mb-3">
+          To unlock all modules in this course, please pay <strong>KES 2500</strong> via PayPal.
+        </p>
+        <div id="paypal-container-E4QRSZMBN6Q4E" class="mt-2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PayPal SDK Script -->
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD"></script>
+<script>
+  paypal.HostedButtons({
+    hostedButtonId: "E4QRSZMBN6Q4E"
+  }).render("#paypal-container-E4QRSZMBN6Q4E");
+</script>
+{% endblock %}

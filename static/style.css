@@ -1,7 +1,6 @@
-/* ---------------- DARK MODE ONLY ---------------- */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #0d0d0d;   /* Dark background */
+  background: #1a2b32;   /* Dark background */
   color: #f1f1f1;
   margin: 0;
   padding: 0;
@@ -11,7 +10,7 @@ body {
 /* Navbar */
 .navbar {
   box-shadow: 0 4px 6px rgba(0,0,0,0.6);
-  background: linear-gradient(90deg, #000, #001f3f);
+  background: #1a2b32; /* updated */
 }
 .navbar a {
   font-weight: 500;
@@ -77,11 +76,11 @@ img.logo:hover {
   background-color: #e0a800 !important;
 }
 
-/* Cards */
+/* Cards (Course + General) */
 .card {
   border: none;
   border-radius: 12px;
-  background-color: #1a1a1a;
+  background-color: #0d1b22; /* unified dark background */
   color: #f1f1f1;
   box-shadow: 0 4px 12px rgba(0,0,0,0.6);
 }
@@ -137,4 +136,12 @@ img.logo:hover {
 .login-prompt a:hover,
 .auth-text a:hover {
   color: #ffc107 !important;
+}
+/* Module Description */
+.module-card .module-description {
+  color: #9ca3af; /* soft gray for readability */
+  font-size: 0.95rem;
+  margin-top: 0.4rem;
+  margin-bottom: 0.8rem;
+  line-height: 1.5;
 }

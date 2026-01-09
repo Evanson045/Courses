@@ -11,49 +11,118 @@
   <style>
     /* Dark Mode Base */
     body {
-      background-color: #23414d; /* slightly softer black */
+      background-color: #1a2b32;
       color: #f1f1f1;
+      font-family: 'Inter', sans-serif;
       transition: background-color 0.3s ease, color 0.3s ease;
     }
-    .card {
-      background-color: #000; /* pure black for sleek look */
-      color: #f1f1f1;
-      border: none;
-    }
+
+    /* Navbar */
     .navbar {
-      background-color: #000 !important;
+      background-color: #0d1b22 !important;
       box-shadow: 0 2px 6px rgba(0,0,0,0.6);
     }
     .navbar-brand {
-      color: #f1f1f1 !important;
+      color: #facc15 !important;
+      font-weight: 700;
+      letter-spacing: 0.5px;
     }
+
+    /* Cards */
+    .card {
+      background-color: #111827;
+      color: #f1f1f1;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Module Cards */
+    .module-card {
+      background-color: #0d1b22;
+      color: #f1f1f1;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+      padding: 1rem;
+    }
+    .module-card:hover {
+      background-color: #f1f1f1;
+      color: #0d1b22;
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    }
+
+    .list-group-item {
+      background-color: #0d1b22;
+      color: #f1f1f1;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 0.75rem 1rem;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .list-group-item:hover {
+      background-color: #f1f1f1;
+      color: #0d1b22;
+    }
+    .list-group-item:last-child {
+      border-bottom: none;
+    }
+
+    /* Buttons */
     .btn-primary {
-      background-color: #28a745 !important; /* Green open buttons */
+      background-color: #14b8a6 !important;
       border: none !important;
       color: #fff !important;
+      border-radius: 6px;
+      transition: all 0.3s ease;
     }
     .btn-primary:hover {
-      background-color: #218838 !important;
+      background-color: #0d9488 !important;
+      transform: translateY(-2px);
     }
     .btn-warning {
-      background-color: #ffc107 !important; /* Yellow unlock/next/prev buttons */
+      background-color: #facc15 !important;
       border: none !important;
       color: #000 !important;
+      border-radius: 6px;
+      transition: all 0.3s ease;
     }
     .btn-warning:hover {
-      background-color: #e0a800 !important;
+      background-color: #eab308 !important;
+      transform: translateY(-2px);
     }
-    .login-prompt,
-    .auth-text {
-      color: #fff !important;
+
+    /* Flash Messages */
+    .alert {
+      border-radius: 8px;
+      font-weight: 500;
     }
+
+    /* Links */
     .login-prompt a,
     .auth-text a {
       color: #7ab3d8 !important;
+      text-decoration: none;
+      transition: color 0.3s ease;
     }
     .login-prompt a:hover,
     .auth-text a:hover {
-      color: #ffc107 !important;
+      color: #facc15 !important;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #0d1b22;
+      color: #9ca3af;
+      font-size: 0.9rem;
+      padding: 1rem 0;
+      margin-top: 3rem;
     }
   </style>
 </head>
@@ -61,9 +130,8 @@
   <!-- Navbar -->
   <nav class="navbar navbar-dark shadow-sm">
     <div class="container d-flex justify-content-between align-items-center">
-      <!-- Brand -->
       <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
-        Welcome to DSE Courses!
+        <i class="bi bi-bar-chart-fill me-2"></i> DataSolve Courses
       </a>
     </div>
   </nav>
@@ -73,7 +141,7 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}
-          <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm rounded" role="alert">
+          <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert">
             {{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
@@ -82,6 +150,11 @@
     {% endwith %}
     {% block content %}{% endblock %}
   </div>
+
+  <!-- Footer -->
+  <footer class="text-center">
+    <small>© {{ current_year }} DataSolve. All rights reserved.</small>
+  </footer>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

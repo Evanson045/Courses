@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Unlock Module{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card p-4 shadow-sm">
+    <h3 class="mb-3">Unlock Premium Modules</h3>
+    <p>To access locked modules, please subscribe or make a one-time payment.</p>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
+  </div>
+</div>
+{% endblock %}

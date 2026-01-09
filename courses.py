@@ -72,7 +72,7 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
             session['user_id'] = user.id
-            flash(f"Welcome back, {user.email}!", "success")
+            # Removed explicit welcome note here
             return redirect(url_for('dashboard'))
         flash("Invalid email or password.", "danger")
     return render_template('login.html')
@@ -100,65 +100,109 @@ courses = {
     "Data Science": {
         "title": "Data Science",
         "icon": "📊",
-        "overview": "Learn data cleaning, visualization, and machine learning with real-world datasets.",
         "description": "Learn fundamentals of data analysis, visualization, and machine learning.",
-        "modules": [{"id": i, "title": f"Data Science Module {i}", "description": f"Content for Data Science Module {i}"} for i in range(1, 16)]
+        "modules": [
+            {"id": 1, "title": "Introduction to Data Science", "description": "Overview of the field and applications", "free": True},
+            {"id": 2, "title": "Understanding Data Types & Structures", "description": "Numeric, categorical, and text data", "free": True},
+            {"id": 3, "title": "Data Cleaning Basics", "description": "Handle missing values and tidy datasets", "free": True},
+            {"id": 4, "title": "Exploratory Data Analysis (EDA)", "description": "Summarize and visualize datasets", "free": True},
+            {"id": 5, "title": "Data Visualization with Matplotlib & Seaborn", "description": "Create charts and plots", "free": True},
+            {"id": 6, "title": "Feature Engineering Techniques", "description": "Transform raw data into useful features", "free": False},
+            {"id": 7, "title": "Introduction to Machine Learning", "description": "Basic ML concepts and workflows", "free": False},
+            {"id": 8, "title": "Supervised Learning: Regression Models", "description": "Linear and advanced regression", "free": False},
+            {"id": 9, "title": "Supervised Learning: Classification Models", "description": "Logistic regression, decision trees", "free": False},
+            {"id": 10, "title": "Unsupervised Learning: Clustering", "description": "K-means and hierarchical clustering", "free": False},
+            {"id": 11, "title": "Model Evaluation & Validation", "description": "Cross-validation, metrics", "free": False},
+            {"id": 12, "title": "Handling Big Data with Pandas & Spark", "description": "Large-scale data processing", "free": False},
+            {"id": 13, "title": "Advanced Visualization with Plotly", "description": "Interactive dashboards", "free": False},
+            {"id": 14, "title": "Deep Learning Foundations", "description": "Neural networks basics", "free": False},
+            {"id": 15, "title": "Capstone Project: End-to-End Workflow", "description": "Complete DS project", "free": False},
+        ]
     },
     "Statistics": {
         "title": "Statistics",
         "icon": "📈",
-        "overview": "Master probability, inference, and modeling for data-driven decision making.",
         "description": "Master probability, inference, and statistical modeling techniques.",
-        "modules": [{"id": i, "title": f"Statistics Module {i}", "description": f"Content for Statistics Module {i}"} for i in range(1, 16)]
+        "modules": [
+            {"id": 1, "title": "Introduction to Statistics", "description": "Basic concepts and importance", "free": True},
+            {"id": 2, "title": "Descriptive Statistics & Summaries", "description": "Mean, median, mode, variance", "free": True},
+            {"id": 3, "title": "Probability Fundamentals", "description": "Rules and applications of probability", "free": True},
+            {"id": 4, "title": "Random Variables & Distributions", "description": "Discrete and continuous distributions", "free": True},
+            {"id": 5, "title": "Sampling & Data Collection", "description": "Methods of sampling", "free": True},
+            {"id": 6, "title": "Hypothesis Testing Basics", "description": "Null and alternative hypotheses", "free": False},
+            {"id": 7, "title": "Confidence Intervals & Estimation", "description": "Interval estimation methods", "free": False},
+            {"id": 8, "title": "Correlation & Regression Analysis", "description": "Relationships between variables", "free": False},
+            {"id": 9, "title": "ANOVA & Comparing Groups", "description": "Analysis of variance", "free": False},
+            {"id": 10, "title": "Nonparametric Methods", "description": "Tests without distribution assumptions", "free": False},
+            {"id": 11, "title": "Bayesian Statistics Introduction", "description": "Bayes theorem and applications", "free": False},
+            {"id": 12, "title": "Multivariate Statistics", "description": "Multiple variables analysis", "free": False},
+            {"id": 13, "title": "Time Series Analysis", "description": "Forecasting and trends", "free": False},
+            {"id": 14, "title": "Statistical Modeling in Practice", "description": "Applied modeling techniques", "free": False},
+            {"id": 15, "title": "Capstone Project: Statistical Report", "description": "Complete statistical analysis project", "free": False},
+        ]
     },
     "R Programming": {
         "title": "R Programming",
         "icon": "💻",
-        "overview": "Build reproducible workflows and dashboards using R and the tidyverse.",
         "description": "Build reproducible workflows and powerful analytics with R.",
-        "modules": [{"id": i, "title": f"R Programming Module {i}", "description": f"Content for R Programming Module {i}"} for i in range(1, 16)]
+        "modules": [
+            {"id": 1, "title": "Introduction to R & RStudio", "description": "Getting started with R environment", "free": True},
+            {"id": 2, "title": "Data Types & Structures in R", "description": "Vectors, lists, data frames", "free": True},
+            {"id": 3, "title": "Importing & Cleaning Data in R", "description": "Read and clean datasets", "free": True},
+            {"id": 4, "title": "Data Manipulation with dplyr", "description": "Filter, group, summarize data", "free": True},
+            {"id": 5, "title": "Data Visualization with ggplot2", "description": "Create plots and charts", "free": True},
+            {"id": 6, "title": "Writing Functions & Modular Code", "description": "Reusable R functions", "free": False},
+            {"id": 7, "title": "Control Structures & Iteration", "description": "Loops and conditionals", "free": False},
+            {"id": 8, "title": "Statistical Analysis in R", "description": "Basic statistical tests", "free": False},
+            {"id": 9, "title": "Working with Dates & Strings", "description": "Handle date-time and text data", "free": False},
+            {"id": 10, "title": "Data Reshaping with tidyr", "description": "Tidy data principles", "free": False},
+            {"id": 11, "title": "Advanced Visualization Techniques", "description": "Interactive plots", "free": False},
+            {"id": 12, "title": "Introduction to Shiny Apps", "description": "Build web apps with R", "free": False},
+            {"id": 13, "title": "R Markdown for Reporting", "description": "Dynamic documents", "free": False},
+            {"id": 14, "title": "Package Development Basics", "description": "Create R packages", "free": False},
+            {"id": 15, "title": "Capstone Project: R Analysis", "description": "Complete data analysis project in R", "free": False},
+        ]
     }
 }
 
-@app.route('/course/<string:name>')
-def course(name):
+# -------------------- Course Routes --------------------
+@app.route('/courses')
+def list_courses():
     user = current_user()
-    if not user:
-        return redirect(url_for('login'))
+    return render_template('courses.html', courses=courses, user=user)
 
-    course = courses.get(name)
+@app.route('/courses/<course_name>')
+def course_detail(course_name):
+    user = current_user()
+    course = courses.get(course_name)
     if not course:
         flash("Course not found.", "danger")
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('list_courses'))
+    return render_template('course_detail.html', course=course, course_name=course_name, user=user)
 
-    return render_template('course.html', course=course, user=user)
-
-@app.route('/module/<string:course_name>/<int:id>')
+@app.route('/module/<course_name>/<int:id>')
 def module(course_name, id):
     user = current_user()
     if not user:
+        flash("Login required to access modules.", "danger")
         return redirect(url_for('login'))
 
     course = courses.get(course_name)
     if not course:
         flash("Course not found.", "danger")
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('list_courses'))
 
     module_data = next((m for m in course["modules"] if m["id"] == id), None)
     if not module_data:
         flash("Module not found.", "danger")
-        return redirect(url_for('course', name=course_name))
+        return redirect(url_for('course_detail', course_name=course_name))
 
-    if not user.is_subscribed and id > 5:
+    if not user.is_subscribed and not module_data.get("free", False):
         flash("This module is locked. Please subscribe to unlock.", "warning")
-        return redirect(url_for('course', name=course_name))
+        return redirect(url_for('unlock_module'))
 
     return render_template("module.html", module=module_data, course=course, user=user)
 
-# -------------------- PayPal Hosted Buttons --------------------
-# Hosted Button IDs from your PayPal dashboard
-MODULE_BUTTON_ID = "25ZB5B5M2Z9F8"   # single module unlock
-COURSE_BUTTON_ID = "E4QRSZMBN6Q4E"   # full course unlock
 
 @app.route('/unlock-module')
 def unlock_module():
@@ -166,29 +210,7 @@ def unlock_module():
     if not user:
         flash("Login required to unlock modules.", "danger")
         return redirect(url_for('login'))
-    return render_template("unlock_module.html", hosted_button_id=MODULE_BUTTON_ID, user=user)
-
-@app.route('/unlock-course')
-def unlock_course():
-    user = current_user()
-    if not user:
-        flash("Login required to unlock courses.", "danger")
-        return redirect(url_for('login'))
-    return render_template("unlock_course.html", hosted_button_id=COURSE_BUTTON_ID, user=user)
-
-@app.route('/paypal-success')
-def paypal_success():
-    user = current_user()
-    if user:
-        user.is_subscribed = True
-        db.session.commit()
-    flash("PayPal payment successful. Subscription activated.", "success")
-    return redirect(url_for('dashboard'))
-
-@app.route('/paypal-cancel')
-def paypal_cancel():
-    flash("PayPal payment cancelled.", "warning")
-    return redirect(url_for('dashboard'))
+    return render_template("unlock_module.html", user=user)
 
 # -------------------- Run App --------------------
 if __name__ == '__main__':
