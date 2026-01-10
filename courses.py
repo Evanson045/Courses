@@ -108,7 +108,7 @@ courses = {
                 "content": """
 <div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
   <h4 class="fw-bold">What Is Data Science?</h4>
-  <p><strong>Definition:</strong> A blend of statistics, data analysis, and machine learning used to interpret data and generate actionable insights.</p>
+  <p> A blend of statistics, data analysis, and machine learning used to interpret data and generate actionable insights.</p>
   <p><strong>Core Goal:</strong> To find patterns, make predictions, and support decision-making.</p>
 
   <h5 class="fw-bold mt-4">Applications</h5>
@@ -135,19 +135,18 @@ courses = {
 
   <h5 class="fw-bold mt-4">Common Data Types</h5>
   <ul>
-    <li><strong>Numeric:</strong> Integers (int) → whole numbers (e.g., 42) and floats (float) → decimal numbers (e.g., 3.14).</li>
-    <li><strong>Textual:</strong> Strings (str) → sequences of characters (e.g., "Hello World").</li>
+    <li><strong>Numeric:</strong> Integers (int) are whole numbers (e.g., 42) and floats (float) are decimal numbers (e.g., 3.14).</li>
+    <li><strong>Textual:</strong> Strings (str) are sequences of characters (e.g., "Hello World").</li>
     <li><strong>Boolean:</strong> True/False values for logical operations.</li>
     <li><strong>Complex:</strong> Numbers with real and imaginary parts (e.g., 3+4j in Python).</li>
   </ul>
 
   <h5 class="fw-bold mt-4">Core Data Structures</h5>
   <ul>
-    <li><strong>Lists/Arrays:</strong> Ordered collections (e.g., [1, 2, 3]).</li>
-    <li><strong>Tuples:</strong> Immutable ordered collections (e.g., (1, "apple", True)).</li>
-    <li><strong>Sets:</strong> Unordered collections of unique elements (e.g., {1, 2, 3}).</li>
+    <li><strong>DataFrames:</strong> Are tabular structures with rows and columns, ideal for analytics.</li>
+    <li><strong>Lists/Arrays:</strong> They are Ordered collections (e.g., [1, 2, 3]).</li>
+    <li><strong>Sets:</strong> Unordered collections of unique elements (e.g., {1, 23, 35}).</li>
     <li><strong>Dictionaries:</strong> Key-value pairs (e.g., {"name": "Evanson", "role": "Data Analyst"}).</li>
-    <li><strong>DataFrames:</strong> Tabular structures with rows and columns, ideal for analytics.</li>
   </ul>
 
   <h5 class="fw-bold mt-4">Why They Matter</h5>
