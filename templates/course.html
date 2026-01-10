@@ -30,7 +30,7 @@
               </div>
               <div>
                 {% if user.is_subscribed or module.free %}
-                  <a href="{{ url_for('module', course_name=course.title, id=module.id) }}" class="btn btn-primary w-100">
+                  <a href="{{ url_for('module', course_name=course_name, id=module.id) }}" class="btn btn-primary w-100">
                     Open
                   </a>
                 {% else %}

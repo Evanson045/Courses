@@ -1,6 +1,6 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #1a2b32;   /* Dark background */
+  background: #1a2b32; /* Dark background */
   color: #f1f1f1;
   margin: 0;
   padding: 0;
@@ -9,12 +9,13 @@ body {
 
 /* Navbar */
 .navbar {
-  box-shadow: 0 4px 6px rgba(0,0,0,0.6);
-  background: #1a2b32; /* updated */
+  background: #1a2b32;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.5);
 }
 .navbar a {
   font-weight: 500;
   color: #f1f1f1 !important;
+  transition: color 0.3s ease;
 }
 .navbar a:hover {
   color: #ffc107 !important;
@@ -23,6 +24,7 @@ body {
   font-size: 1.4rem;
   font-weight: 700;
   color: #f1f1f1 !important;
+  letter-spacing: 0.5px;
 }
 
 /* Logo */
@@ -47,13 +49,13 @@ img.logo:hover {
 
 /* Buttons */
 .btn {
-  transition: all 0.3s ease;
   border-radius: 8px;
   font-weight: 500;
+  transition: all 0.3s ease;
 }
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(255,255,255,0.2);
+  box-shadow: 0 4px 10px rgba(255,255,255,0.15);
 }
 
 /* Open buttons (green) */
@@ -80,13 +82,14 @@ img.logo:hover {
 .card {
   border: none;
   border-radius: 12px;
-  background-color: #0d1b22; /* unified dark background */
+  background-color: #0d1b22;
   color: #f1f1f1;
   box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  transition: all 0.3s ease;
 }
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(255,255,255,0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(255,255,255,0.15);
 }
 
 /* Alerts */
@@ -96,6 +99,7 @@ img.logo:hover {
   color: #f1f1f1;
   box-shadow: 0 2px 8px rgba(0,0,0,0.6);
   font-weight: 500;
+  padding: 0.75rem 1rem;
 }
 
 /* Hero Section */
@@ -109,6 +113,7 @@ img.logo:hover {
 .hero h1 {
   font-size: 2rem;
   text-shadow: 2px 2px 4px rgba(255,255,255,0.2);
+  margin-bottom: 1rem;
 }
 .hero .btn {
   background-color: #ffc107;
@@ -132,25 +137,27 @@ img.logo:hover {
 .login-prompt a,
 .auth-text a {
   color: #7ab3d8 !important;
+  transition: color 0.3s ease;
 }
 .login-prompt a:hover,
 .auth-text a:hover {
   color: #ffc107 !important;
 }
+
 /* Module Description */
 .module-card .module-description {
-  color: #9ca3af; /* soft gray for readability */
+  color: #9ca3af;
   font-size: 0.95rem;
-  margin-top: 0.4rem;
-  margin-bottom: 0.8rem;
+  margin: 0.4rem 0 0.8rem;
   line-height: 1.5;
+  font-family: inherit;
 }
 
 /* Start Course Buttons */
 .btn-start {
   display: inline-block;
-  min-width: 200px;   /* longer button */
-  padding: 0.75rem 1.5rem; /* taller and wider */
+  min-width: 200px;
+  padding: 0.75rem 1.5rem;
   font-weight: 600;
   text-align: center;
   border-radius: 8px;
@@ -158,23 +165,22 @@ img.logo:hover {
 }
 
 .btn-start.btn-primary {
-  background-color: #14b8a6 !important; /* teal accent */
+  background-color: #14b8a6 !important;
   color: #fff !important;
   border: none !important;
 }
-
 .btn-start.btn-primary:hover {
   background-color: #0d9488 !important;
   transform: translateY(-2px);
 }
 
 .btn-start.btn-warning {
-  background-color: #facc15 !important; /* yellow accent */
+  background-color: #facc15 !important;
   color: #000 !important;
   border: none !important;
 }
-
 .btn-start.btn-warning:hover {
   background-color: #eab308 !important;
   transform: translateY(-2px);
 }
+

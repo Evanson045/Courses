@@ -2,14 +2,35 @@
 {% block title %}{{ module.title }}{% endblock %}
 {% block content %}
 <div class="container mt-5">
-  <div class="card shadow-lg p-4">
+  <div class="card shadow-lg p-4 module-card">
     <h2 class="card-title text-center">{{ module.title }}</h2>
     <hr>
-    <p class="card-text">{{ module.description }}</p>
+    <!-- tagline styled white -->
+    <p class="card-text course-description">{{ module.description }}</p>
+    {% if module.content %}
+      <div class="module-content mt-3">
+        {{ module.content|safe }}
+      </div>
+    {% endif %}
+  </div>
+</div>
 
-    <div class="mt-4 text-center">
-      <a href="{{ url_for('course', name=course.title) }}" class="btn btn-secondary">← Back to Course</a>
-    </div>
+<!-- Navigation buttons -->
+<div class="mt-4 d-flex justify-content-between">
+  <a href="{{ url_for('course_detail', course_name=course_name) }}" class="btn btn-secondary">
+    ← Back to {{ course.title }}
+  </a>
+  <div class="ms-auto">
+    {% if module.id > 1 %}
+      <a href="{{ url_for('module', course_name=course_name, id=module.id - 1) }}" class="btn btn-outline-light me-2">
+        ← Previous
+      </a>
+    {% endif %}
+    {% if module.id < course.modules|length %}
+      <a href="{{ url_for('module', course_name=course_name, id=module.id + 1) }}" class="btn btn-outline-light">
+        Next →
+      </a>
+    {% endif %}
   </div>
 </div>
 

@@ -11,7 +11,7 @@
   <style>
     /* Dark Mode Base */
     body {
-      background-color: #000000;
+      background-color: #0d1b22;
       color: #f1f1f1;
       font-family: 'Inter', sans-serif;
       transition: background-color 0.3s ease, color 0.3s ease;
@@ -19,7 +19,7 @@
 
     /* Navbar */
     .navbar {
-      background-color: #0d1b22 !important;
+      background-color: #000000 !important;
       box-shadow: 0 2px 6px rgba(0,0,0,0.6);
     }
     .navbar-brand {
@@ -30,7 +30,7 @@
 
     /* Cards */
     .card {
-      background-color: #111827;
+      background-color: #000000;
       color: #f1f1f1;
       border: none;
       border-radius: 10px;
@@ -43,51 +43,67 @@
 
     /* Module Cards */
     .module-card {
-      background-color: #0d1b22;
+      background-color: #000000; /* consistent with app background */
       color: #f1f1f1;
       border: none;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
       padding: 1rem;
     }
-    .module-card:hover {
-      background-color: #f1f1f1;
-      color: #0d1b22;
-      transform: translateY(-5px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    /* tagline under module title */
+    .module-description {
+      color: #ffffff; /* white tagline for clarity */
+      font-size: 0.95rem;
+      margin-top: 0.4rem;
+      margin-bottom: 0.8rem;
+      line-height: 1.5;
     }
 
-    .list-group-item {
-      background-color: #0d1b22;
-      color: #f1f1f1;
-      border: none;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding: 0.75rem 1rem;
-      transition: background-color 0.3s ease, color 0.3s ease;
+    /* course tagline (header description) */
+    .course-tagline {
+      color: #9ca3af; /* muted gray by default */
+      transition: color 0.3s ease;
     }
-    .list-group-item:hover {
-      background-color: #f1f1f1;
-      color: #0d1b22;
+    .course-tagline.active {
+      color: #ffffff; /* white after Start Course click */
     }
-    .list-group-item:last-child {
-      border-bottom: none;
-    }
+
+    /* Module List Items */
+.list-group-item {
+  background-color: #000000;
+  color: #f1f1f1;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 0.75rem 1rem;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.list-group-item:last-child {
+  border-bottom: none;
+}
+
+/* Hover effect */
+.list-group-item:hover {
+  background-color: #111827;   /* slightly lighter dark shade */
+  color: #facc15;              /* highlight text in gold */
+  transform: translateY(-3px); /* subtle lift */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
 
     /* Buttons */
     .btn-primary {
-      background-color: #c4c70d !important;
+      background-color: #28a745 !important;
       border: none !important;
       color: #fff !important;
       border-radius: 6px;
       transition: all 0.3s ease;
     }
     .btn-primary:hover {
-      background-color: #c4c70d !important;
+      background-color: #28a745 !important;
       transform: translateY(-2px);
     }
     .btn-warning {
-      background-color: #facc15 !important;
+      background-color: #ffc107 !important;
       border: none !important;
       color: #000 !important;
       border-radius: 6px;
