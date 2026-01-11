@@ -334,7 +334,7 @@ def course_detail(course_name):
         return redirect(url_for('list_courses'))
     return render_template('course_detail.html', course=course, course_name=course_name, user=user)
 
-@app.route('/module/<course_name>/<int:id>')
+@app.route('/courses/<course_name>/module/<int:id>')
 def module(course_name, id):
     user = current_user()
     if not user:
@@ -355,8 +355,7 @@ def module(course_name, id):
         flash("This module is locked. Please subscribe to unlock.", "warning")
         return redirect(url_for('unlock_module'))
 
-    return render_template("module.html", module=module_data, course=course, user=user)
-
+    return render_template("module.html", module=module_data, course=course, user=user, course_name=course_name)
 
 @app.route('/unlock-module')
 def unlock_module():

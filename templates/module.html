@@ -2,11 +2,10 @@
 {% block title %}{{ module.title }}{% endblock %}
 {% block content %}
 <div class="container mt-5">
-  <div class="card shadow-lg p-4 module-card">
-    <h2 class="card-title text-center">{{ module.title }}</h2>
+  <div class="module-section p-4">
+    <h2 class="fw-bold text-center">{{ module.title }}</h2>
     <hr>
-    <!-- tagline styled white -->
-    <p class="card-text course-description">{{ module.description }}</p>
+    <p class="module-description text-white text-center">{{ module.description }}</p>
     {% if module.content %}
       <div class="module-content mt-3">
         {{ module.content|safe }}
@@ -16,17 +15,21 @@
 </div>
 
 <!-- Navigation buttons -->
-<div class="mt-4 d-flex justify-content-between">
+<div class="mt-4 d-flex justify-content-between align-items-center">
+  <!-- Back to Course always visible -->
   <a href="{{ url_for('course_detail', course_name=course_name) }}" class="btn btn-secondary">
-    ← Back to {{ course.title }}
+    ← Back to Course
   </a>
+
   <div class="ms-auto">
     {% if module.id > 1 %}
+      <!-- Previous module -->
       <a href="{{ url_for('module', course_name=course_name, id=module.id - 1) }}" class="btn btn-outline-light me-2">
         ← Previous
       </a>
     {% endif %}
     {% if module.id < course.modules|length %}
+      <!-- Next module -->
       <a href="{{ url_for('module', course_name=course_name, id=module.id + 1) }}" class="btn btn-outline-light">
         Next →
       </a>
