@@ -101,8 +101,7 @@ courses = {
         "icon": "📊",
         "description": "Learn how people use information to make better decisions.",
         "modules": [
-            {
-                "id": 1,
+            {"id": 1,
                 "title": "Introduction to Data Science",
                 "description": "What data science is and why it matters",
                 "content": """
@@ -122,10 +121,8 @@ courses = {
   <p class="fst-italic mt-4">In short, data science helps us turn raw information into smart decisions.</p>
 </div>
 """,
-                "free": True
-            },
-            {
-                "id": 2,
+                "free": True},
+            {"id": 2,
                 "title": "Understanding Data Types & Structures",
                 "description": "Different kinds of information and how we organize them",
                 "content": """
@@ -147,10 +144,8 @@ courses = {
   <p class="fst-italic mt-4">Organizing data properly makes it easier to understand and use.</p>
 </div>
 """,
-                "free": True
-            },
-            {
-                "id": 3,
+                "free": True},
+            {"id": 3,
                 "title": "Data Cleaning Basics",
                 "description": "Making messy information neat and usable",
                 "content": """
@@ -171,8 +166,7 @@ courses = {
 </div>
 """,
                 "free": True},
-           {
-    "id": 4,
+           {"id": 4,
     "title": "Exploratory Data Analysis (EDA)",
     "description": "Summarize and visualize datasets",
     "content": """
@@ -193,10 +187,8 @@ courses = {
   <p class="fst-italic mt-4">Think of EDA as the “getting to know you” stage with your data.</p>
 </div>
 """,
-    "free": True
-},
-{
-    "id": 5,
+    "free": True},
+{"id": 5,
     "title": "Data Visualization Techniques",
     "description": "Create charts and plots",
     "content": """
@@ -218,8 +210,52 @@ courses = {
 </div>
 """,
     "free": True},
-            {"id": 6, "title": "Feature Engineering Techniques", "description": "Transform raw data into useful features", "free": False},
-            {"id": 7, "title": "Introduction to Machine Learning", "description": "Basic ML concepts and workflows", "free": False},
+            {"id": 6,
+    "title": "Feature Engineering Techniques",
+    "description": "Transform raw data into useful features",
+    "content": """
+<div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
+  <h4 class="fw-bold">Feature Engineering</h4>
+  <p>Feature engineering is about making raw information more useful. 
+     Imagine you have a recipe book — the raw data is all the ingredients. 
+     Feature engineering is like preparing those ingredients (chopping, mixing, seasoning) 
+     so they’re ready to cook.</p>
+
+  <h5 class="fw-bold mt-4">Simple Examples</h5>
+  <ul>
+    <li>Turning a date of birth into an age.</li>
+    <li>Changing “Yes/No” answers into numbers (1 or 0).</li>
+    <li>Combining two pieces of information, like height and weight, into one measure (BMI).</li>
+  </ul>
+
+  <p class="fst-italic mt-4">It’s like polishing raw materials so they can be used effectively in analysis or prediction.</p>
+</div>
+""",
+    "free": False
+},
+{"id": 7,
+    "title": "Introduction to Machine Learning",
+    "description": "Basic ML concepts and workflows",
+    "content": """
+<div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
+  <h4 class="fw-bold">Introduction to Machine Learning</h4>
+  <p>Machine learning means teaching computers to learn from examples instead of giving them step‑by‑step instructions. 
+     Think of it like training a child: you show them many pictures of cats and dogs, 
+     and eventually they can tell the difference on their own.</p>
+
+  <h5 class="fw-bold mt-4">How It Works</h5>
+  <ul>
+    <li><strong>Collect Examples:</strong> Gather data (like photos, numbers, or text).</li>
+    <li><strong>Train the Computer:</strong> Show the computer patterns in the data.</li>
+    <li><strong>Make Predictions:</strong> The computer uses what it learned to guess new answers.</li>
+  </ul>
+
+  <p class="fst-italic mt-4">In short, machine learning is about teaching computers to recognize patterns and make decisions, 
+     just like people do when they gain experience.</p>
+</div>
+""",
+    "free": False
+},
             {"id": 8, "title": "Supervised Learning: Regression Models", "description": "Linear and advanced regression", "free": False},
             {"id": 9, "title": "Supervised Learning: Classification Models", "description": "Logistic regression, decision trees", "free": False},
             {"id": 10, "title": "Unsupervised Learning: Clustering", "description": "K-means and hierarchical clustering", "free": False},
