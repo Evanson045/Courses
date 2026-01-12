@@ -99,27 +99,27 @@ courses = {
     "Data Science": {
         "title": "Data Science",
         "icon": "📊",
-        "description": "Learn fundamentals of data analysis, visualization, and machine learning.",
+        "description": "Learn how people use information to make better decisions.",
         "modules": [
             {
                 "id": 1,
                 "title": "Introduction to Data Science",
-                "description": "Overview of the field and applications",
+                "description": "What data science is and why it matters",
                 "content": """
 <div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
   <h4 class="fw-bold">What Is Data Science?</h4>
-  <p> A blend of statistics, data analysis, and machine learning used to interpret data and generate actionable insights.</p>
-  <p><strong>Core Goal:</strong> To find patterns, make predictions, and support decision-making.</p>
+  <p>Data science is about looking at information (like numbers, text, or pictures) and finding useful patterns. 
+     It’s like being a detective, but instead of clues you use data.</p>
 
-  <h5 class="fw-bold mt-4">Applications</h5>
+  <h5 class="fw-bold mt-4">Where It’s Used</h5>
   <ul>
-    <li><strong>Business:</strong> Customer segmentation, fraud detection.</li>
-    <li><strong>Healthcare:</strong> Predicting disease outbreaks, personalized treatment.</li>
-    <li><strong>Transport:</strong> Route optimization, delay forecasting.</li>
-    <li><strong>Finance:</strong> Risk modeling, algorithmic trading.</li>
+    <li><strong>Shops:</strong> To know what customers like.</li>
+    <li><strong>Hospitals:</strong> To predict illnesses and plan treatments.</li>
+    <li><strong>Transport:</strong> To plan better routes and avoid delays.</li>
+    <li><strong>Banks:</strong> To spot fraud and manage risks.</li>
   </ul>
 
-  <p class="fst-italic mt-4">In short, Data Science is about asking good questions, working carefully with data, and communicating results in a way others can understand and act on.</p>
+  <p class="fst-italic mt-4">In short, data science helps us turn raw information into smart decisions.</p>
 </div>
 """,
                 "free": True
@@ -127,94 +127,97 @@ courses = {
             {
                 "id": 2,
                 "title": "Understanding Data Types & Structures",
-                "description": "Learn the foundations of data representation and organization",
+                "description": "Different kinds of information and how we organize them",
                 "content": """
 <div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
-  <h4 class="fw-bold">Understanding Data Types & Structures</h4>
-  <p>Data types define the kind of values a variable can hold, while data structures organize those values efficiently for analysis and modeling.</p>
+  <h4 class="fw-bold">Data Types & Structures</h4>
+  <p>Think of data types as the “kind” of information: numbers, words, or yes/no answers. 
+     Data structures are just ways to keep this information organized, like lists or tables.</p>
 
-  <h5 class="fw-bold mt-4">Common Data Types</h5>
+  <h5 class="fw-bold mt-4">Examples</h5>
   <ul>
-    <li><strong>Numeric:</strong> Integers (int) are whole numbers (e.g., 42) and floats (float) are decimal numbers (e.g., 3.14).</li>
-    <li><strong>Textual:</strong> Strings (str) are sequences of characters (e.g., "Hello World").</li>
-    <li><strong>Boolean:</strong> True/False values for logical operations.</li>
-    <li><strong>Complex:</strong> Numbers with real and imaginary parts (e.g., 3+4j in Python).</li>
+    <li><strong>Numbers:</strong> Age, height, or prices.</li>
+    <li><strong>Words:</strong> Names or places.</li>
+    <li><strong>Yes/No:</strong> Is the student enrolled? True or False.</li>
   </ul>
 
-  <h5 class="fw-bold mt-4">Core Data Structures</h5>
-  <ul>
-    <li><strong>DataFrames:</strong> Are tabular structures with rows and columns, ideal for analytics.</li>
-    <li><strong>Lists/Arrays:</strong> They are Ordered collections (e.g., [1, 2, 3]).</li>
-    <li><strong>Sets:</strong> Unordered collections of unique elements (e.g., {1, 23, 35}).</li>
-    <li><strong>Dictionaries:</strong> Key-value pairs (e.g., {"name": "Evanson", "role": "Data Analyst"}).</li>
-  </ul>
+  <p><strong>Organizing Data:</strong> A shopping list is a simple data structure. Each item is a piece of data. 
+     A table of students with names and ages is another structure.</p>
 
-  <h5 class="fw-bold mt-4">Why They Matter</h5>
-  <ul>
-    <li><strong>Data Cleaning:</strong> Correct types avoid errors in analysis.</li>
-    <li><strong>Efficiency:</strong> Proper structures speed up lookups and transformations.</li>
-    <li><strong>Modeling:</strong> Algorithms expect data in specific formats.</li>
-    <li><strong>Visualization:</strong> Structured data makes plotting easier.</li>
-  </ul>
-
-  <h5 class="fw-bold mt-4">Python Example</h5>
-  <pre style="background-color:#111827; color:#f1f1f1; padding:1rem; border-radius:8px;">
-# Data Types
-age = 30          # int
-height = 5.9      # float
-name = "Evanson"  # string
-is_student = True # boolean
-
-# Data Structures
-scores = [85, 90, 78]  # list
-student = {"name": "Evanson", "course": "Data Science"}  # dictionary
-unique_ids = {101, 102, 103}  # set
-  </pre>
-
-  <p class="fst-italic mt-4">Mastering data types and structures ensures you store values correctly and organize information efficiently — it is the backbone of programming and data science workflows.</p>
+  <p class="fst-italic mt-4">Organizing data properly makes it easier to understand and use.</p>
 </div>
 """,
-                "free": True},
+                "free": True
+            },
             {
-  "id": 3,
-  "title": "Data Cleaning Basics",
-  "description": "Learn how to prepare raw data for analysis",
-  "content": """
+                "id": 3,
+                "title": "Data Cleaning Basics",
+                "description": "Making messy information neat and usable",
+                "content": """
 <div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
   <h4 class="fw-bold">Data Cleaning Basics</h4>
-  <p>Data cleaning means fixing problems in raw data so it can be trusted for analysis.</p>
+  <p>Sometimes information is messy — like spelling mistakes, missing answers, or repeated entries. 
+     Data cleaning is just tidying it up so it makes sense.</p>
 
   <h5 class="fw-bold mt-4">Key Steps</h5>
   <ul>
-    <li><strong>Remove Duplicates:</strong> Keep only unique records.</li>
-    <li><strong>Handle Missing Values:</strong> Fill in or drop blanks.</li>
-    <li><strong>Fix Errors:</strong> Correct typos or wrong formats.</li>
+    <li><strong>Remove Duplicates:</strong> If the same person is listed twice, keep only one.</li>
+    <li><strong>Fill Missing Values:</strong> If someone forgot to write their age, we can estimate or leave it blank clearly.</li>
+    <li><strong>Fix Errors:</strong> Correct typos or wrong formats (like “Nrb” → “Nairobi”).</li>
     <li><strong>Standardize:</strong> Make dates, names, and categories consistent.</li>
   </ul>
 
-  <h5 class="fw-bold mt-4">Quick Python Example</h5>
-  <pre style="background-color:#111827; color:#f1f1f1; padding:1rem; border-radius:8px;">
-import pandas as pd
-
-data = {'Name': ['Alice', 'Bob', 'Alice'],
-        'Age': [25, None, 25]}
-df = pd.DataFrame(data)
-
-# Remove duplicates
-df = df.drop_duplicates()
-
-# Fill missing values
-df['Age'] = df['Age'].fillna(df['Age'].mean())
-
-print(df)
-  </pre>
-
-  <p class="fst-italic mt-4">Clean data is reliable, consistent, and ready for analysis.</p>
+  <p class="fst-italic mt-4">Clean data is like a tidy room — easier to work in and more reliable.</p>
 </div>
 """,
-  "free": True},
-            {"id": 4, "title": "Exploratory Data Analysis (EDA)", "description": "Summarize and visualize datasets", "free": True},
-            {"id": 5, "title": "Data Visualization with Matplotlib & Seaborn", "description": "Create charts and plots", "free": True},
+                "free": True},
+           {
+    "id": 4,
+    "title": "Exploratory Data Analysis (EDA)",
+    "description": "Summarize and visualize datasets",
+    "content": """
+<div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
+  <h4 class="fw-bold">Exploratory Data Analysis (EDA)</h4>
+  <p>EDA is like taking a first look at your information to see what’s inside. 
+     Imagine you open a box of survey answers — before doing anything complicated, 
+     you count, sort, and make simple charts to understand the basics.</p>
+
+  <h5 class="fw-bold mt-4">What You Do in EDA</h5>
+  <ul>
+    <li>Check how many records you have.</li>
+    <li>Look for missing or unusual values.</li>
+    <li>Make simple graphs to see trends.</li>
+    <li>Ask: “What story is this data telling me?”</li>
+  </ul>
+
+  <p class="fst-italic mt-4">Think of EDA as the “getting to know you” stage with your data.</p>
+</div>
+""",
+    "free": True
+},
+{
+    "id": 5,
+    "title": "Data Visualization Techniques",
+    "description": "Create charts and plots",
+    "content": """
+<div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
+  <h4 class="fw-bold">Data Visualization</h4>
+  <p>Data visualization means turning numbers into pictures. 
+     Instead of staring at a long list of values, you make a chart or graph 
+     so patterns jump out clearly.</p>
+
+  <h5 class="fw-bold mt-4">Common Visuals</h5>
+  <ul>
+    <li><strong>Bar Chart:</strong> Compare categories (like sales in different shops).</li>
+    <li><strong>Line Graph:</strong> Show change over time (like daily temperatures).</li>
+    <li><strong>Pie Chart:</strong> Show parts of a whole (like budget spending).</li>
+  </ul>
+
+  <p class="fst-italic mt-4">It’s like telling a story with pictures instead of words — 
+     easier to understand at a glance.</p>
+</div>
+""",
+    "free": True},
             {"id": 6, "title": "Feature Engineering Techniques", "description": "Transform raw data into useful features", "free": False},
             {"id": 7, "title": "Introduction to Machine Learning", "description": "Basic ML concepts and workflows", "free": False},
             {"id": 8, "title": "Supervised Learning: Regression Models", "description": "Linear and advanced regression", "free": False},
@@ -318,7 +321,6 @@ print(df)
     ]
 }
 }
-
 # -------------------- Course Routes --------------------
 @app.route('/courses')
 def list_courses():
@@ -364,6 +366,21 @@ def unlock_module():
         flash("Login required to unlock modules.", "danger")
         return redirect(url_for('login'))
     return render_template("unlock_module.html", user=user)
+
+@app.route('/unlock-all')
+def unlock_all():
+    user = current_user()
+    if not user:
+        flash("Login required to unlock modules.", "danger")
+        return redirect(url_for('login'))
+
+    if not user.is_subscribed:
+        user.is_subscribed = True
+        db.session.commit()
+        flash("All modules unlocked successfully! 🎉", "success")
+
+    return redirect(url_for('dashboard'))
+
 
 # -------------------- Run App --------------------
 if __name__ == '__main__':

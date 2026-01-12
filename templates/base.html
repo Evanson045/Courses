@@ -50,45 +50,41 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.6);
       padding: 1rem;
     }
-    /* tagline under module title */
     .module-description {
-      color: #ffffff; /* white tagline for clarity */
+      color: #ffffff;
       font-size: 0.95rem;
       margin-top: 0.4rem;
       margin-bottom: 0.8rem;
       line-height: 1.5;
     }
 
-    /* course tagline (header description) */
+    /* course tagline */
     .course-tagline {
-      color: #9ca3af; /* muted gray by default */
+      color: #9ca3af;
       transition: color 0.3s ease;
     }
     .course-tagline.active {
-      color: #ffffff; /* white after Start Course click */
+      color: #ffffff;
     }
 
     /* Module List Items */
-.list-group-item {
-  background-color: #111827;
-  color: #f1f1f1;
-  border: none;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  padding: 0.75rem 1rem;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-}
-
-.list-group-item:last-child {
-  border-bottom: none;
-}
-
-/* Hover effect */
-.list-group-item:hover {
-  background-color: #111827;   /* slightly lighter dark shade */
-  color: #facc15;              /* highlight text in gold */
-  transform: translateY(-3px); /* subtle lift */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-}
+    .list-group-item {
+      background-color: #111827;
+      color: #f1f1f1;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 0.75rem 1rem;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    }
+    .list-group-item:last-child {
+      border-bottom: none;
+    }
+    .list-group-item:hover {
+      background-color: #111827;
+      color: #facc15;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
 
     /* Buttons */
     .btn-primary {
@@ -111,6 +107,13 @@
     }
     .btn-warning:hover {
       background-color: #eab308 !important;
+      transform: translateY(-2px);
+    }
+    .btn-outline-light {
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    .btn-outline-light:hover {
       transform: translateY(-2px);
     }
 
@@ -169,7 +172,7 @@
 
   <!-- Footer -->
   <footer class="text-center">
-    <small>© {{ current_year }} DataSolve. All rights reserved.</small>
+    <small>© {{ current_year|default(2026) }} DataSolve. All rights reserved.</small>
   </footer>
 
   <!-- Scripts -->

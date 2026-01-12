@@ -4,10 +4,10 @@
   <!-- Hero Section -->
   <section class="hero text-center py-5">
     <!-- Logo -->
-    <img src="{{ url_for('static', filename='logo.png') }}" alt="DataSolve Logo" class="logo img-fluid mb-3">
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="DataSolve Logo" class="logo img-fluid mb-3" width="120" height="120">
 
     <!-- Headline -->
-    <h1 class="display-4 fw-bold"> Free Courses</h1>
+    <h1 class="display-4 fw-bold">Free Courses</h1>
     <!-- tagline with class -->
     <p class="lead tagline">Empowering growth through data, technology, and learning</p>
 
@@ -49,8 +49,12 @@
 
   <!-- Script to toggle tagline color -->
   <script>
-    document.getElementById("startFreeCourseBtn").addEventListener("click", function() {
-      document.querySelector(".tagline").classList.add("active");
-    });
+    const startBtn = document.getElementById("startFreeCourseBtn");
+    const tagline = document.querySelector(".tagline");
+    if (startBtn && tagline) {
+      startBtn.addEventListener("click", function() {
+        tagline.classList.add("active");
+      });
+    }
   </script>
 {% endblock %}

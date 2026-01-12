@@ -59,7 +59,7 @@
       </div>
       {% if not user.is_subscribed %}
         <button class="btn btn-warning btn-sm ms-3" data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal">
-          Unlock All (KES 2500)
+          🔓 Unlock All (KES 2500)
         </button>
       {% endif %}
     </div>
@@ -84,7 +84,7 @@
           <p class="fw-bold text-warning mb-3">
             To unlock this module, please pay <strong>KES 500</strong> via PayPal.
           </p>
-          <div id="paypal-container-25ZB5B5M2Z9F8" class="mt-2"></div>
+          <div id="paypal-single-button-container" class="mt-2"></div>
         </div>
       </div>
     </div>
@@ -102,7 +102,7 @@
           <p class="fw-bold text-warning mb-3">
             To unlock all modules in this course, please pay <strong>KES 2500</strong> via PayPal.
           </p>
-          <div id="paypal-container-E4QRSZMBN6Q4E" class="mt-2"></div>
+          <div id="paypal-all-button-container" class="mt-2"></div>
           <hr>
           <div id="paypal-subscription-container"></div>
         </div>
@@ -113,14 +113,53 @@
   <!-- PayPal SDK Script -->
   <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&vault=true&intent=subscription&currency=USD"></script>
   <script>
-    paypal.HostedButtons({
-      hostedButtonId: "25ZB5B5M2Z9F8"
-    }).render("#paypal-container-25ZB5B5M2Z9F8");
+    // Single Module Payment
+    paypal.Buttons({
+      style: { layout: 'vertical', color: 'blue', shape: 'rect', label: 'paypal' },
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            description: "Unlock Single Module",
+            amount: { value: '5.00' } // USD equivalent of KES 500
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          alert("Payment completed by " + details.payer.name.given_name + "! 🎉");
+          window.location.href = "{{ url_for('unlock_module') }}";
+        });
+      },
+      onError: function(err) {
+        console.error("Single Module Payment Error:", err);
+        alert("An error occurred during payment. Please try again.");
+      }
+    }).render('#paypal-single-button-container');
 
-    paypal.HostedButtons({
-      hostedButtonId: "E4QRSZMBN6Q4E"
-    }).render("#paypal-container-E4QRSZMBN6Q4E");
+    // Unlock All Payment
+    paypal.Buttons({
+      style: { layout: 'vertical', color: 'blue', shape: 'rect', label: 'paypal' },
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            description: "Unlock All Modules",
+            amount: { value: '25.00' } // USD equivalent of KES 2500
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          alert("Payment completed by " + details.payer.name.given_name + "! 🎉");
+          window.location.href = "{{ url_for('unlock_all') }}";
+        });
+      },
+      onError: function(err) {
+        console.error("Unlock All Payment Error:", err);
+        alert("An error occurred during payment. Please try again.");
+      }
+    }).render('#paypal-all-button-container');
 
+    // Subscription Payment
     paypal.Buttons({
       createSubscription: function(data, actions) {
         return actions.subscription.create({
@@ -129,6 +168,11 @@
       },
       onApprove: function(data, actions) {
         alert('Subscription successful! ID: ' + data.subscriptionID);
+        window.location.href = "{{ url_for('unlock_all') }}";
+      },
+      onError: function(err) {
+        console.error("Subscription Error:", err);
+        alert("An error occurred during subscription. Please try again.");
       }
     }).render('#paypal-subscription-container');
   </script>

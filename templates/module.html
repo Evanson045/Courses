@@ -37,8 +37,8 @@
   </div>
 </div>
 
-{% if not user.is_subscribed and module.id > 5 %}
-<!-- PayPal Unlock Modal -->
+{% if not user.is_subscribed %}
+<!-- PayPal Unlock Modal (Single Module) -->
 <div class="modal fade" id="paypalUnlockModal" tabindex="-1" aria-labelledby="paypalUnlockModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content shadow-lg">
@@ -48,26 +48,88 @@
       </div>
       <div class="modal-body text-center">
         <p>To unlock this module, please pay <strong>KES 500</strong> via PayPal.</p>
-        <!-- PayPal Hosted Button -->
-        <div id="paypal-container-25ZB5B5M2Z9F8"></div>
+        <!-- PayPal Branded Button -->
+        <div id="paypal-button-container"></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Trigger Button -->
+<!-- PayPal Unlock Modal (All Modules) -->
+<div class="modal fade" id="paypalUnlockAllModal" tabindex="-1" aria-labelledby="paypalUnlockAllModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content shadow-lg">
+      <div class="modal-header">
+        <h5 class="modal-title" id="paypalUnlockAllModalLabel">Unlock All Modules</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p>Unlock <strong>all modules</strong> for <strong>KES 2000</strong> via PayPal.</p>
+        <!-- PayPal Branded Button -->
+        <div id="paypal-all-button-container"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Trigger Buttons -->
 <div class="container mt-3">
-  <button class="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#paypalUnlockModal">
-    Unlock Module
+  <button class="btn btn-outline-light w-100 mb-2" data-bs-toggle="modal" data-bs-target="#paypalUnlockModal">
+    Unlock This Module
+  </button>
+  <button class="btn btn-outline-light w-100" data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal">
+    Unlock All Modules
   </button>
 </div>
 
 <!-- PayPal SDK Script -->
-<script src="https://www.paypal.com/sdk/js?client-id=AUvxeWZl_Jhm4R0bJ4AAE5RcEE8074-jcEHw81Vd4qMncGa5ABA15ZPHCrSHRfZkzohWmq0nrKljNrqv&currency=USD"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD"></script>
 <script>
-  paypal.HostedButtons({
-    hostedButtonId: "25ZB5B5M2Z9F8" // your hosted button ID for single module
-  }).render("#paypal-container-25ZB5B5M2Z9F8");
+  // Single Module Payment
+  paypal.Buttons({
+    style: { layout: 'vertical', color: 'blue', shape: 'rect', label: 'paypal' },
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          description: "Unlock Single Module",
+          amount: { value: '5.00' } // USD equivalent of KES 500
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        alert("Payment completed by " + details.payer.name.given_name + "! 🎉");
+        window.location.href = "{{ url_for('unlock_module') }}";
+      });
+    },
+    onError: function(err) {
+      console.error(err);
+      alert("An error occurred during payment. Please try again.");
+    }
+  }).render('#paypal-button-container');
+
+  // Unlock All Payment
+  paypal.Buttons({
+    style: { layout: 'vertical', color: 'blue', shape: 'rect', label: 'paypal' },
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          description: "Unlock All Modules",
+          amount: { value: '20.00' } // USD equivalent of KES 2000
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        alert("Payment completed by " + details.payer.name.given_name + "! 🎉");
+        window.location.href = "{{ url_for('unlock_all') }}";
+      });
+    },
+    onError: function(err) {
+      console.error(err);
+      alert("An error occurred during payment. Please try again.");
+    }
+  }).render('#paypal-all-button-container');
 </script>
 {% endif %}
 {% endblock %}
