@@ -256,11 +256,122 @@ courses = {
 """,
     "free": False
 },
-            {"id": 8, "title": "Supervised Learning: Regression Models", "description": "Linear and advanced regression", "free": False},
-            {"id": 9, "title": "Supervised Learning: Classification Models", "description": "Logistic regression, decision trees", "free": False},
-            {"id": 10, "title": "Unsupervised Learning: Clustering", "description": "K-means and hierarchical clustering", "free": False},
-            {"id": 11, "title": "Model Evaluation & Validation", "description": "Cross-validation, metrics", "free": False},
-            {"id": 12, "title": "Handling Big Data with Pandas & Spark", "description": "Large-scale data processing", "free": False},
+            {
+    "id": 8,
+    "title": "Supervised Learning: Regression Models",
+    "description": "Linear and advanced regression",
+    "content": """
+<div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
+  <h4 class="fw-bold">Regression Models</h4>
+  <p>Regression is about predicting numbers. Imagine you want to guess someone’s weight based on their height. 
+     You look at many examples, draw a line through the points, and then use that line to make predictions.</p>
+
+  <h5 class="fw-bold mt-4">Simple Examples</h5>
+  <ul>
+    <li>Predicting house prices from size and location.</li>
+    <li>Estimating sales based on advertising spend.</li>
+    <li>Guessing exam scores from hours studied.</li>
+  </ul>
+
+  <p class="fst-italic mt-4">Think of regression as drawing a best‑fit line through data to make educated guesses.</p>
+</div>
+""",
+    "free": False},
+{"id": 9,
+    "title": "Supervised Learning: Classification Models",
+    "description": "Logistic regression, decision trees",
+    "content": """
+<div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
+  <h4 class="fw-bold">Classification Models</h4>
+  <p>Classification is about sorting things into groups. 
+     Imagine you have a basket of fruits — you want the computer to learn how to separate apples from oranges. 
+     You show it many examples, and it learns the differences.</p>
+
+  <h5 class="fw-bold mt-4">Simple Examples</h5>
+  <ul>
+    <li>Deciding if an email is spam or not.</li>
+    <li>Sorting medical images into “healthy” or “sick.”</li>
+    <li>Recognizing handwritten digits (0–9).</li>
+  </ul>
+
+  <p class="fst-italic mt-4">Classification is like teaching a computer to play “spot the difference” and put items in the right box.</p>
+</div>
+""",
+    "free": False},
+            {
+    "id": 10,
+    "title": "Unsupervised Learning: Clustering",
+    "description": "Grouping similar things together",
+    "content": """
+<div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
+  <h4 class="fw-bold">Clustering</h4>
+  <p>Clustering is about finding groups in data without being told what the groups are. 
+     Imagine you have a basket of mixed fruits — apples, bananas, and oranges — but no labels. 
+     You look at their shapes and colors, and naturally sort them into groups.</p>
+
+  <h5 class="fw-bold mt-4">Simple Examples</h5>
+  <ul>
+    <li>Grouping customers by shopping habits (without knowing categories beforehand).</li>
+    <li>Sorting news articles into topics automatically.</li>
+    <li>Organizing photos by similarity (faces, landscapes, animals).</li>
+  </ul>
+
+  <p class="fst-italic mt-4">Clustering is like letting the computer discover “hidden teams” inside your data.</p>
+</div>
+""",
+    "free": False
+},
+{
+    "id": 11,
+    "title": "Model Evaluation & Validation",
+    "description": "Checking if predictions are reliable",
+    "content": """
+<div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
+  <h4 class="fw-bold">Model Evaluation & Validation</h4>
+  <p>After teaching a computer to make predictions, we need to check if it’s doing a good job. 
+     This is called evaluation and validation. It’s like testing a student after lessons to see if they really understood.</p>
+
+  <h5 class="fw-bold mt-4">Simple Ways to Check</h5>
+  <ul>
+    <li>Split data into two sets: one for training, one for testing.</li>
+    <li>See how often the computer’s answers match the real ones.</li>
+    <li>Measure accuracy, errors, or how close predictions are to reality.</li>
+  </ul>
+
+  <p class="fst-italic mt-4">Evaluation is like giving your model an exam — it shows if it’s ready for real‑world use.</p>
+</div>
+""",
+    "free": False},
+            {
+    "id": 12,
+    "title": "Handling Big Data",
+    "description": "Working with very large amounts of information",
+    "content": """
+<div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
+  <h4 class="fw-bold">Handling Big Data</h4>
+  <p>Big Data simply means dealing with huge amounts of information — so much that it cannot fit neatly 
+     into a small notebook or even a single computer. Imagine trying to count all the grains of sand on a beach. 
+     You need special tools and smart ways to organize it.</p>
+
+  <h5 class="fw-bold mt-4">Why It Matters</h5>
+  <ul>
+    <li><strong>Businesses:</strong> Track millions of customer purchases to see trends.</li>
+    <li><strong>Healthcare:</strong> Study thousands of patient records to improve treatments.</li>
+    <li><strong>Social Media:</strong> Analyze billions of posts to understand what people are talking about.</li>
+  </ul>
+
+  <h5 class="fw-bold mt-4">How We Handle It</h5>
+  <ul>
+    <li>Break the data into smaller pieces so it’s easier to manage.</li>
+    <li>Use powerful computers that can work together as a team.</li>
+    <li>Apply simple rules to quickly find patterns without reading every single detail.</li>
+  </ul>
+
+  <p class="fst-italic mt-4">Think of handling Big Data like organizing a giant library — 
+     you don’t read every book, but you use systems to find the right one fast.</p>
+</div>
+""",
+    "free": False},
             {"id": 13, "title": "Advanced Visualization with Plotly", "description": "Interactive dashboards", "free": False},
             {"id": 14, "title": "Deep Learning Foundations", "description": "Neural networks basics", "free": False},
             {"id": 15, "title": "Capstone Project: End-to-End Workflow", "description": "Complete DS project", "free": False},
