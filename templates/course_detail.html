@@ -2,52 +2,74 @@
 {% block title %}{{ course.title }}{% endblock %}
 {% block content %}
 <div class="container mt-4">
-  <!-- Course Header -->
   <div class="text-center mb-4">
     <h2 class="fw-bold">{{ course.icon }} {{ course.title }}</h2>
     <p class="lead course-tagline">{{ course.description }}</p>
   </div>
   <hr class="mb-4">
 
-  <!-- 🔓 Unlock All Button (yellow, top of page) -->
-  {% if not user.is_subscribed %}
-    <div class="text-center mb-4">
-      <a href="https://www.paypal.com/checkoutnow?amount=25.00&currency=USD&return=https://yourdomain.com/unlock-confirmed" 
-         class="btn btn-warning btn-lg shadow-sm fw-semibold">
-         🔓 Unlock All Modules (KES 2500)
-      </a>
-    </div>
-  {% endif %}
-
-  <!-- Modules List -->
-  <h4 class="mb-3 fw-bold">Modules</h4>
+  <h4 class="mb-3 fw-bold">Course Overview</h4>
   <ul class="list-group mb-4">
     {% for module in course.modules %}
-      <li class="list-group-item module-card d-flex justify-content-between align-items-start shadow-sm mb-3">
+      <li class="list-group-item d-flex justify-content-between align-items-start shadow-sm mb-3 module-section">
         <div class="flex-grow-1">
-          <strong>Module {{ loop.index }}:</strong> {{ module.title }}
-          {% if module.free %}
+          <strong>Chapter {{ loop.index }}:</strong> {{ module.title }}
+          {% if module.id <= 5 %}
             <span class="badge bg-success ms-2">Free</span>
           {% else %}
             <span class="badge bg-warning text-dark ms-2">Locked</span>
           {% endif %}
           <p class="module-description mt-2 mb-0">{{ module.description }}</p>
         </div>
-        <div class="ms-3" style="min-width: 120px;">
-          {% if user and (user.is_subscribed or module.free) %}
-            <a href="{{ url_for('module', course_name=course_name, id=module.id) }}" 
+        <div class="ms-3 module-actions">
+          {% if user and (user.is_subscribed or module.id <= 5) %}
+            <a href="{{ url_for('show_module', course_name=course_name, id=module.id) }}" 
                class="btn btn-sm btn-primary w-100 fw-semibold">
               Open
             </a>
           {% else %}
-            <a href="{{ url_for('unlock_module') }}" 
-               class="btn btn-sm btn-warning w-100 fw-semibold">
-              Unlock
-            </a>
+            <button class="btn btn-sm btn-warning w-100 fw-semibold" data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal">
+              🔓 Unlock
+            </button>
           {% endif %}
         </div>
       </li>
     {% endfor %}
   </ul>
 </div>
+
+<!-- Unlock Modal -->
+<div class="modal fade" id="paypalUnlockAllModal" tabindex="-1" aria-labelledby="paypalUnlockAllModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content shadow-lg">
+      <div class="modal-header">
+        <h5 class="modal-title" id="paypalUnlockAllModalLabel">Unlock All Modules</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p class="fw-bold text-warning mb-3">
+          Modules 6–15 are locked. To unlock them, please pay <strong>KES 2500</strong> via PayPal.
+        </p>
+        <div id="paypal-all-button-container" class="mt-2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD"></script>
+<script>
+  paypal.Buttons({
+    style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
+    createOrder: (data, actions) => actions.order.create({
+      purchase_units: [{ description: "Unlock All Modules", amount: { value: '25.00' } }]
+    }),
+    onApprove: (data, actions) => actions.order.capture().then(details => {
+      fetch("/paypal-success", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderID: data.orderID })
+      }).then(() => window.location.href = "{{ url_for('dashboard') }}");
+    })
+  }).render('#paypal-all-button-container');
+</script>
 {% endblock %}

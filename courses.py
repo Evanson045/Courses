@@ -231,8 +231,7 @@ courses = {
   <p class="fst-italic mt-4">It’s like polishing raw materials so they can be used effectively in analysis or prediction.</p>
 </div>
 """,
-    "free": False
-},
+    "free": False},
 {"id": 7,
     "title": "Introduction to Machine Learning",
     "description": "Basic ML concepts and workflows",
@@ -254,10 +253,8 @@ courses = {
      just like people do when they gain experience.</p>
 </div>
 """,
-    "free": False
-},
-            {
-    "id": 8,
+    "free": False},
+            {"id": 8,
     "title": "Supervised Learning: Regression Models",
     "description": "Linear and advanced regression",
     "content": """
@@ -298,8 +295,7 @@ courses = {
 </div>
 """,
     "free": False},
-            {
-    "id": 10,
+            {"id": 10,
     "title": "Unsupervised Learning: Clustering",
     "description": "Grouping similar things together",
     "content": """
@@ -319,10 +315,8 @@ courses = {
   <p class="fst-italic mt-4">Clustering is like letting the computer discover “hidden teams” inside your data.</p>
 </div>
 """,
-    "free": False
-},
-{
-    "id": 11,
+    "free": False},
+{"id": 11,
     "title": "Model Evaluation & Validation",
     "description": "Checking if predictions are reliable",
     "content": """
@@ -342,8 +336,7 @@ courses = {
 </div>
 """,
     "free": False},
-            {
-    "id": 12,
+            {"id": 12,
     "title": "Handling Big Data",
     "description": "Working with very large amounts of information",
     "content": """
@@ -372,9 +365,87 @@ courses = {
 </div>
 """,
     "free": False},
-            {"id": 13, "title": "Advanced Visualization with Plotly", "description": "Interactive dashboards", "free": False},
-            {"id": 14, "title": "Deep Learning Foundations", "description": "Neural networks basics", "free": False},
-            {"id": 15, "title": "Capstone Project: End-to-End Workflow", "description": "Complete DS project", "free": False},
+           {"id": 13,
+    "title": "Data Communication and Storytelling",
+    "description": "Learn to present data effectively through visualizations and narratives.",
+    "content": """
+<div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
+  <h4 class="fw-bold">Data Communication and Storytelling</h4>
+  <p>Data communication is about sharing information in a way people can easily understand. 
+     Storytelling means turning numbers into a clear story that connects with your audience.</p>
+
+  <h5 class="fw-bold mt-4">Why It Matters</h5>
+  <ul>
+    <li><strong>Clarity:</strong> People remember stories better than raw numbers.</li>
+    <li><strong>Impact:</strong> A good chart or example can change how decisions are made.</li>
+    <li><strong>Connection:</strong> Stories help audiences relate to the data personally.</li>
+  </ul>
+
+  <h5 class="fw-bold mt-4">Simple Examples</h5>
+  <ul>
+    <li>Instead of saying “Sales increased by 20%,” show a line chart that rises like a hill.</li>
+    <li>Tell a short story: “Last year, 1 in 5 families struggled with internet access — here’s what that looks like.”</li>
+    <li>Use visuals like bar charts or pie charts to make comparisons easy.</li>
+  </ul>
+
+  <p class="fst-italic mt-4">Think of data storytelling like being a tour guide: 
+     you lead people through the numbers, highlight the important sights, 
+     and explain why they matter.</p>
+</div>
+""",
+    "free": False},
+           {"id": 14,
+    "title": "Deep Learning Foundations",
+    "description": "Neural networks basics",
+    "content": """
+<div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
+  <h4 class="fw-bold">Deep Learning Foundations</h4>
+  <p>Deep learning is a way of teaching computers to learn from lots of examples, 
+     inspired by how our brains work. It uses “neural networks,” which are like 
+     layers of decision‑makers stacked together.</p>
+
+  <h5 class="fw-bold mt-4">Simple Analogy</h5>
+  <p>Imagine a group of people passing notes: the first person looks at a picture 
+     and guesses if it’s a cat or dog, then passes their guess to the next person, 
+     who refines it, and so on. By the end, the group makes a strong decision together.</p>
+
+  <h5 class="fw-bold mt-4">Everyday Examples</h5>
+  <ul>
+    <li>Phones recognizing faces in photos.</li>
+    <li>Voice assistants understanding speech.</li>
+    <li>Apps translating languages automatically.</li>
+  </ul>
+
+  <p class="fst-italic mt-4">Deep learning is like building a team of tiny helpers, 
+     each focusing on part of the problem, until the whole team solves it.</p>
+</div>
+""",
+    "free": False},
+{"id": 15,
+    "title": "Capstone Project: End-to-End Workflow",
+    "description": "Complete DS project",
+    "content": """
+<div style="background-color:#0d1b22; color:#ffffff; padding:1.5rem; border-radius:10px;">
+  <h4 class="fw-bold">Capstone Project: End-to-End Workflow</h4>
+  <p>This final project brings everything together. You’ll go through the full 
+     data science journey step by step, just like a real‑world project.</p>
+
+  <h5 class="fw-bold mt-4">What You’ll Do</h5>
+  <ul>
+    <li><strong>Collect Data:</strong> Find or choose a dataset to work with.</li>
+    <li><strong>Clean Data:</strong> Fix errors, remove duplicates, and make it tidy.</li>
+    <li><strong>Explore:</strong> Summarize and visualize to see patterns.</li>
+    <li><strong>Model:</strong> Try simple predictions or groupings.</li>
+    <li><strong>Communicate:</strong> Share results with clear charts and a short story.</li>
+  </ul>
+
+  <p class="fst-italic mt-4">Think of the capstone as cooking a full meal: 
+     you gather ingredients, prepare them, cook step by step, and finally serve 
+     a dish that others can enjoy and understand.</p>
+</div>
+""",
+    "free": False
+}
         ]
     },
     "Statistics": {
@@ -484,37 +555,38 @@ def course_detail(course_name):
     return render_template('course_detail.html', course=course, course_name=course_name, user=user)
 
 @app.route('/courses/<course_name>/module/<int:id>')
-def module(course_name, id):
+def show_module(course_name, id):
     user = current_user()
-    if not user:
-        flash("Login required to access modules.", "danger")
-        return redirect(url_for('login'))
-
     course = courses.get(course_name)
-    if not course:
-        flash("Course not found.", "danger")
-        return redirect(url_for('list_courses'))
+
+    # Block access to modules 6–15 if not subscribed
+    if not user.is_subscribed and id > 5:
+        flash("This module is locked. Please unlock all modules to continue.", "warning")
+        return redirect(url_for('course_detail', course_name=course_name))
 
     module_data = next((m for m in course["modules"] if m["id"] == id), None)
     if not module_data:
         flash("Module not found.", "danger")
         return redirect(url_for('course_detail', course_name=course_name))
 
-    if not user.is_subscribed and not module_data.get("free", False):
-        flash("This module is locked. Please subscribe to unlock.", "warning")
-        return redirect(url_for('unlock_module'))
-
     return render_template("module.html", module=module_data, course=course, user=user, course_name=course_name)
 
-@app.route('/unlock-module')
-def unlock_module():
+@app.route('/unlock-module/<int:module_id>', methods=['GET', 'POST'])
+def unlock_module(module_id):
     user = current_user()
     if not user:
         flash("Login required to unlock modules.", "danger")
         return redirect(url_for('login'))
-    return render_template("unlock_module.html", user=user)
 
-@app.route('/unlock-all')
+    if module_id <= 5:
+        flash("Modules 1–5 are already free.", "info")
+        return redirect(url_for('course_detail', course_name=request.args.get('course_name')))
+
+    # Show payment modal instead of fake unlock
+    flash("This module is locked. Please unlock all modules via payment.", "warning")
+    return redirect(url_for('course_detail', course_name=request.args.get('course_name')))
+
+@app.route('/unlock-all', methods=['GET', 'POST'])
 def unlock_all():
     user = current_user()
     if not user:
@@ -525,9 +597,44 @@ def unlock_all():
         user.is_subscribed = True
         db.session.commit()
         flash("All modules unlocked successfully! 🎉", "success")
+    else:
+        flash("You already have access to all modules.", "info")
 
     return redirect(url_for('dashboard'))
 
+@app.route('/paypal-success', methods=['POST'])
+def paypal_success():
+    user = current_user()
+    if not user:
+        return jsonify({"error": "Not logged in"}), 403
+
+    data = request.get_json()
+    order_id = data.get("orderID")
+
+    # Step 1: Get access token
+    auth_response = requests.post(
+        f"{PAYPAL_API_BASE}/v1/oauth2/token",
+        headers={"Accept": "application/json"},
+        data={"grant_type": "client_credentials"},
+        auth=(PAYPAL_CLIENT_ID, PAYPAL_SECRET)
+    )
+    access_token = auth_response.json().get("access_token")
+
+    # Step 2: Verify order
+    order_response = requests.get(
+        f"{PAYPAL_API_BASE}/v2/checkout/orders/{order_id}",
+        headers={"Authorization": f"Bearer {access_token}"}
+    )
+    order_data = order_response.json()
+
+    # Step 3: Check status
+    if order_data.get("status") == "COMPLETED":
+        user.is_subscribed = True
+        db.session.commit()
+        flash("Payment verified. All modules unlocked! 🎉", "success")
+        return jsonify({"status": "ok"})
+    else:
+        return jsonify({"error": "Payment not completed"}), 400
 
 # -------------------- Run App --------------------
 if __name__ == '__main__':
