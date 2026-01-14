@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ course.title }}{% endblock %}
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-4" style="background-color: #d6e1e9; border-radius: 10px; padding: 20px;">
   <div class="text-center mb-4">
     <h2 class="fw-bold">{{ course.icon }} {{ course.title }}</h2>
     <p class="lead course-tagline">{{ course.description }}</p>
@@ -10,24 +10,25 @@
 
   <h4 class="mb-3 fw-bold">Course Overview</h4>
   <ul class="list-group mb-4">
-    {% for module in course.modules %}
+    {% for chapter in course.chapters %}
       <li class="list-group-item d-flex justify-content-between align-items-start shadow-sm mb-3 module-section">
         <div class="flex-grow-1">
-          <strong>Chapter {{ loop.index }}:</strong> {{ module.title }}
-          {% if module.id <= 5 %}
+          <strong>Chapter {{ loop.index }}:</strong> {{ chapter.title }}
+          {% if chapter.id <= 5 %}
             <span class="badge bg-success ms-2">Free</span>
           {% else %}
             <span class="badge bg-warning text-dark ms-2">Locked</span>
           {% endif %}
-          <p class="module-description mt-2 mb-0">{{ module.description }}</p>
+          <p class="module-description mt-2 mb-0">{{ chapter.description }}</p>
         </div>
         <div class="ms-3 module-actions">
-          {% if user and (user.is_subscribed or module.id <= 5) %}
-            <a href="{{ url_for('show_module', course_name=course_name, id=module.id) }}" 
+          {% if user and (user.is_subscribed or chapter.id <= 5) %}
+            <a href="{{ url_for('show_chapter', course_name=course_name, id=chapter.id) }}" 
                class="btn btn-sm btn-primary w-100 fw-semibold">
               Open
             </a>
           {% else %}
+            <!-- Unlock triggers modal -->
             <button class="btn btn-sm btn-warning w-100 fw-semibold" data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal">
               🔓 Unlock
             </button>
@@ -38,30 +39,36 @@
   </ul>
 </div>
 
-<!-- Unlock Modal -->
-<div class="modal fade" id="paypalUnlockAllModal" tabindex="-1" aria-labelledby="paypalUnlockAllModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<!-- Modal Popup -->
+<div class="modal fade" id="paypalUnlockAllModal" tabindex="-1" aria-labelledby="paypalUnlockAllLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content shadow-lg">
-      <div class="modal-header">
-        <h5 class="modal-title" id="paypalUnlockAllModalLabel">Unlock All Modules</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title fw-bold" id="paypalUnlockAllLabel">Unlock All Chapters</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-center">
-        <p class="fw-bold text-warning mb-3">
-          Modules 6–15 are locked. To unlock them, please pay <strong>KES 2500</strong> via PayPal.
+        <p class="fw-semibold mb-3">
+          🚀 Make a one‑time payment of <strong>KES 2500</strong> to unlock all chapters forever!
         </p>
-        <div id="paypal-all-button-container" class="mt-2"></div>
+        <p class="text-muted mb-4">No subscriptions, no hidden fees — just lifetime access to every course.</p>
+        <div class="d-flex justify-content-center gap-3">
+          <div id="paypal-gold-button-container"></div>
+          <div id="paypal-blue-button-container"></div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD"></script>
+<!-- PayPal SDK Script -->
+<script src="https://www.paypal.com/sdk/js?client-id=AUvxeWZl_Jhm4R0bJ4AAE5RcEE8074-jcEHw81Vd4qMncGa5ABA15ZPHCrSHRfZkzohWmq0nrKljNrqv&currency=KES"></script>
 <script>
+  // Blue button
   paypal.Buttons({
-    style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
+    style: { layout: 'vertical', color: 'blue', shape: 'rect', label: 'paypal' },
     createOrder: (data, actions) => actions.order.create({
-      purchase_units: [{ description: "Unlock All Modules", amount: { value: '25.00' } }]
+      purchase_units: [{ description: "Unlock All Chapters", amount: { value: '2500.00' } }]
     }),
     onApprove: (data, actions) => actions.order.capture().then(details => {
       fetch("/paypal-success", {
@@ -70,6 +77,6 @@
         body: JSON.stringify({ orderID: data.orderID })
       }).then(() => window.location.href = "{{ url_for('dashboard') }}");
     })
-  }).render('#paypal-all-button-container');
+  }).render('#paypal-blue-button-container');
 </script>
 {% endblock %}

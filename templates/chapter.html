@@ -1,30 +1,28 @@
 {% extends "base.html" %}
-{% block title %}{{ module.title }}{% endblock %}
+{% block title %}{{ chapter.title }}{% endblock %}
 {% block content %}
 <div class="container mt-5">
-  <!-- Module Section -->
+  <!-- Chapter Section -->
   <div class="module-section p-4 shadow-sm">
-    <h2 class="fw-bold text-center">{{ module.title }}</h2>
+    <h2 class="fw-bold text-center">{{ chapter.title }}</h2>
     <p class="module-tagline text-center mt-3 mb-4 bg-white p-2 rounded">
-      {{ module.description }}
+      {{ chapter.description }}
     </p>
     <hr>
 
-    {% if user and (user.is_subscribed or module.id <= 5) %}
-      <!-- Show content for free modules or subscribed users -->
-      {% if module.content %}
+    {% if user and (user.is_subscribed or chapter.id <= 5) %}
+      {% if chapter.content %}
         <div class="module-content mt-3">
-          {{ module.content|safe }}
+          {{ chapter.content|safe }}
         </div>
       {% endif %}
     {% else %}
-      <!-- Locked modules (6–15) for non‑subscribed users -->
       <div class="locked-message text-center mt-4">
         <p class="fw-bold text-warning">
-          🔒 This module is locked. Please unlock all modules to continue.
+          🔒 This chapter is locked. Please unlock all to continue.
         </p>
         <button class="btn btn-warning fw-semibold" data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal">
-          Unlock Modules (KES 2500)
+          Unlock Chapters (KES 2500)
         </button>
       </div>
     {% endif %}
@@ -33,18 +31,17 @@
 
 <!-- Navigation Buttons -->
 <div class="container mt-4 d-flex justify-content-between align-items-center nav-buttons">
-  <!-- Back to Course -->
   <a href="{{ url_for('course_detail', course_name=course_name) }}" class="btn btn-warning fw-semibold">
     ← Back to Course
   </a>
   <div class="ms-auto">
-    {% if module.id > 1 %}
-      <a href="{{ url_for('show_module', course_name=course_name, id=module.id - 1) }}" class="btn btn-primary me-2 fw-semibold">
+    {% if chapter.id > 1 %}
+      <a href="{{ url_for('show_chapter', course_name=course_name, id=chapter.id - 1) }}" class="btn btn-primary me-2 fw-semibold">
         ← Previous
       </a>
     {% endif %}
-    {% if module.id < course.modules|length %}
-      <a href="{{ url_for('show_module', course_name=course_name, id=module.id + 1) }}" class="btn btn-primary fw-semibold">
+    {% if chapter.id < course.chapters|length %}
+      <a href="{{ url_for('show_chapter', course_name=course_name, id=chapter.id + 1) }}" class="btn btn-primary fw-semibold">
         Next →
       </a>
     {% endif %}
@@ -56,12 +53,12 @@
   <div class="modal-dialog">
     <div class="modal-content shadow-lg">
       <div class="modal-header">
-        <h5 class="modal-title" id="paypalUnlockAllModalLabel">Unlock All Modules</h5>
+        <h5 class="modal-title" id="paypalUnlockAllModalLabel">Unlock All Chapters</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body text-center">
         <p class="fw-bold text-warning mb-3">
-          To unlock modules 6–15, please pay <strong>KES 2500</strong> via PayPal.
+          To unlock all please pay <strong>KES 2500</strong> via PayPal.
         </p>
         <div id="paypal-all-button-container" class="mt-2"></div>
       </div>
@@ -70,15 +67,15 @@
 </div>
 
 <!-- PayPal SDK Script -->
-<script src="https://www.paypal.com/sdk/js?client-id=AUvxeWZl_Jhm4R0bJ4AAE5RcEE8074-jcEHw81Vd4qMncGa5ABA15ZPHCrSHRfZkzohWmq0nrKljNrqv&currency=USD"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AUvxeWZl_Jhm4R0bJ4AAE5RcEE8074-jcEHw81Vd4qMncGa5ABA15ZPHCrSHRfZkzohWmq0nrKljNrqv&currency=KES"></script>
 <script>
   paypal.Buttons({
     style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
     createOrder: function(data, actions) {
       return actions.order.create({
         purchase_units: [{
-          description: "Unlock All Modules",
-          amount: { value: '25.00' } // USD equivalent of KES 2500
+          description: "Unlock All Courses",
+          amount: { value: '2500.00' } // KES 2500
         }]
       });
     },

@@ -8,40 +8,38 @@ body {
   scroll-behavior: smooth;
 }
 
+/* Navbar */
 .navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
-  background-color: #001f3f;
+  background-color: #24466b; /* same as Start Free Course button */
   padding: 12px 20px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   z-index: 1000;
 }
 .navbar-brand {
-  color: #d6e1e9 !important;
+  color: #ffffff !important; /* white text for contrast */
   font-weight: 700;
   letter-spacing: 0.5px;
   text-decoration: none;
 }
 .navbar-brand:hover {
-  color: #d6e1e9 !important;
+  color: #facc15 !important; /* gold highlight on hover */
   text-decoration: underline;
 }
 
+/* Alerts */
 .alert {
   border-radius: 8px;
   font-weight: 500;
 }
 
-footer {
-  background-color: #001f3f;
-  color: #d6e1e9;
-  font-size: 0.9rem;
-  padding: 1rem 0;
-  margin-top: 3rem;
+/* Buttons */
+.btn {
+  transition: all 0.2s ease-in-out;
 }
-
 .btn-primary {
-  background-color: #3A6EA5 !important;
+  background-color: #3A6EA5 !important; /* unified blue */
   border: none;
 }
 .btn-warning {
@@ -49,7 +47,6 @@ footer {
   color: #000 !important;
   border: none;
 }
-
 .btn-primary:hover,
 .btn-warning:hover {
   filter: brightness(1.05);
@@ -57,26 +54,27 @@ footer {
   transform: translateY(-1px);
 }
 
-.module-section {
+/* Chapter sections */
+.chapter-section {
   background-color: #d6e1e9;
   color: #001f3f;
   border-radius: 10px;
   padding: 1rem;
   transition: all 0.2s ease-in-out;
 }
-.module-section:hover {
+.chapter-section:hover {
   transform: scale(1.01);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-
-.module-tagline {
+.chapter-tagline {
   color: #001f3f;
-  background-color: #ffffff;
+  background-color: #d6e1e9;
   padding: 8px 12px;
   border-radius: 6px;
   display: inline-block;
 }
 
+/* Locked message */
 .locked-message {
   margin-top: 1rem;
 }
@@ -85,12 +83,26 @@ footer {
   color: #facc15;
 }
 
+/* Navigation buttons */
 .nav-buttons a {
   min-width: 120px;
   transition: all 0.2s ease-in-out;
 }
 .nav-buttons a:hover {
   filter: brightness(1.05);
-  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
+}
+
+/* Course list items */
+.list-group-item {
+  background-color: #d6e1e9 !important;
+  color: #001f3f;
+  border-radius: 10px;
+  border: none;
+  transition: all 0.2s ease-in-out;
+}
+.list-group-item:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }

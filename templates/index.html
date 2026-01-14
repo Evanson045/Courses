@@ -4,11 +4,10 @@
   <!-- Hero Section -->
   <section class="hero text-center py-5">
     <!-- Logo -->
-    <img src="{{ url_for('static', filename='logo.png') }}" alt="DataSolve Logo" class="logo img-fluid mb-3" width="120" height="120">
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="DataSolve Logo" class="logo img-fluid mb-3" width="150" height="50">
 
     <!-- Headline -->
     <h1 class="display-4 fw-bold">Courses</h1>
-    <!-- tagline with class -->
     <p class="lead tagline">Empowering growth through data, technology, and learning</p>
 
     <!-- Call to Action -->
@@ -20,27 +19,33 @@
   <!-- Features Section -->
   <section class="features mt-5">
     <div class="row text-center">
+      <!-- Data Science -->
       <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
+        <div class="card h-100 shadow-sm rounded">
           <div class="card-body">
             <h4 class="card-title">📊 Data Science</h4>
             <p class="card-text">Learn the fundamentals of data analysis and visualization.</p>
+            <a href="{{ url_for('course_detail', course_name='Data Science') }}" class="btn btn-primary mt-3">Explore</a>
           </div>
         </div>
       </div>
+      <!-- Statistics -->
       <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
+        <div class="card h-100 shadow-sm rounded">
           <div class="card-body">
             <h4 class="card-title">📈 Statistics</h4>
             <p class="card-text">Master probability, inference, and statistical modeling.</p>
+            <a href="{{ url_for('course_detail', course_name='Statistics') }}" class="btn btn-primary mt-3">Explore</a>
           </div>
         </div>
       </div>
+      <!-- R Programming -->
       <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
+        <div class="card h-100 shadow-sm rounded">
           <div class="card-body">
             <h4 class="card-title">💻 R Programming</h4>
             <p class="card-text">Build reproducible workflows and powerful analytics with R.</p>
+            <a href="{{ url_for('course_detail', course_name='R programming') }}" class="btn btn-primary mt-3">Explore</a>
           </div>
         </div>
       </div>
