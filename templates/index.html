@@ -2,16 +2,19 @@
 {% block title %}Welcome{% endblock %}
 {% block content %}
   <!-- Hero Section -->
-  <section class="hero text-center py-5">
+  <section class="hero text-center py-5" style="background-color:#002b36; color:#e0f7fa;">
     <!-- Logo -->
-    <img src="{{ url_for('static', filename='logo.png') }}" alt="DataSolve Logo" class="logo img-fluid mb-3" width="150" height="50">
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="DataSolve Logo" 
+         class="logo img-fluid mb-3 shadow-sm" width="150" height="50">
 
     <!-- Headline -->
-    <h1 class="display-4 fw-bold">Courses</h1>
+    <h1 class="display-4 fw-bold" style="color:#ffd700;">Courses</h1>
     <p class="lead tagline">Empowering growth through data, technology, and learning</p>
 
     <!-- Call to Action -->
-    <a id="startFreeCourseBtn" href="{{ url_for('login') }}" class="btn btn-primary btn-lg mt-3 shadow w-100 w-md-auto">
+    <a id="startFreeCourseBtn" href="{{ url_for('login') }}" 
+       class="btn btn-lg mt-3 shadow w-100 w-md-auto transition-btn fw-bold" 
+       style="background-color:#ffd700; color:#002b36; border-radius:8px;">
       🚀 Start Free Course
     </a>
   </section>
@@ -21,35 +24,62 @@
     <div class="row text-center">
       <!-- Data Science -->
       <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 shadow-sm rounded">
+        <div class="card h-100 shadow-lg rounded transition-card" 
+             style="background-color:#002b36; color:#e0f7fa; border:none; border-radius:12px;">
           <div class="card-body">
-            <h4 class="card-title">📊 Data Science</h4>
+            <h4 class="card-title fw-bold" style="color:#ffd700;">📊 Data Science</h4>
             <p class="card-text">Learn the fundamentals of data analysis and visualization.</p>
-            <a href="{{ url_for('course_detail', course_name='Data Science') }}" class="btn btn-primary mt-3">Explore</a>
+            <a href="{{ url_for('show_course', course_name='Data Science') }}" 
+               class="btn mt-3 fw-bold transition-btn" 
+               style="background-color:#ffd700; color:#002b36; border-radius:8px;">
+              Explore
+            </a>
           </div>
         </div>
       </div>
       <!-- Statistics -->
       <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 shadow-sm rounded">
+        <div class="card h-100 shadow-lg rounded transition-card" 
+             style="background-color:#002b36; color:#e0f7fa; border:none; border-radius:12px;">
           <div class="card-body">
-            <h4 class="card-title">📈 Statistics</h4>
+            <h4 class="card-title fw-bold" style="color:#ffd700;">📈 Statistics</h4>
             <p class="card-text">Master probability, inference, and statistical modeling.</p>
-            <a href="{{ url_for('course_detail', course_name='Statistics') }}" class="btn btn-primary mt-3">Explore</a>
+            <a href="{{ url_for('show_course', course_name='Statistics') }}" 
+               class="btn mt-3 fw-bold transition-btn" 
+               style="background-color:#ffd700; color:#002b36; border-radius:8px;">
+              Explore
+            </a>
           </div>
         </div>
       </div>
       <!-- R Programming -->
       <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 shadow-sm rounded">
+        <div class="card h-100 shadow-lg rounded transition-card" 
+             style="background-color:#002b36; color:#e0f7fa; border:none; border-radius:12px;">
           <div class="card-body">
-            <h4 class="card-title">💻 R Programming</h4>
+            <h4 class="card-title fw-bold" style="color:#ffd700;">💻 R Programming</h4>
             <p class="card-text">Build reproducible workflows and powerful analytics with R.</p>
-            <a href="{{ url_for('course_detail', course_name='R programming') }}" class="btn btn-primary mt-3">Explore</a>
+            <a href="{{ url_for('show_course', course_name='R programming') }}" 
+               class="btn mt-3 fw-bold transition-btn" 
+               style="background-color:#ffd700; color:#002b36; border-radius:8px;">
+              Explore
+            </a>
           </div>
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- Unlock All Courses Section -->
+  <section class="mt-5 text-center">
+    <h4 class="fw-bold">Unlock All Courses Forever (KES 2500)</h4>
+    {% if not user or not user.is_subscribed %}
+      <div id="paypal-home-button-container" class="mt-3"></div>
+    {% else %}
+      <div class="alert alert-success mt-3 fw-semibold">
+        ✅ You already have access to all courses.
+      </div>
+    {% endif %}
   </section>
 
   <!-- Script to toggle tagline color -->
@@ -62,4 +92,63 @@
       });
     }
   </script>
+
+  <!-- PayPal SDK Script -->
+  <script src="https://www.paypal.com/sdk/js?client-id=AWkdOGpwf43F12XXYk-0uUxxdCNcgV8kQxc1CAQEHDSIh1N5nohzeKjlSanB97lSylr56GE3V24Qv5nN&currency=KES"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const container = document.getElementById('paypal-home-button-container');
+      if (container) {
+        paypal.Buttons({
+          style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
+          createOrder: function(data, actions) {
+            return actions.order.create({
+              purchase_units: [{
+                description: "Unlock All Courses",
+                amount: { value: '2500.00', currency_code: 'KES' }
+              }]
+            });
+          },
+          onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+              fetch("/paypal-success", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ orderID: data.orderID })
+              }).then(response => response.json())
+                .then(result => {
+                  if (result.status === "ok") {
+                    window.location.href = "{{ url_for('dashboard') }}";
+                  } else {
+                    alert("Payment verification failed: " + (result.error || "Unknown error"));
+                  }
+                });
+            });
+          }
+        }).render('#paypal-home-button-container');
+      }
+    });
+  </script>
+
+  <!-- Hover Effects CSS -->
+  <style>
+    .transition-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .transition-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+    }
+    .transition-btn {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .transition-btn:hover {
+      background-color:#e0f7fa !important;
+      color:#002b36 !important;
+    }
+    .tagline.active {
+      color:#ffd700 !important;
+      font-weight:bold;
+    }
+  </style>
 {% endblock %}

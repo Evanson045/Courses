@@ -4,7 +4,7 @@
 <div class="container mt-5 text-center">
   <div class="module-section p-4 shadow-sm rounded">
     <h2 class="fw-bold">Unlock Module</h2>
-    <p class="mt-3">Modules 6–15 are locked. To unlock them, please pay <strong>KES 2500</strong> via PayPal.</p>
+    <p class="mt-3">Locked. To unlock, please pay <strong>KES 2500</strong> via PayPal.</p>
 
     <!-- Flash messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -18,25 +18,53 @@
       {% endif %}
     {% endwith %}
 
-    <div id="paypal-button-container" class="mt-3"></div>
+    <!-- PayPal button container -->
+    {% if not user or not user.is_subscribed %}
+      <div id="paypal-button-container" class="mt-3"></div>
+    {% else %}
+      <div class="alert alert-success mt-3 fw-semibold">
+        ✅ You already have access to all modules.
+      </div>
+    {% endif %}
   </div>
 </div>
 
 <!-- PayPal SDK Script -->
-<script src="https://www.paypal.com/sdk/js?client-id=AUvxeWZl_Jhm4R0bJ4AAE5RcEE8074-jcEHw81Vd4qMncGa5ABA15ZPHCrSHRfZkzohWmq0nrKljNrqv&currency=KES"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AWkdOGpwf43F12XXYk-0uUxxdCNcgV8kQxc1CAQEHDSIh1N5nohzeKjlSanB97lSylr56GE3V24Qv5nN&currency=KES"></script>
 <script>
-  paypal.Buttons({
-    style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
-    createOrder: (data, actions) => actions.order.create({
-      purchase_units: [{ description: "Unlock All Modules", amount: { value: '2500.00' } }]
-    }),
-    onApprove: (data, actions) => actions.order.capture().then(details => {
-      fetch("/paypal-success", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderID: data.orderID })
-      }).then(() => window.location.href = "{{ url_for('dashboard') }}");
-    })
-  }).render('#paypal-button-container');
+  document.addEventListener("DOMContentLoaded", function () {
+    const container = document.getElementById('paypal-button-container');
+    if (container) {
+      paypal.Buttons({
+        style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{
+              description: "Unlock All Modules",
+              amount: { value: '2500.00', currency_code: 'KES' }
+            }]
+          });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            // Send order info to backend for verification
+            fetch("/paypal-success", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ orderID: data.orderID })
+            }).then(response => response.json())
+              .then(result => {
+                if (result.status === "ok") {
+                  // Redirect after successful payment
+                  window.location.href = "{{ url_for('dashboard') }}";
+                } else {
+                  alert("Payment verification failed: " + (result.error || "Unknown error"));
+                }
+              });
+          });
+        }
+      }).render('#paypal-button-container');
+    }
+  });
 </script>
 {% endblock %}
