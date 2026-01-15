@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: datasolve-app
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn homepage:app
+    envVars:
+      - key: SECRET_KEY
+        value: "replace_with_a_secure_random_string"
+      - key: PAYPAL_CLIENT_ID
+        value: "AWkdOGpwf43F12XXYk-0uUxxdCNcgV8kQxc1CAQEHDSIh1N5nohzeKjlSanB97lSylr56GE3V24Qv5nN"
+      - key: PAYPAL_SECRET
+        value: "EF8iPcZODFqV5wzBRonCONuHNwt7qSVMbtnvgyqke24YUrOVbm27SuJ4OUIZiWTTbwLi58Ha_sNt25FK"
+      - key: PAYPAL_API_BASE
+        value: "https://api-m.paypal.com"
