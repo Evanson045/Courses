@@ -6,7 +6,7 @@ services:
     startCommand: gunicorn homepage:app
     envVars:
       - key: SECRET_KEY
-        value: "replace_with_a_secure_random_string"
+        value: "123Conect*#"
       - key: PAYPAL_CLIENT_ID
         value: "AWkdOGpwf43F12XXYk-0uUxxdCNcgV8kQxc1CAQEHDSIh1N5nohzeKjlSanB97lSylr56GE3V24Qv5nN"
       - key: PAYPAL_SECRET
