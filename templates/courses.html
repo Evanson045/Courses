@@ -1,0 +1,15 @@
+<!-- templates/courses.html -->
+{% extends "base.html" %}
+{% block title %}Courses{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-3">Available Courses</h2>
+  {% for name, course in courses.items() %}
+    <div class="mb-3">
+      <h4>{{ course.title }}</h4>
+      <p class="text-muted">{{ course.description }}</p>
+      <a class="btn btn-primary btn-sm" href="{{ url_for('show_course', course_name=name) }}">View course</a>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

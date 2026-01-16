@@ -12,7 +12,7 @@
 
   <h4 class="mb-3 fw-bold" style="color:#000000;">Course Overview</h4>
   <div class="col-12">
-    {% for chapter in course.chapters %}
+    {% for chapter in chapter_list %}
       <div class="card shadow-lg transition-card mb-4" 
            style="background-color:#002b36; color:#ffd700; border:none; border-radius:10px;">
         <div class="card-body d-flex flex-column">
@@ -90,7 +90,7 @@
 </div>
 
 <!-- PayPal SDK Script -->
-<script src="https://www.paypal.com/sdk/js?client-id=AWkdOGpwf43F12XXYk-0uUxxdCNcgV8kQxc1CAQEHDSIh1N5nohzeKjlSanB97lSylr56GE3V24Qv5nN&currency=KES"></script>
+<script src="https://www.paypal.com/sdk/js?client-id={{ PAYPAL_CLIENT_ID }}&currency=KES"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const container = document.getElementById('paypal-button-container');
@@ -114,7 +114,6 @@
             }).then(response => response.json())
               .then(result => {
                 if (result.status === "ok") {
-                  // Flip ALL unlock buttons instantly
                   document.querySelectorAll(".unlock-btn").forEach(btn => {
                     btn.outerHTML = `
                       <a href="{{ url_for('dashboard') }}" class="btn btn-sm fw-semibold transition-btn" style="background-color:#198754; color:#fff; border-radius:8px;">
@@ -122,7 +121,6 @@
                       </a>
                     `;
                   });
-                  // Close modal
                   const modal = bootstrap.Modal.getInstance(document.getElementById('paypalUnlockAllModal'));
                   if (modal) modal.hide();
                 } else {

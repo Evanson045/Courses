@@ -6,6 +6,8 @@ from flask import (
     request, session, flash, jsonify, abort
 )
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.pool import NullPool
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 
@@ -20,6 +22,11 @@ app.secret_key = os.getenv("SECRET_KEY", "dev_secret")
 db_url = os.getenv("DATABASE_URL")
 if db_url and not db_url.strip().startswith("sqlite"):
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        "pool_pre_ping": True,
+        "poolclass": NullPool,
+        "connect_args": {"sslmode": "require"}
+    }
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///users.db"
 
@@ -32,8 +39,9 @@ logger = logging.getLogger(__name__)
 
 # -------------------- Models --------------------
 class User(db.Model):
+    __tablename__ = 'users'  # avoid reserved word "user"
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(150), unique=True, nullable=False)
+    email = db.Column(db.String(150), unique=True, index=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
     is_subscribed = db.Column(db.Boolean, default=False)
 
@@ -78,7 +86,13 @@ def register():
         hashed_pw = generate_password_hash(password)
         new_user = User(email=email, password=hashed_pw)
         db.session.add(new_user)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            flash("Email already registered. Please log in.", "warning")
+            return redirect(url_for('login'))
+
         flash("Registration successful. Please log in.", "success")
         return redirect(url_for('login'))
     return render_template('register.html')
@@ -120,7 +134,19 @@ def show_course(course_name):
     course = courses.get(course_name)
     if not course:
         abort(404)
-    return render_template('course_detail.html', course=course, course_name=course_name, user=current_user())
+
+    # Support both "chapters" and "modules"
+    chapter_list = course.get("chapters") or course.get("modules") or []
+    if not isinstance(chapter_list, list):
+        chapter_list = []
+
+    return render_template(
+        'course_detail.html',
+        course=course,
+        course_name=course_name,
+        user=current_user(),
+        chapter_list=chapter_list
+    )
 
 @app.route('/courses/<course_name>/chapter/<int:id>')
 def show_chapter(course_name, id):
@@ -130,17 +156,14 @@ def show_chapter(course_name, id):
         flash("Course not found.", "danger")
         return redirect(url_for('list_courses'))
 
-    # Guard: user must be logged in to access locked chapters
     if not user and id > 5:
         flash("Please log in to access locked chapters.", "warning")
         return redirect(url_for('login'))
 
-    # Block access to chapters 6–15 if not subscribed
     if user and not user.is_subscribed and id > 5:
         flash("This chapter is locked. Please unlock to continue.", "warning")
         return redirect(url_for('show_course', course_name=course_name))
 
-    # Handle both 'chapters' and 'modules'
     chapter_list = course.get("chapters") or course.get("modules")
     chapter_data = next((c for c in chapter_list if c["id"] == id), None)
     if not chapter_data:
@@ -185,7 +208,7 @@ def unlock_all():
     return redirect(url_for('dashboard'))
 
 # -------------------- PayPal Config --------------------
-PAYPAL_API_BASE = os.getenv("PAYPAL_API_BASE", "https://api-m.paypal.com")  # Go live default
+PAYPAL_API_BASE = os.getenv("PAYPAL_API_BASE", "https://api-m.paypal.com")
 PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID", "")
 PAYPAL_SECRET = os.getenv("PAYPAL_SECRET", "")
 
@@ -203,7 +226,6 @@ def paypal_success():
     if not order_id:
         return jsonify({"error": "Missing orderID"}), 400
 
-    # Step 1: Get access token
     try:
         auth_response = requests.post(
             f"{PAYPAL_API_BASE}/v1/oauth2/token",
@@ -220,7 +242,6 @@ def paypal_success():
         logger.error(f"PayPal auth failed: {e}")
         return jsonify({"error": f"Auth request failed: {e}"}), 502
 
-    # Step 2: Verify order
     try:
         order_response = requests.get(
             f"{PAYPAL_API_BASE}/v2/checkout/orders/{order_id}",
@@ -233,7 +254,6 @@ def paypal_success():
         logger.error(f"Order verification failed: {e}")
         return jsonify({"error": f"Order verification failed: {e}"}), 502
 
-    # Step 3: Check status
     if order_data.get("status") == "COMPLETED":
         user.is_subscribed = True
         db.session.commit()
@@ -241,6 +261,7 @@ def paypal_success():
     else:
         return jsonify({"error": "Payment not completed"}), 400
 
+# -------------------- Init DB (one-time) --------------------
 @app.route('/init-db')
 def init_db():
     with app.app_context():
