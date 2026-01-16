@@ -1,15 +1,17 @@
 services:
   - type: web
-    name: datasolve-app
+    name: Courses
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn homepage:app
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
     envVars:
       - key: SECRET_KEY
-        value: "123Conect*#"
+        value: 0e4d6064e226dd6c452a7e5ad74c12b1add1270fe9e82d3beeeebd32c8a90eb5
       - key: PAYPAL_CLIENT_ID
-        value: "AWkdOGpwf43F12XXYk-0uUxxdCNcgV8kQxc1CAQEHDSIh1N5nohzeKjlSanB97lSylr56GE3V24Qv5nN"
+        value: AWkdOGpwf43F12XXYk-0uUxxdCNcgV8kQxc1CAQEHDSIh1N5nohzeKjlSanB97lSylr56GE3V24Qv5nN
       - key: PAYPAL_SECRET
-        value: "EF8iPcZODFqV5wzBRonCONuHNwt7qSVMbtnvgyqke24YUrOVbm27SuJ4OUIZiWTTbwLi58Ha_sNt25FK"
+        value: EF8iPcZODFqV5wzBRonCONuHNwt7qSVMbtnvgyqke24YUrOVbm27SuJ4OUIZiWTTbwLi58Ha_sNt25FK
       - key: PAYPAL_API_BASE
-        value: "https://api-m.paypal.com"
+        value: https://api-m.paypal.com
+      - key: DATABASE_URL
+        value: postgresql://courses_db_38bd_user:KihVVEwYMIb1V82Dhxdxmey5Dbgf4stk@dpg-d5ksmemid0rc73aodjn0-a/courses_db_38bd

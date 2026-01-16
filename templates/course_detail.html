@@ -36,7 +36,7 @@
                   Open
                 </a>
               {% else %}
-                <button class="btn btn-sm fw-semibold transition-btn" 
+                <button class="btn btn-sm fw-semibold transition-btn unlock-btn" 
                         style="background-color:#ffd700; color:#002b36; border-radius:8px;" 
                         data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal">
                   🔓 Unlock
@@ -114,7 +114,17 @@
             }).then(response => response.json())
               .then(result => {
                 if (result.status === "ok") {
-                  window.location.href = "{{ url_for('dashboard') }}";
+                  // Flip ALL unlock buttons instantly
+                  document.querySelectorAll(".unlock-btn").forEach(btn => {
+                    btn.outerHTML = `
+                      <a href="{{ url_for('dashboard') }}" class="btn btn-sm fw-semibold transition-btn" style="background-color:#198754; color:#fff; border-radius:8px;">
+                        Open
+                      </a>
+                    `;
+                  });
+                  // Close modal
+                  const modal = bootstrap.Modal.getInstance(document.getElementById('paypalUnlockAllModal'));
+                  if (modal) modal.hide();
                 } else {
                   alert("Payment verification failed: " + (result.error || "Unknown error"));
                 }

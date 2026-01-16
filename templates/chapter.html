@@ -24,7 +24,7 @@
           🔒 This chapter is locked. Please unlock all to continue.
         </p>
         {% if not user or not user.is_subscribed %}
-          <button class="btn fw-semibold transition-btn" 
+          <button class="btn fw-semibold transition-btn unlock-btn" 
                   style="background-color:#ffd700; color:#002b36; border-radius:8px;" 
                   data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal">
             Unlock Chapters (KES 2500)
@@ -114,7 +114,15 @@
             }).then(response => response.json())
               .then(result => {
                 if (result.status === "ok") {
-                  window.location.href = "{{ url_for('dashboard') }}";
+                  // Flip ALL unlock buttons instantly
+                  document.querySelectorAll(".unlock-btn").forEach(btn => {
+                    btn.outerHTML = `
+                      <a href="{{ url_for('dashboard') }}" class="btn btn-success">Open Chapter</a>
+                    `;
+                  });
+                  // Close modal
+                  const modal = bootstrap.Modal.getInstance(document.getElementById('paypalUnlockAllModal'));
+                  if (modal) modal.hide();
                 } else {
                   alert("Payment verification failed: " + (result.error || "Unknown error"));
                 }

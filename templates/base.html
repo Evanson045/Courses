@@ -39,12 +39,12 @@
 
     <!-- Encouragement Note -->
     {% if not user or not user.is_subscribed %}
-      <div class="alert alert-info text-center fw-semibold shadow-sm mt-4">
+      <div class="alert alert-info text-center fw-semibold shadow-sm mt-4" id="encouragement-note">
         🚀 Make a one‑time payment of <strong>KES 2500</strong> to unlock all courses forever!
       </div>
 
       <!-- PayPal Unlock Button -->
-      <div class="text-center mt-4">
+      <div class="text-center mt-4" id="paypal-section">
         <h5 class="fw-bold mb-3">Unlock All Courses (KES 2500)</h5>
         <div id="paypal-gold-button-container" aria-label="Gold PayPal Button"></div>
       </div>
@@ -53,6 +53,24 @@
         ✅ You already have access to all courses.
       </div>
     {% endif %}
+
+    <!-- Example Chapter Buttons -->
+    <div class="row mt-5">
+      {% for chapter in chapters %}
+        <div class="col-md-4 mb-3">
+          <div class="card shadow-sm">
+            <div class="card-body text-center">
+              <h5 class="card-title">{{ chapter.title }}</h5>
+              {% if not user or not user.is_subscribed %}
+                <button class="btn btn-warning unlock-btn">Unlock Chapter</button>
+              {% else %}
+                <a href="{{ url_for('chapter_content', id=chapter.id) }}" class="btn btn-success">Open Chapter</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
   </div>
 
   <!-- Scripts -->
@@ -81,7 +99,27 @@
               }).then(response => response.json())
                 .then(result => {
                   if (result.status === "ok") {
-                    window.location.href = "{{ url_for('dashboard') }}";
+                    // Flip ALL unlock buttons to "Open"
+                    document.querySelectorAll(".unlock-btn").forEach(btn => {
+                      btn.outerHTML = `
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-success">Open Chapter</a>
+                      `;
+                    });
+
+                    // Update PayPal section
+                    const section = document.getElementById("paypal-section");
+                    const note = document.getElementById("encouragement-note");
+                    if (section) {
+                      section.innerHTML = `
+                        <div class="alert alert-success text-center fw-semibold shadow-sm mt-4">
+                          ✅ Payment successful! You can now 
+                          <a href="{{ url_for('dashboard') }}" class="btn btn-success">Open Courses</a>
+                        </div>
+                      `;
+                    }
+                    if (note) {
+                      note.style.display = "none";
+                    }
                   } else {
                     alert("Payment verification failed: " + (result.error || "Unknown error"));
                   }
