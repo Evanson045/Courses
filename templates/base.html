@@ -54,17 +54,17 @@
       </div>
     {% endif %}
 
-    <!-- Example Chapter Buttons -->
+    <!-- Chapter Buttons -->
     <div class="row mt-5">
       {% for chapter in chapters %}
         <div class="col-md-4 mb-3">
           <div class="card shadow-sm">
             <div class="card-body text-center">
-              <h5 class="card-title">{{ chapter.title }}</h5>
+             <h5 class="card-title">{{ chapter.title }}</h5>
               {% if not user or not user.is_subscribed %}
-                <button class="btn btn-warning unlock-btn">Unlock Chapter</button>
+                <button class="btn btn-warning unlock-btn">Unlock</button>
               {% else %}
-                <a href="{{ url_for('chapter_content', id=chapter.id) }}" class="btn btn-success">Open Chapter</a>
+                <a href="{{ url_for('chapter_content', id=chapter.id) }}" class="btn btn-success">Open</a>
               {% endif %}
             </div>
           </div>

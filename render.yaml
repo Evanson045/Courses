@@ -3,7 +3,7 @@ services:
     name: Courses
     env: python
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn app:app"
+    startCommand: "gunicorn homepage:app"
     envVars:
       - key: SECRET_KEY
         value: 0e4d6064e226dd6c452a7e5ad74c12b1add1270fe9e82d3beeeebd32c8a90eb5

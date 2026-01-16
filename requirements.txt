@@ -4,5 +4,3 @@ python-dotenv
 gunicorn
 werkzeug
 requests
-Flask-Migrate
-alembic

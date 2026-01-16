@@ -6,7 +6,6 @@ from flask import (
     request, session, flash, jsonify, abort
 )
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 
@@ -19,7 +18,6 @@ app.secret_key = os.getenv("SECRET_KEY", "dev_secret")
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlite:///users.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
 # -------------------- Logging --------------------
 logging.basicConfig(level=logging.INFO)
@@ -238,5 +236,6 @@ def paypal_success():
 
 # -------------------- Run App --------------------
 if __name__ == '__main__':
-    # For local dev only; in production Render runs via Gunicorn
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
