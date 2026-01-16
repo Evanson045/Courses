@@ -4,10 +4,10 @@
 <div class="container mt-5">
   <!-- Chapter Section -->
   <div class="module-section p-4 shadow-lg rounded" 
-       style="background-color:#002b36; color:#e0f7fa; border:none;">
+       style="background-color:#002b36; color:#d6e1e9; border:none;">
     <h2 class="fw-bold text-center" style="color:#ffd700;">{{ chapter.title }}</h2>
     <p class="module-tagline text-center mt-3 mb-4 p-2 rounded" 
-       style="background-color:#e0f7fa; color:#002b36;">
+       style="background-color:#d6e1e9; color:#002b36;">
       {{ chapter.description }}
     </p>
     <hr style="border-color:#ffd700;">
@@ -43,21 +43,21 @@
 <div class="container mt-4 d-flex justify-content-between align-items-center nav-buttons">
   <a href="{{ url_for('show_course', course_name=course_name) }}" 
      class="btn fw-semibold transition-btn" 
-     style="background-color:#ffd700; color:#002b36; border-radius:8px;">
-    ← Back to Course
+     style="background-color:#0d8b1e; color:#ffffff; border-radius:8px;">
+    ← Back to Course Overview
   </a>
   <div class="ms-auto">
     {% if chapter.id > 1 %}
       <a href="{{ url_for('show_chapter', course_name=course_name, id=chapter.id - 1) }}" 
          class="btn me-2 fw-semibold transition-btn" 
-         style="background-color:#ffd700; color:#002b36; border-radius:8px;">
+         style="background-color:#0d8b1e; color:#ffffff; border-radius:8px;">
         ← Previous
       </a>
     {% endif %}
     {% if chapter.id < course.chapters|length %}
       <a href="{{ url_for('show_chapter', course_name=course_name, id=chapter.id + 1) }}" 
          class="btn fw-semibold transition-btn" 
-         style="background-color:#ffd700; color:#002b36; border-radius:8px;">
+         style="background-color:#0d8b1e; color:#ffffff; border-radius:8px;">
         Next →
       </a>
     {% endif %}
@@ -67,7 +67,7 @@
 <!-- Unlock Modal -->
 <div class="modal fade" id="paypalUnlockAllModal" tabindex="-1" aria-labelledby="paypalUnlockAllModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content shadow-lg" style="background-color:#002b36; color:#e0f7fa;">
+    <div class="modal-content shadow-lg" style="background-color:#002b36; color:#d6e1e9;">
       <div class="modal-header">
         <h5 class="modal-title" id="paypalUnlockAllModalLabel" style="color:#ffd700;">Unlock All Chapters</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -140,7 +140,7 @@
     transition: background-color 0.3s ease, color 0.3s ease;
   }
   .transition-btn:hover {
-    background-color:#e0f7fa !important;
+    background-color:#d6e1e9 !important;
     color:#002b36 !important;
   }
 </style>

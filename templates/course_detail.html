@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block title %}{{ course.title }}{% endblock %}
 {% block content %}
-<div class="container mt-4 p-4 rounded shadow-lg" style="background-color:#bdc7ce; color:#e0f7fa;">
+<div class="container mt-4 p-4 rounded shadow-lg" style="background-color:#d6e1e9; color:#d6e1e9;">
   <div class="text-center mb-4">
     <h2 class="fw-bold" style="color:#000000;">{{ course.icon }} {{ course.title }}</h2>
-    <p class="lead course-tagline" style="background-color:#e0f7fa; color:#002b36; display:inline-block; padding:6px 12px; border-radius:6px;">
+    <p class="lead course-tagline" style="background-color:#d6e1e9; color:#002b36; display:inline-block; padding:6px 12px; border-radius:6px;">
       {{ course.description }}
     </p>
   </div>
@@ -19,7 +19,7 @@
           <!-- Header row: title, badge, and button aligned -->
           <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
-              <h5 class="card-title fw-bold mb-0" style="color:#ffffff;">
+              <h5 class="card-title fw-bold mb-0" style="color:#d6e1e9;">
                 Chapter {{ loop.index }}: {{ chapter.title }}
               </h5>
               {% if chapter.id <= 5 %}
@@ -55,8 +55,8 @@
   <div class="text-center mt-4">
     <a href="{{ url_for('dashboard') }}" 
        class="btn fw-bold transition-btn" 
-       style="background-color:#0d8b1e; color:#fff; border-radius:8px; padding:10px 20px;">
-      ← Back to courses
+       style="background-color:#0d8b1e; color:#d6e1e9; border-radius:8px; padding:10px 20px;">
+      ← Back to Courses
     </a>
   </div>
 </div>
@@ -64,7 +64,7 @@
 <!-- Modal Popup -->
 <div class="modal fade" id="paypalUnlockAllModal" tabindex="-1" aria-labelledby="paypalUnlockAllLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content shadow-lg" style="background-color:#002b36; color:#e0f7fa;">
+    <div class="modal-content shadow-lg" style="background-color:#002b36; color:#d6e1e9;">
       <div class="modal-header" style="background-color:#ffd700; color:#002b36;">
         <h5 class="modal-title fw-bold" id="paypalUnlockAllLabel">Locked</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -74,7 +74,7 @@
           <p class="fw-semibold mb-3" style="color:#ffd700;">
             🚀 Please make a one‑time payment of <strong>KES 2500</strong> to unlock all courses forever!
           </p>
-          <p class="mb-4" style="color:#ffffff; font-weight:500;">
+          <p class="mb-4" style="color:#d6e1e9; font-weight:500;">
             No subscriptions, lifetime access to every course.
           </p>
           <!-- PayPal button container -->

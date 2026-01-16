@@ -2,7 +2,7 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  color: #e0f7fa; /* aqua text for readability */
+  color: #d6e1e9; /* updated aqua text for readability */
   line-height: 1.6;
   background-color: #002b36; /* navy background */
   scroll-behavior: smooth;
@@ -24,7 +24,7 @@ body {
   text-decoration: none;
 }
 .navbar-brand:hover {
-  color: #e0f7fa !important; /* aqua highlight on hover */
+  color: #d6e1e9 !important; /* updated aqua highlight on hover */
   text-shadow: 0 0 6px rgba(255, 215, 0, 0.7);
 }
 
@@ -50,7 +50,7 @@ body {
 }
 .btn-primary:hover,
 .btn-warning:hover {
-  background-color: #e0f7fa !important; /* aqua hover */
+  background-color: #d6e1e9 !important; /* updated aqua hover */
   color: #002b36 !important;
   box-shadow: 0 0 8px rgba(0,0,0,0.3);
   transform: translateY(-2px);
@@ -70,7 +70,7 @@ body {
 }
 .chapter-tagline {
   color: #063600;
-  background-color: #e0f7fa;
+  background-color: #d6e1e9; /* updated aqua background */
   padding: 8px 12px;
   border-radius: 6px;
   display: inline-block;
@@ -94,7 +94,7 @@ body {
   border-radius: 8px;
 }
 .nav-buttons a:hover {
-  background-color: #e0f7fa;
+  background-color: #d6e1e9; /* updated aqua hover */
   color: #002b36;
   box-shadow: 0 0 8px rgba(0,0,0,0.3);
   transform: translateY(-2px);
@@ -103,7 +103,7 @@ body {
 /* Course list items */
 .list-group-item {
   background-color: #002b36 !important;
-  color: #e0f7fa;
+  color: #d6e1e9; /* updated aqua text */
   border-radius: 10px;
   border: none;
   transition: all 0.2s ease-in-out;

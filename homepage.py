@@ -15,7 +15,14 @@ load_dotenv()
 # -------------------- App Setup --------------------
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "dev_secret")
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlite:///users.db")
+
+# Database config: use Postgres if DATABASE_URL is set, otherwise fallback to SQLite
+db_url = os.getenv("DATABASE_URL")
+if db_url and not db_url.strip().startswith("sqlite"):
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///users.db"
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
