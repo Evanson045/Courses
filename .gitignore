@@ -1,28 +1,4 @@
-# Environment variables
 .env
-
-# Python cache
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Local database files
 *.db
-*.sqlite3
-
-# Virtual environment
+__pycache__/
 .venv/
-env/
-venv/
-
-# Logs
-*.log
-
-# IDE settings
-.vscode/
-.idea/
-
-# OS files
-.DS_Store
-Thumbs.db
