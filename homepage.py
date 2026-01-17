@@ -37,6 +37,11 @@ db = SQLAlchemy(app)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# -------------------- PayPal Config --------------------
+PAYPAL_API_BASE = os.getenv("PAYPAL_API_BASE", "https://api-m.paypal.com")
+PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID", "")
+PAYPAL_SECRET = os.getenv("PAYPAL_SECRET", "")
+
 # -------------------- Models --------------------
 class User(db.Model):
     __tablename__ = 'users'  # avoid reserved word "user"
@@ -135,17 +140,16 @@ def show_course(course_name):
     if not course:
         abort(404)
 
-    # Support both "chapters" and "modules"
+    # unify chapters/modules
     chapter_list = course.get("chapters") or course.get("modules") or []
-    if not isinstance(chapter_list, list):
-        chapter_list = []
 
     return render_template(
         'course_detail.html',
         course=course,
         course_name=course_name,
         user=current_user(),
-        chapter_list=chapter_list
+        chapter_list=chapter_list,
+        PAYPAL_CLIENT_ID=PAYPAL_CLIENT_ID
     )
 
 @app.route('/courses/<course_name>/chapter/<int:id>')
@@ -156,21 +160,21 @@ def show_chapter(course_name, id):
         flash("Course not found.", "danger")
         return redirect(url_for('list_courses'))
 
-    if not user and id > 5:
-        flash("Please log in to access locked chapters.", "warning")
-        return redirect(url_for('login'))
-
-    if user and not user.is_subscribed and id > 5:
-        flash("This chapter is locked. Please unlock to continue.", "warning")
-        return redirect(url_for('show_course', course_name=course_name))
-
-    chapter_list = course.get("chapters") or course.get("modules")
-    chapter_data = next((c for c in chapter_list if c["id"] == id), None)
+    chapter_list = course.get("chapters") or course.get("modules") or []
+    chapter_data = next((c for c in chapter_list if c.get("id") == id), None)
     if not chapter_data:
         flash("Chapter not found.", "danger")
         return redirect(url_for('show_course', course_name=course_name))
 
-    return render_template("chapter.html", chapter=chapter_data, course=course, user=user, course_name=course_name)
+    return render_template(
+        "chapter.html",
+        chapter=chapter_data,
+        course=course,
+        user=user,
+        course_name=course_name,
+        chapter_list=chapter_list,
+        PAYPAL_CLIENT_ID=PAYPAL_CLIENT_ID
+    )
 
 @app.route('/unlock-chapter/<course_name>/<int:chapter_id>', methods=['GET'])
 def unlock_chapter(course_name, chapter_id):
@@ -207,11 +211,15 @@ def unlock_all():
 
     return redirect(url_for('dashboard'))
 
-# -------------------- PayPal Config --------------------
-PAYPAL_API_BASE = os.getenv("PAYPAL_API_BASE", "https://api-m.paypal.com")
-PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID", "")
-PAYPAL_SECRET = os.getenv("PAYPAL_SECRET", "")
+@app.route('/subscribe')
+def subscribe():
+    return render_template(
+        'subscribe.html',
+        user=current_user(),
+        PAYPAL_CLIENT_ID=PAYPAL_CLIENT_ID
+    )
 
+# -------------------- PayPal Success --------------------
 @app.route('/paypal-success', methods=['POST'])
 def paypal_success():
     user = current_user()

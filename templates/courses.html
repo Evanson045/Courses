@@ -1,15 +1,67 @@
-<!-- templates/courses.html -->
 {% extends "base.html" %}
 {% block title %}Courses{% endblock %}
 {% block content %}
 <div class="container mt-4">
-  <h2 class="mb-3">Available Courses</h2>
-  {% for name, course in courses.items() %}
-    <div class="mb-3">
-      <h4>{{ course.title }}</h4>
-      <p class="text-muted">{{ course.description }}</p>
-      <a class="btn btn-primary btn-sm" href="{{ url_for('show_course', course_name=name) }}">View course</a>
+  <h2 class="mb-3 fw-bold">Available Courses</h2>
+
+  {% if courses %}
+    <div class="row">
+      {% for name, course in courses.items() %}
+        <div class="col-md-6 mb-4">
+          <div class="card shadow-sm h-100" style="background-color:#002b36; color:#d6e1e9; border:none; border-radius:10px;">
+            <div class="card-body">
+              <h4 class="card-title fw-bold" style="color:#ffd700;">
+                {{ course.icon }} {{ course.title }}
+              </h4>
+              <p class="card-text mt-2" style="color:#d6e1e9;">
+                {{ course.description }}
+              </p>
+              <a class="btn btn-sm fw-semibold transition-btn mt-3" 
+                 href="{{ url_for('show_course', course_name=name) }}" 
+                 style="background-color:#0d8b1e; color:#ffffff; border-radius:8px;">
+                View Course
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
     </div>
-  {% endfor %}
+
+    <!-- Action Buttons Row -->
+    <div class="container mt-4 d-flex justify-content-center gap-3">
+      {% if not user or not user.is_subscribed %}
+        <a href="{{ url_for('subscribe') }}" 
+           class="btn btn-lg fw-bold transition-btn shadow-sm" 
+           style="background-color:#ffd700; color:#002b36; border-radius:8px; padding:12px 24px;">
+          🔓 Unlock All Courses (KES 2500)
+        </a>
+      {% else %}
+        <div class="alert alert-success fw-semibold mt-2 mb-0">
+          ✅ You already have access to all courses.
+        </div>
+      {% endif %}
+
+      <a href="{{ url_for('dashboard') }}" 
+         class="btn fw-bold transition-btn" 
+         style="background-color:#0d8b1e; color:#d6e1e9; border-radius:8px; padding:12px 24px;">
+        ← Back to Dashboard
+      </a>
+    </div>
+  {% else %}
+    <div class="alert alert-warning">
+      No courses available at the moment.
+    </div>
+  {% endif %}
 </div>
+
+<!-- Hover Effects CSS -->
+<style>
+  .transition-btn {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .transition-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+  }
+</style>
 {% endblock %}

@@ -54,7 +54,7 @@
         ← Previous
       </a>
     {% endif %}
-    {% if chapter.id < course.chapters|length %}
+    {% if chapter.id < chapter_list|length %}
       <a href="{{ url_for('show_chapter', course_name=course_name, id=chapter.id + 1) }}" 
          class="btn fw-semibold transition-btn" 
          style="background-color:#0d8b1e; color:#ffffff; border-radius:8px;">
@@ -90,7 +90,7 @@
 </div>
 
 <!-- PayPal SDK Script -->
-<script src="https://www.paypal.com/sdk/js?client-id=AWkdOGpwf43F12XXYk-0uUxxdCNcgV8kQxc1CAQEHDSIh1N5nohzeKjlSanB97lSylr56GE3V24Qv5nN&currency=KES"></script>
+<script src="https://www.paypal.com/sdk/js?client-id={{ PAYPAL_CLIENT_ID }}&currency=KES"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const container = document.getElementById('paypal-all-button-container');
@@ -114,13 +114,11 @@
             }).then(response => response.json())
               .then(result => {
                 if (result.status === "ok") {
-                  // Flip ALL unlock buttons instantly
                   document.querySelectorAll(".unlock-btn").forEach(btn => {
                     btn.outerHTML = `
                       <a href="{{ url_for('dashboard') }}" class="btn btn-success">Open Chapter</a>
                     `;
                   });
-                  // Close modal
                   const modal = bootstrap.Modal.getInstance(document.getElementById('paypalUnlockAllModal'));
                   if (modal) modal.hide();
                 } else {
