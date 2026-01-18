@@ -269,15 +269,57 @@ def paypal_success():
     else:
         return jsonify({"error": "Payment not completed"}), 400
 
-# -------------------- Init DB (one-time) --------------------
-@app.route('/init-db')
-def init_db():
-    with app.app_context():
-        db.create_all()
-    return "✅ Tables created in Postgres"
+# -------------------- PayPal Verify --------------------
+@app.route('/paypal/verify', methods=['POST'])
+def paypal_verify():
+    user = current_user()
+    if not user:
+        return jsonify({"error": "Not logged in"}), 403
+
+    data = request.get_json(silent=True) or {}
+    order_id = data.get("orderID")
+    if not order_id:
+        return jsonify({"error": "Missing orderID"}), 400
+
+    try:
+        # Get access token
+        auth_response = requests.post(
+            f"{PAYPAL_API_BASE}/v1/oauth2/token",
+            headers={"Accept": "application/json"},
+            data={"grant_type": "client_credentials"},
+            auth=(PAYPAL_CLIENT_ID, PAYPAL_SECRET),
+            timeout=10
+        )
+        auth_response.raise_for_status()
+        access_token = auth_response.json().get("access_token")
+        if not access_token:
+            return jsonify({"error": "Failed to obtain access token"}), 502
+    except requests.RequestException as e:
+        logger.error(f"PayPal auth failed: {e}")
+        return jsonify({"error": f"Auth request failed: {e}"}), 502
+
+    try:
+        # Verify order
+        order_response = requests.get(
+            f"{PAYPAL_API_BASE}/v2/checkout/orders/{order_id}",
+            headers={"Authorization": f"Bearer {access_token}", "Accept": "application/json"},
+            timeout=10
+        )
+        order_response.raise_for_status()
+        order_data = order_response.json()
+    except requests.RequestException as e:
+        logger.error(f"Order verification failed: {e}")
+        return jsonify({"error": f"Order verification failed: {e}"}), 502
+
+    if order_data.get("status") == "COMPLETED":
+        user.is_subscribed = True
+        db.session.commit()
+        return jsonify({"status": "ok", "message": "Payment verified. Subscription activated!"})
+    else:
+        return jsonify({"error": "Payment not completed"}), 400
 
 # -------------------- Run App --------------------
-if __name__ == '__main__':
+if __name__ == "__main__":
     with app.app_context():
         db.create_all()
     app.run(debug=True)

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{% block title %}Courses{% endblock %}</title>
+  <title>{% block title %}Dashboard{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Learn data science, statistics, and R programming with DataSolve. Unlock all courses and grow your skills.">
 
@@ -17,29 +17,31 @@
   <nav class="navbar shadow-sm navbar-expand-lg" style="background-color:#002b36;" aria-label="Main navigation">
     <div class="container">
       <a class="navbar-brand fw-bold text-white transition-brand" href="{{ url_for('index') }}">
-        <i class="bi bi-bar-chart-fill me-2"></i>DataSolve
+        <i class="bi bi-bar-chart-fill me-2"></i>DataSolve Academy
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          <!-- Home → Landing page -->
+        <ul class="navbar-nav ms-auto">
+          <!-- Home -->
           <li class="nav-item">
             <a class="nav-link text-white" href="{{ url_for('index') }}">Home</a>
           </li>
-                    <!-- Dashboard → Personalized view -->
+          <!-- Dashboard -->
           <li class="nav-item">
             <a class="nav-link text-white" href="{{ url_for('dashboard') }}">Dashboard</a>
           </li>
-          <!-- Courses → Public catalog -->
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{{ url_for('list_courses') }}">Courses</a>
-          </li>
-          <!-- Subscribe → Payment page -->
+          <!-- Subscribe -->
           <li class="nav-item">
             <a class="nav-link text-white" href="{{ url_for('subscribe') }}">Subscribe</a>
           </li>
+          <!-- Logout -->
+          {% if user %}
+          <li class="nav-item">
+            <a class="nav-link text-white fw-bold" href="{{ url_for('logout') }}">Logout</a>
+          </li>
+          {% endif %}
         </ul>
       </div>
     </div>
@@ -60,15 +62,6 @@
     {% endwith %}
 
     {% block content %}{% endblock %}
-
-    <!-- Encouragement Message on Dashboard -->
-    {% if request.endpoint == 'dashboard' and (not user or not user.is_subscribed) %}
-      <div class="alert alert-info text-center fw-semibold shadow-sm mt-4">
-        🚀 Make a one-time subscription of <strong>KES 2500</strong> to unlock all courses forever!
-        <a href="{{ url_for('subscribe') }}" class="btn btn-warning btn-sm ms-2">Subscribe Now</a>
-      </div>
-    {% endif %}
-  </div>
 
   <!-- Scripts -->
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
