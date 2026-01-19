@@ -6,6 +6,7 @@ from flask import (
     request, session, flash, jsonify, abort
 )
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.pool import NullPool
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -32,6 +33,10 @@ else:
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+# Debug line to confirm active DB
+print("🔍 Active DB URL:", app.config['SQLALCHEMY_DATABASE_URI'])
 
 # -------------------- Logging --------------------
 logging.basicConfig(level=logging.INFO)
@@ -44,7 +49,7 @@ PAYPAL_SECRET = os.getenv("PAYPAL_SECRET", "")
 
 # -------------------- Models --------------------
 class User(db.Model):
-    __tablename__ = 'users'  # avoid reserved word "user"
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, index=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
@@ -59,19 +64,18 @@ def current_user():
 # -------------------- Import Courses --------------------
 from courses import courses
 
-# -------------------- Health --------------------
-@app.route('/health')
+# -------------------- Routes --------------------
+@app.route("/health")
 def health():
     return "App is running ✅"
 
-# -------------------- Auth Routes --------------------
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
 
-@app.route('/register', methods=['GET','POST'])
+@app.route("/register", methods=["GET", "POST"])
 def register():
-    if request.method == 'POST':
+    if request.method == "POST":
         email = request.form['email'].strip().lower()
         password = request.form['password']
         confirm = request.form.get('confirm_password')
@@ -100,51 +104,49 @@ def register():
 
         flash("Registration successful. Please log in.", "success")
         return redirect(url_for('login'))
-    return render_template('register.html')
+    return render_template("register.html")
 
-@app.route('/login', methods=['GET','POST'])
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == 'POST':
+    if request.method == "POST":
         email = request.form['email'].strip().lower()
         password = request.form['password']
 
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
             session['user_id'] = user.id
-            return redirect(url_for('dashboard'))
+            session['just_logged_in'] = True  # flag for single flash
+            return redirect(url_for("dashboard"))
         flash("Invalid email or password.", "danger")
-    return render_template('login.html')
+    return render_template("login.html")
 
-@app.route('/logout')
+@app.route("/logout")
 def logout():
     session.pop('user_id', None)
     flash("You have been logged out.", "info")
-    return redirect(url_for('index'))
+    return redirect(url_for("index"))
 
-@app.route('/dashboard')
+@app.route("/dashboard")
 def dashboard():
     user = current_user()
     if not user:
-        return redirect(url_for('login'))
-    return render_template('dashboard.html', user=user)
+        return redirect(url_for("login"))
+    return render_template("dashboard.html", user=user)
 
-# -------------------- Course Routes --------------------
-@app.route('/courses')
+@app.route("/courses")
 def list_courses():
     user = current_user()
-    return render_template('courses.html', courses=courses, user=user)
+    return render_template("courses.html", courses=courses, user=user)
 
-@app.route('/course/<course_name>')
+@app.route("/course/<course_name>")
 def show_course(course_name):
     course = courses.get(course_name)
     if not course:
         abort(404)
 
-    # unify chapters/modules
     chapter_list = course.get("chapters") or course.get("modules") or []
-
     return render_template(
-        'course_detail.html',
+        "course_detail.html",
         course=course,
         course_name=course_name,
         user=current_user(),
@@ -152,19 +154,19 @@ def show_course(course_name):
         PAYPAL_CLIENT_ID=PAYPAL_CLIENT_ID
     )
 
-@app.route('/courses/<course_name>/chapter/<int:id>')
+@app.route("/courses/<course_name>/chapter/<int:id>")
 def show_chapter(course_name, id):
     user = current_user()
     course = courses.get(course_name)
     if not course:
         flash("Course not found.", "danger")
-        return redirect(url_for('list_courses'))
+        return redirect(url_for("list_courses"))
 
     chapter_list = course.get("chapters") or course.get("modules") or []
     chapter_data = next((c for c in chapter_list if c.get("id") == id), None)
     if not chapter_data:
         flash("Chapter not found.", "danger")
-        return redirect(url_for('show_course', course_name=course_name))
+        return redirect(url_for("show_course", course_name=course_name))
 
     return render_template(
         "chapter.html",
@@ -176,31 +178,31 @@ def show_chapter(course_name, id):
         PAYPAL_CLIENT_ID=PAYPAL_CLIENT_ID
     )
 
-@app.route('/unlock-chapter/<course_name>/<int:chapter_id>', methods=['GET'])
+@app.route("/unlock-chapter/<course_name>/<int:chapter_id>")
 def unlock_chapter(course_name, chapter_id):
     user = current_user()
     course = courses.get(course_name)
     if not course:
         flash("Course not found.", "danger")
-        return redirect(url_for('list_courses'))
+        return redirect(url_for("list_courses"))
 
     if not user:
         flash("Login required to unlock chapters.", "danger")
-        return redirect(url_for('login'))
+        return redirect(url_for("login"))
 
     if chapter_id <= 5:
         flash("This chapter is already available.", "info")
-        return redirect(url_for('show_chapter', course_name=course_name, id=chapter_id))
+        return redirect(url_for("show_chapter", course_name=course_name, id=chapter_id))
 
     flash("This chapter is locked. Please unlock all to continue.", "warning")
-    return redirect(url_for('show_course', course_name=course_name))
+    return redirect(url_for("show_course", course_name=course_name))
 
-@app.route('/unlock-all', methods=['POST'])
+@app.route("/unlock-all", methods=["POST"])
 def unlock_all():
     user = current_user()
     if not user:
         flash("Login required to unlock all.", "danger")
-        return redirect(url_for('login'))
+        return redirect(url_for("login"))
 
     if not user.is_subscribed:
         user.is_subscribed = True
@@ -209,18 +211,18 @@ def unlock_all():
     else:
         flash("You already have access to all courses.", "info")
 
-    return redirect(url_for('dashboard'))
+    return redirect(url_for("dashboard"))
 
-@app.route('/subscribe')
+@app.route("/subscribe")
 def subscribe():
     return render_template(
-        'subscribe.html',
+        "subscribe.html",
         user=current_user(),
         PAYPAL_CLIENT_ID=PAYPAL_CLIENT_ID
     )
 
-# -------------------- PayPal Success --------------------
-@app.route('/paypal-success', methods=['POST'])
+# -------------------- PayPal Routes --------------------
+@app.route("/paypal-success", methods=["POST"])
 def paypal_success():
     user = current_user()
     if not user:
@@ -269,57 +271,6 @@ def paypal_success():
     else:
         return jsonify({"error": "Payment not completed"}), 400
 
-# -------------------- PayPal Verify --------------------
-@app.route('/paypal/verify', methods=['POST'])
-def paypal_verify():
-    user = current_user()
-    if not user:
-        return jsonify({"error": "Not logged in"}), 403
-
-    data = request.get_json(silent=True) or {}
-    order_id = data.get("orderID")
-    if not order_id:
-        return jsonify({"error": "Missing orderID"}), 400
-
-    try:
-        # Get access token
-        auth_response = requests.post(
-            f"{PAYPAL_API_BASE}/v1/oauth2/token",
-            headers={"Accept": "application/json"},
-            data={"grant_type": "client_credentials"},
-            auth=(PAYPAL_CLIENT_ID, PAYPAL_SECRET),
-            timeout=10
-        )
-        auth_response.raise_for_status()
-        access_token = auth_response.json().get("access_token")
-        if not access_token:
-            return jsonify({"error": "Failed to obtain access token"}), 502
-    except requests.RequestException as e:
-        logger.error(f"PayPal auth failed: {e}")
-        return jsonify({"error": f"Auth request failed: {e}"}), 502
-
-    try:
-        # Verify order
-        order_response = requests.get(
-            f"{PAYPAL_API_BASE}/v2/checkout/orders/{order_id}",
-            headers={"Authorization": f"Bearer {access_token}", "Accept": "application/json"},
-            timeout=10
-        )
-        order_response.raise_for_status()
-        order_data = order_response.json()
-    except requests.RequestException as e:
-        logger.error(f"Order verification failed: {e}")
-        return jsonify({"error": f"Order verification failed: {e}"}), 502
-
-    if order_data.get("status") == "COMPLETED":
-        user.is_subscribed = True
-        db.session.commit()
-        return jsonify({"status": "ok", "message": "Payment verified. Subscription activated!"})
-    else:
-        return jsonify({"error": "Payment not completed"}), 400
-
 # -------------------- Run App --------------------
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)

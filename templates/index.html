@@ -1,105 +1,39 @@
 {% extends "base.html" %}
 {% block title %}Welcome{% endblock %}
 {% block content %}
-  <!-- Hero Section -->
-  <section class="hero text-center py-5" style="background-color:#002b36; color:#e0f7fa;">
-    <!-- Logo -->
-    <img src="{{ url_for('static', filename='logo.png') }}" alt="DataSolve Logo" 
-         class="logo img-fluid mb-3 shadow-sm" width="150" height="50">
 
-    <!-- Headline -->
-    <h1 class="display-4 fw-bold" style="color:#ffd700;">Courses</h1>
-    <p class="lead tagline">Empowering growth through data, technology, and learning</p>
-
-    <!-- Call to Action -->
-    <a id="startFreeCourseBtn" href="{{ url_for('login') }}" 
-       class="btn btn-lg mt-3 shadow w-100 w-md-auto transition-btn fw-bold" 
+<!-- Hero -->
+<section class="hero text-center py-5" style="background:linear-gradient(135deg,#002b36,#004d40); color:#e0f7fa;">
+  <div class="container">
+    <h1 class="display-3 fw-bold" style="color:#ffd700;">Learn. Apply. Grow.</h1>
+    <p class="lead tagline mb-4">Your journey starts here!</p>
+    <a href="{{ url_for('login') }}" class="btn btn-lg fw-bold mt-3"
        style="background-color:#ffd700; color:#002b36; border-radius:8px;">
       🚀 Start Free Course
     </a>
-  </section>
+  </div>
+</section>
 
-  <!-- Features Section -->
-  <section class="features mt-5">
-    <div class="row text-center">
-      <!-- Data Science -->
-      <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 shadow-lg rounded transition-card" 
-             style="background-color:#002b36; color:#e0f7fa; border:none; border-radius:12px;">
-          <div class="card-body">
-            <h4 class="card-title fw-bold" style="color:#ffd700;">📊 Data Science</h4>
-            <p class="card-text">Learn the fundamentals of data analysis and visualization.</p>
-            <a href="{{ url_for('show_course', course_name='Data Science') }}" 
-               class="btn mt-3 fw-bold transition-btn" 
-               style="background-color:#ffd700; color:#002b36; border-radius:8px;">
-              Explore
-            </a>
-          </div>
-        </div>
-      </div>
-      <!-- Statistics -->
-      <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 shadow-lg rounded transition-card" 
-             style="background-color:#002b36; color:#e0f7fa; border:none; border-radius:12px;">
-          <div class="card-body">
-            <h4 class="card-title fw-bold" style="color:#ffd700;">📈 Statistics</h4>
-            <p class="card-text">Master probability, inference, and statistical modeling.</p>
-            <a href="{{ url_for('show_course', course_name='Statistics') }}" 
-               class="btn mt-3 fw-bold transition-btn" 
-               style="background-color:#ffd700; color:#002b36; border-radius:8px;">
-              Explore
-            </a>
-          </div>
-        </div>
-      </div>
-      <!-- R Programming -->
-      <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100 shadow-lg rounded transition-card" 
-             style="background-color:#002b36; color:#e0f7fa; border:none; border-radius:12px;">
-          <div class="card-body">
-            <h4 class="card-title fw-bold" style="color:#ffd700;">💻 R Programming</h4>
-            <p class="card-text">Build reproducible workflows and powerful analytics with R.</p>
-            <a href="{{ url_for('show_course', course_name='R Programming') }}" 
-               class="btn mt-3 fw-bold transition-btn" 
-               style="background-color:#ffd700; color:#002b36; border-radius:8px;">
-              Explore
-            </a>
-          </div>
-        </div>
-      </div>
+<!-- Highlights -->
+<section class="highlights py-5 text-center" style="background-color:#002b36; color:#e0f7fa;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4"><h4 style="color:#ffd700;">📊 Data Science</h4><p>Analyze and visualize data.</p></div>
+      <div class="col-md-4"><h4 style="color:#ffd700;">📈 Statistics</h4><p>Master probability and inference.</p></div>
+      <div class="col-md-4"><h4 style="color:#ffd700;">💻 R Programming</h4><p>Build reproducible workflows.</p></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Script to toggle tagline color -->
-  <script>
-    const startBtn = document.getElementById("startFreeCourseBtn");
-    const tagline = document.querySelector(".tagline");
-    if (startBtn && tagline) {
-      startBtn.addEventListener("click", function() {
-        tagline.classList.add("active");
-      });
-    }
-  </script>
+<!-- Footer -->
+<footer class="text-center py-4" style="background-color:#002b36; color:#e0f7fa;">
+  <p class="mb-0">© 2026 DataSolve — Empowering Growth through data, technology and learning.</p>
+</footer>
 
-  <!-- Hover Effects CSS -->
-  <style>
-    .transition-card {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .transition-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.4);
-    }
-    .transition-btn {
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    .transition-btn:hover {
-      background-color:#e0f7fa !important;
-      color:#002b36 !important;
-    }
-    .tagline.active {
-      color:#ffd700 !important;
-      font-weight:bold;
-    }
-  </style>
+<style>
+  .transition-btn { transition: background-color 0.3s ease, color 0.3s ease; }
+  .transition-btn:hover { background-color:#e0f7fa !important; color:#002b36 !important; }
+  .tagline.active { color:#ffd700 !important; font-weight:bold; }
+</style>
+
 {% endblock %}
