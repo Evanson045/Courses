@@ -7,7 +7,6 @@ from flask import (
 )
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy.pool import NullPool
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
@@ -52,8 +51,14 @@ class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, index=True, nullable=False)
-    password = db.Column(db.String(150), nullable=False)
+    password_hash = db.Column(db.String(150), nullable=False)
     is_subscribed = db.Column(db.Boolean, default=False)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 # -------------------- Helpers --------------------
 def current_user():
@@ -73,52 +78,47 @@ def health():
 def index():
     return render_template("index.html")
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == "POST":
-        email = request.form['email'].strip().lower()
+    if request.method == 'POST':
+        email = request.form['email']
         password = request.form['password']
-        confirm = request.form.get('confirm_password')
-
-        if not email or not password or not confirm:
-            flash("All fields are required.", "danger")
-            return redirect(url_for('register'))
+        confirm = request.form['confirm_password']
 
         if password != confirm:
-            flash("Passwords do not match.", "danger")
+            flash("Passwords do not match", "danger")
             return redirect(url_for('register'))
 
         if User.query.filter_by(email=email).first():
-            flash("Email already registered. Please log in.", "warning")
-            return redirect(url_for('login'))
+            flash("Email already registered", "warning")
+            return redirect(url_for('register'))
 
-        hashed_pw = generate_password_hash(password)
-        new_user = User(email=email, password=hashed_pw)
-        db.session.add(new_user)
-        try:
-            db.session.commit()
-        except IntegrityError:
-            db.session.rollback()
-            flash("Email already registered. Please log in.", "warning")
-            return redirect(url_for('login'))
+        user = User(email=email)
+        user.set_password(password)
+        db.session.add(user)
+        db.session.commit()
 
-        flash("Registration successful. Please log in.", "success")
+        flash("Account created successfully!", "success")
         return redirect(url_for('login'))
-    return render_template("register.html")
 
-@app.route("/login", methods=["GET", "POST"])
+    return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == "POST":
-        email = request.form['email'].strip().lower()
+    if request.method == 'POST':
+        email = request.form['email']
         password = request.form['password']
 
         user = User.query.filter_by(email=email).first()
-        if user and check_password_hash(user.password, password):
+        if user and user.check_password(password):
             session['user_id'] = user.id
-            session['just_logged_in'] = True  # flag for single flash
-            return redirect(url_for("dashboard"))
-        flash("Invalid email or password.", "danger")
-    return render_template("login.html")
+            flash("Logged in successfully!", "success")
+            return redirect(url_for('dashboard'))
+        else:
+            flash("Invalid credentials", "danger")
+            return redirect(url_for('login'))
+
+    return render_template('login.html')
 
 @app.route("/logout")
 def logout():
@@ -273,4 +273,4 @@ def paypal_success():
 
 # -------------------- Run App --------------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run
