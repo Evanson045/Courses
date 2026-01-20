@@ -48,14 +48,14 @@
   </a>
   <div class="ms-auto">
     {% if chapter.id > 1 %}
-      <a href="{{ url_for('show_chapter', course_name=course_name, id=chapter.id - 1) }}" 
+      <a href="{{ url_for('show_chapter', course_name=course_name, chapter_id=chapter.id - 1) }}" 
          class="btn me-2 fw-semibold transition-btn" 
          style="background-color:#ffd700; color:#000000; border-radius:8px;">
         ← Previous
       </a>
     {% endif %}
     {% if chapter.id < chapter_list|length %}
-      <a href="{{ url_for('show_chapter', course_name=course_name, id=chapter.id + 1) }}" 
+      <a href="{{ url_for('show_chapter', course_name=course_name, chapter_id=chapter.id + 1) }}" 
          class="btn fw-semibold transition-btn" 
          style="background-color:#0d8b1e; color:#ffffff; border-radius:8px;">
         Next →

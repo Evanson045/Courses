@@ -16,7 +16,7 @@
   {% endwith %}
 
   <!-- Courses -->
-  <h3 class="mt-4">Available Courses</h3>
+  <h3 class="mt-4 fw-bold" style="color:#000000;">Available Courses</h3>
   <div class="row mt-3">
     {% set course_list = [
       {"name": "Data Science", "icon": "📊", "description": "Learn fundamentals of data analysis, visualization, and machine learning."},
@@ -34,13 +34,15 @@
             {% if user %}
               <a href="{{ url_for('show_course', course_name=course.name) }}" 
                  class="btn fw-bold mt-3 transition-btn" 
-                 style="background-color:#ffd700; color:#002b36; border-radius:8px;">
+                 style="background-color:#ffd700; color:#002b36; border-radius:8px;"
+                 aria-label="Start {{ course.name }} course">
                 Start Course
               </a>
             {% else %}
               <a href="{{ url_for('login') }}" 
                  class="btn fw-bold mt-3 transition-btn" 
-                 style="background-color:#ffd700; color:#002b36; border-radius:8px;">
+                 style="background-color:#ffd700; color:#002b36; border-radius:8px;"
+                 aria-label="Log in to start {{ course.name }}">
                 Log in to Start
               </a>
             {% endif %}
@@ -53,13 +55,13 @@
   <!-- Subscription Encouragement -->
   <div class="container mt-4">
     {% if not user or not user.is_subscribed %}
-      <div class="alert alert-info text-center fw-semibold shadow-sm">
+      <div class="alert alert-info text-center fw-semibold shadow-sm" role="alert">
         🔒 Some chapters are locked.<br>
         Make a one-time lifetime subscription of <strong>KES 2500</strong> to unlock all Courses forever!
-        <a href="{{ url_for('subscribe') }}" class="btn btn-warning btn-sm ms-2">Subscribe Now</a>
+        <a href="{{ url_for('subscribe') }}" class="btn btn-warning btn-sm ms-2 fw-bold">Subscribe Now</a>
       </div>
     {% else %}
-      <div class="alert alert-success text-center fw-semibold shadow-sm">
+      <div class="alert alert-success text-center fw-semibold shadow-sm" role="alert">
         ✅ You already have full access to all courses.
       </div>
     {% endif %}
@@ -81,6 +83,7 @@
   .transition-btn:hover {
     background-color:#d6e1e9 !important;
     color:#002b36 !important;
+    transform: translateY(-2px);
   }
   @media (max-width: 576px) {
     .btn {

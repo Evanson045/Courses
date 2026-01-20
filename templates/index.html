@@ -7,7 +7,7 @@
   <div class="container">
     <h1 class="display-3 fw-bold" style="color:#ffd700;">Learn. Apply. Grow.</h1>
     <p class="lead tagline mb-4">Your journey starts here!</p>
-    <a href="{{ url_for('login') }}" class="btn btn-lg fw-bold mt-3"
+    <a href="{{ url_for('login') }}" class="btn btn-lg fw-bold mt-3 transition-btn"
        style="background-color:#ffd700; color:#002b36; border-radius:8px;">
       🚀 Start Free Course
     </a>
@@ -18,22 +18,81 @@
 <section class="highlights py-5 text-center" style="background-color:#002b36; color:#e0f7fa;">
   <div class="container">
     <div class="row">
-      <div class="col-md-4"><h4 style="color:#ffd700;">📊 Data Science</h4><p>Analyze and visualize data.</p></div>
-      <div class="col-md-4"><h4 style="color:#ffd700;">📈 Statistics</h4><p>Master probability and inference.</p></div>
-      <div class="col-md-4"><h4 style="color:#ffd700;">💻 R Programming</h4><p>Build reproducible workflows.</p></div>
+      <div class="col-md-4 highlight-card">
+        <h4 style="color:#ffd700;">📊 Data Science</h4>
+        <p>Analyze and visualize data.</p>
+      </div>
+      <div class="col-md-4 highlight-card">
+        <h4 style="color:#ffd700;">📈 Statistics</h4>
+        <p>Master probability and inference.</p>
+      </div>
+      <div class="col-md-4 highlight-card">
+        <h4 style="color:#ffd700;">💻 R Programming</h4>
+        <p>Build reproducible workflows.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Footer -->
-<footer class="text-center py-4" style="background-color:#002b36; color:#e0f7fa;">
-  <p class="mb-0">© 2026 DataSolve — Empowering Growth through data, technology and learning.</p>
-</footer>
-
+<!-- Styles -->
 <style>
-  .transition-btn { transition: background-color 0.3s ease, color 0.3s ease; }
-  .transition-btn:hover { background-color:#e0f7fa !important; color:#002b36 !important; }
-  .tagline.active { color:#ffd700 !important; font-weight:bold; }
+  /* Hero tagline toggle */
+  .tagline {
+    transition: color 0.4s ease, transform 0.4s ease, text-shadow 0.4s ease;
+    cursor: pointer;
+  }
+  .tagline.active {
+    color:#ffd700 !important;
+    font-weight:bold;
+    transform: scale(1.1) rotate(-1deg);
+    text-shadow: 0 0 12px rgba(255,215,0,0.7);
+  }
+
+  /* Highlight cards toggle */
+  .highlight-card {
+    cursor: pointer;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .highlight-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+  }
+  .highlight-card.active {
+    background: linear-gradient(135deg,#004d40,#00695c);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255,215,0,0.6);
+  }
+
+  /* Button hover */
+  .transition-btn {
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .transition-btn:hover {
+    background-color:#e0f7fa !important;
+    color:#002b36 !important;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
 </style>
+
+<!-- Toggle Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Toggle tagline with animation
+    const tagline = document.querySelector(".tagline");
+    tagline.addEventListener("click", () => {
+      tagline.classList.toggle("active");
+    });
+
+    // Toggle highlight cards with glow effect
+    document.querySelectorAll(".highlight-card").forEach(card => {
+      card.addEventListener("click", () => {
+        card.classList.toggle("active");
+      });
+    });
+  });
+</script>
 
 {% endblock %}

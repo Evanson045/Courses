@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ course.title }}{% endblock %}
 {% block content %}
-<div class="container mt-4 p-4 rounded shadow-lg" style="background-color:#d6e1e9; color:#d6e1e9;">
+<div class="container mt-4 p-4 rounded shadow-lg" style="background-color:#d6e1e9;">
   <div class="text-center mb-4">
     <h2 class="fw-bold" style="color:#000000;">{{ course.icon }} {{ course.title }}</h2>
     <p class="lead course-tagline" style="background-color:#d6e1e9; color:#002b36; display:inline-block; padding:6px 12px; border-radius:6px;">
@@ -29,7 +29,7 @@
             </div>
             <div>
               {% if user and (user.is_subscribed or chapter.id <= 5) %}
-                <a href="{{ url_for('show_chapter', course_name=course_name, id=chapter.id) }}" 
+                <a href="{{ url_for('show_chapter', course_name=course_name, chapter_id=chapter.id) }}" 
                    class="btn btn-sm fw-semibold transition-btn" 
                    style="background-color:#198754; color:#fff; border-radius:8px;">
                   Open
@@ -37,7 +37,8 @@
               {% else %}
                 <button class="btn btn-sm fw-semibold transition-btn unlock-btn" 
                         style="background-color:#ffd700; color:#002b36; border-radius:8px;" 
-                        data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal">
+                        data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal"
+                        aria-label="Unlock chapter">
                   🔓 Unlock
                 </button>
               {% endif %}
