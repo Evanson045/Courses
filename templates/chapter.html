@@ -28,7 +28,7 @@
           <button class="btn fw-semibold transition-btn unlock-btn" 
                   style="background-color:#ffd700; color:#002b36; border-radius:8px;" 
                   data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal">
-            Unlock All (USD 25)
+            Unlock All Courses ($25)
           </button>
           <p class="text-center mt-2" style="color:#d6e1e9;">
             Secure checkout via PayPal. One-time payment, lifetime access.
@@ -76,7 +76,7 @@
       </div>
       <div class="modal-body text-center">
         <p class="fw-bold mb-3" style="color:#ffd700;">
-          To unlock all please pay <strong>USD 25</strong> via PayPal.
+          To unlock all please pay <strong>$25</strong> via PayPal.
         </p>
         <!-- Single PayPal button container -->
         <div id="paypal-all-button-container" class="mt-2"></div>
@@ -156,6 +156,17 @@
   }
   .nav-buttons a { transition: transform 0.3s ease, box-shadow 0.3s ease; }
   .nav-buttons a:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
+
+  /* Green backgrounds for Prev/Next */
+  .prev-btn {
+    background-color: #198754 !important;
+    color: #000000 !important; /* black text */
+  }
+  .next-btn {
+    background-color: #198754 !important;
+    color: #ffffff !important; /* white text */
+  }
+
   @media (max-width: 576px) {
     .nav-buttons {
       flex-direction: column;

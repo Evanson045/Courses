@@ -148,16 +148,25 @@ body {
   transform: scale(1.05);
 }
 
-/* Prev/Next (blue theme) */
-.nav-buttons a.prev-btn,
-.nav-buttons a.next-btn {
-  background: linear-gradient(135deg, #0d6efd, #002b36);
-  color: #fff;
+/* Prev/Next (green theme) */
+.nav-buttons a.prev-btn {
+  background-color: #00695c !important;
+  color: #1f1e1e !important; /* black text */
 }
-.nav-buttons a.prev-btn:hover,
+.nav-buttons a.prev-btn:hover {
+  background-color: #00695c !important; /* darker green */
+  color: #000000 !important;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transform: scale(1.05);
+}
+
+.nav-buttons a.next-btn {
+  background-color: #00695c !important;
+  color: #ffffff !important; /* white text */
+}
 .nav-buttons a.next-btn:hover {
-  background: linear-gradient(135deg, #0040ca, #002b90);
-  color: #fff;
+  background-color: #00695c !important; /* darker green */
+  color: #ffffff !important;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
   transform: scale(1.05);
 }
