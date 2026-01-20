@@ -1,5 +1,8 @@
 # -------------------- Courses & Modules --------------------
-courses = {"Data Science": {"title": "Data Science", "icon": "📊", "description": "Learn how people use information to make better decisions.", "chapters":
+courses = {"Data Science": 
+           {"title": "Data Science", "icon": "📊", 
+            "description": "Learn how people use information to make better decisions.", 
+            "chapters":
                             [
             {"id": 1,
  "title": "Introduction to Data Science",

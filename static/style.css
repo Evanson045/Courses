@@ -131,13 +131,32 @@ body {
 .nav-buttons a {
   min-width: 140px;
   transition: all 0.3s ease-in-out;
-  background: linear-gradient(135deg, #ffd700, #ff9800);
-  color: #002b36;
   border-radius: 8px;
   padding: 10px 16px;
+  font-weight: 600;
 }
-.nav-buttons a:hover {
+
+/* Course Overview (gold theme) */
+.nav-buttons a.overview-btn {
+  background: linear-gradient(135deg, #ffd700, #ff9800);
+  color: #002b36;
+}
+.nav-buttons a.overview-btn:hover {
   background: linear-gradient(135deg, #ff9800, #ff5722);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transform: scale(1.05);
+}
+
+/* Prev/Next (blue theme) */
+.nav-buttons a.prev-btn,
+.nav-buttons a.next-btn {
+  background: linear-gradient(135deg, #0d6efd, #0040ca);
+  color: #fff;
+}
+.nav-buttons a.prev-btn:hover,
+.nav-buttons a.next-btn:hover {
+  background: linear-gradient(135deg, #0040ca, #002b90);
   color: #fff;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
   transform: scale(1.05);
@@ -192,5 +211,13 @@ body {
   }
   .navbar.fixed-bottom i {
     font-size: 1.6rem;
+  }
+  .nav-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .nav-buttons a {
+    width: 100%;
+    margin-bottom: 10px;
   }
 }

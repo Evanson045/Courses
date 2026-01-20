@@ -33,7 +33,7 @@
               <!-- Badge logic -->
               {% if chapter.id <= 5 %}
               <span class="badge rounded-pill px-3 py-2 mb-3" 
-                    style="background-color:#00bfa5; color:#fff; font-size:0.85rem; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+                    style="background-color:#ffd700; color:#000000; font-size:0.85rem; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
                 Free
               </span>
               {% else %}
@@ -46,7 +46,7 @@
               <!-- Button -->
               <a href="{{ url_for('show_chapter', course_name=course_name, chapter_id=chapter.id) }}" 
                  class="btn transition-btn fw-bold w-100"
-                 style="background:linear-gradient(135deg,#ffd700,#ffffff); color:#000000; border-radius:8px; padding:12px 0; font-size:1rem;">
+                 style="background:linear-gradient(135deg,#093d2e,#ffffff); color:#000000; border-radius:8px; padding:12px 0; font-size:1rem;">
                 Start
               </a>
             </div>

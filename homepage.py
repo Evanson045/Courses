@@ -165,6 +165,11 @@ def list_courses():
 
 @app.route("/course/<course_name>")
 def show_course(course_name):
+    user = current_user()
+    if not user:
+        flash("You need to log in to continue.", "warning")
+        return redirect(url_for("login"))
+
     course = courses.get(course_name)
     if not course:
         abort(404)
@@ -175,7 +180,7 @@ def show_course(course_name):
         course=course,
         course_name=course_name,
         chapter_list=chapters,
-        user=current_user(),
+        user=user,
         PAYPAL_CLIENT_ID=PAYPAL_CLIENT_ID,
     )
 
@@ -183,7 +188,9 @@ def show_course(course_name):
 def show_chapter(course_name, chapter_id):
     user = current_user()
     course = courses.get(course_name)
-
+    if not user:
+        flash("You need to log in to continue.", "warning")
+        return redirect(url_for("login"))
     if not course:
         abort(404)
 
@@ -208,7 +215,6 @@ def unlock_all():
     user = current_user()
     if not user:
         return redirect(url_for("login"))
-
     if not user.is_subscribed:
         user.is_subscribed = True
         db.session.commit()
