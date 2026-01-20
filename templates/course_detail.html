@@ -6,36 +6,48 @@
 <section class="py-5 text-center text-white" style="background:linear-gradient(135deg,#002b36,#004d40);">
   <div class="container">
     <h1 class="display-4 fw-bold mb-3" style="color:#ffd700;">{{ course_name }}</h1>
-    <p class="lead mt-2">{{ course.description }}</p>
+    <!-- Highlighted description -->
+    <p class="lead mt-3 mx-auto p-3 rounded" 
+       style="max-width:700px; background-color:#d6e1e9; color:#002b36; font-weight:500;">
+      {{ course.description }}
+    </p>
   </div>
 </section>
 
 <!-- Course Overview -->
-<section class="py-5 bg-light">
+<section class="py-5" style="background-color:#d6e1e9;">
   <div class="container">
-    <h2 class="fw-bold text-center mb-4" style="color:#004d40;">Course Overview</h2>
+    <h2 class="fw-bold text-center mb-4" style="color:#002b36;">Course Overview</h2>
     <div class="row gy-4">
       {% for chapter in chapter_list %}
-      <div class="col-md-6 col-lg-4">
-        <div class="card shadow-sm h-100 border-0 rounded-4" style="background-color:#fefefe;">
+      <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="card shadow-sm h-100 border-0 rounded-4" style="background-color:#002b36;">
           <div class="card-body d-flex flex-column justify-content-between">
             <div>
-              <h5 class="card-title fw-bold" style="color:#002b36;">
+              <h5 class="card-title fw-bold" style="color:#ffd700;">
                 Chapter {{ chapter.id }}: {{ chapter.title }}
               </h5>
-              <p class="card-text text-muted">{{ chapter.description }}</p>
+              <p class="card-text" style="color:#d6e1e9;">{{ chapter.description }}</p>
             </div>
             <div class="mt-4 d-flex flex-column align-items-start">
-              <!-- Attractive Badge -->
+              <!-- Badge logic -->
+              {% if chapter.id <= 5 %}
               <span class="badge rounded-pill px-3 py-2 mb-3" 
                     style="background-color:#00bfa5; color:#fff; font-size:0.85rem; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
-                ✅ Free Access
+                Free
               </span>
-              <!-- Attractive Button -->
+              {% else %}
+              <span class="badge rounded-pill px-3 py-2 mb-3" 
+                    style="background-color:#94200c; color:#fff; font-size:0.85rem; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+                Locked
+              </span>
+              {% endif %}
+
+              <!-- Button -->
               <a href="{{ url_for('show_chapter', course_name=course_name, chapter_id=chapter.id) }}" 
                  class="btn transition-btn fw-bold w-100"
-                 style="background:linear-gradient(135deg,#ffd700,#ff9800); color:#002b36; border-radius:8px; padding:12px 0; font-size:1rem;">
-                ▶ Start Chapter
+                 style="background:linear-gradient(135deg,#ffd700,#ffffff); color:#000000; border-radius:8px; padding:12px 0; font-size:1rem;">
+                Start
               </a>
             </div>
           </div>
@@ -58,16 +70,33 @@
     box-shadow: 0 6px 14px rgba(0,0,0,0.3);
     text-decoration: none;
   }
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+  }
   @media (max-width: 576px) {
     h1.display-4 {
-      font-size: 2rem;
+      font-size: 1.6rem;
     }
     .card-title {
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
     .transition-btn {
-      font-size: 0.95rem;
-      padding: 10px 0;
+      font-size: 0.85rem;
+      padding: 8px 0;
+    }
+    .badge {
+      font-size: 0.7rem;
+    }
+    .lead {
+      font-size: 0.9rem;
+      padding: 0.75rem;
+    }
+    .card-text {
+      font-size: 0.85rem;
     }
   }
 </style>

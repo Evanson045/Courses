@@ -25,9 +25,9 @@
         </p>
         {% if not user or not user.is_subscribed %}
           <button class="btn fw-semibold transition-btn unlock-btn" 
-                  style="background-color:#ffd700; color:#002b36; border-radius:8px;" 
+                  style="background-color:#5fe46a; color:#002b36; border-radius:8px;" 
                   data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal">
-            Unlock Chapters (USD 25)
+            Unlock All (USD 25)
           </button>
           <p class="text-center mt-2" style="color:#d6e1e9;">
             🔐 Secure checkout via PayPal. One-time payment, lifetime access.
@@ -53,14 +53,14 @@
     {% if chapter.id > 1 %}
       <a href="{{ url_for('show_chapter', course_name=course_name, chapter_id=chapter.id - 1) }}" 
          class="btn me-2 fw-semibold transition-btn" 
-         style="background-color:#1496b6; color:#000000; border-radius:8px;">
+         style="background-color:#5fe46a; color:#000000; border-radius:8px;">
         ← Previous
       </a>
     {% endif %}
     {% if chapter.id < chapter_list|length %}
       <a href="{{ url_for('show_chapter', course_name=course_name, chapter_id=chapter.id + 1) }}" 
          class="btn fw-semibold transition-btn" 
-         style="background-color:#0d8b1e; color:#ffffff; border-radius:8px;">
+         style="background-color:#0040ca; color:#ffffff; border-radius:8px;">
         Next →
       </a>
     {% endif %}
@@ -68,32 +68,28 @@
 </div>
 
 <!-- Unlock Modal -->
+{% if not user or not user.is_subscribed %}
 <div class="modal fade" id="paypalUnlockAllModal" tabindex="-1" aria-labelledby="paypalUnlockAllModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content shadow-lg" style="background-color:#002b36; color:#d6e1e9;">
       <div class="modal-header">
-        <h5 class="modal-title" id="paypalUnlockAllModalLabel" style="color:#ffd700;">Unlock All Chapters</h5>
+        <h5 class="modal-title" id="paypalUnlockAllModalLabel" style="color:#ffd700;">Unlock All</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body text-center">
-        {% if not user or not user.is_subscribed %}
-          <p class="fw-bold mb-3" style="color:#ffd700;">
-            To unlock all please pay <strong>USD 25</strong> via PayPal.
-          </p>
-          <!-- PayPal button container -->
-          <div id="paypal-all-button-container" class="mt-2"></div>
-          <p class="mt-3" style="color:#d6e1e9; font-size:0.95rem;">
-            🔐 Secure checkout via PayPal. We never store your card details.
-          </p>
-        {% else %}
-          <div class="alert alert-success fw-semibold">
-            ✅ You already have access to all courses.
-          </div>
-        {% endif %}
+        <p class="fw-bold mb-3" style="color:#ffd700;">
+          To unlock all please pay <strong>USD 25</strong> via PayPal.
+        </p>
+        <!-- PayPal button container -->
+        <div id="paypal-all-button-container" class="mt-2"></div>
+        <p class="mt-3" style="color:#d6e1e9; font-size:0.95rem;">
+          Checkout via PayPal.
+        </p>
       </div>
     </div>
   </div>
 </div>
+{% endif %}
 
 {% block scripts %}
 <!-- PayPal SDK Script -->
@@ -121,11 +117,17 @@
             }).then(response => response.json())
               .then(result => {
                 if (result.status === "ok") {
+                  // Replace unlock button with success message
                   document.querySelectorAll(".unlock-btn").forEach(btn => {
                     btn.outerHTML = `
-                      <a href="{{ url_for('dashboard') }}" class="btn btn-success">Open Chapter</a>
+                      <div class="alert alert-success mt-3 fw-semibold">
+                        ✅ Chapters unlocked successfully! Reload to access content.
+                      </div>
                     `;
                   });
+                  // Clear PayPal container
+                  container.innerHTML = "";
+                  // Hide modal
                   const modal = bootstrap.Modal.getInstance(document.getElementById('paypalUnlockAllModal'));
                   if (modal) modal.hide();
                 } else {

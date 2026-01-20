@@ -260,6 +260,7 @@ def paypal_success():
             user.is_subscribed = True
             db.session.commit()
             logger.info("User %s subscribed successfully", user.email)
+            # Return success so frontend clears PayPal container and hides modal
             return jsonify({"status": "ok"})
 
     except Exception as e:
