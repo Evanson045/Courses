@@ -151,7 +151,7 @@ body {
 /* Prev/Next (blue theme) */
 .nav-buttons a.prev-btn,
 .nav-buttons a.next-btn {
-  background: linear-gradient(135deg, #0d6efd, #0040ca);
+  background: linear-gradient(135deg, #0d6efd, #002b36);
   color: #fff;
 }
 .nav-buttons a.prev-btn:hover,
