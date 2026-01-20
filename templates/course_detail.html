@@ -31,8 +31,8 @@
               {% if user and (user.is_subscribed or chapter.id <= 5) %}
                 <a href="{{ url_for('show_chapter', course_name=course_name, chapter_id=chapter.id) }}" 
                    class="btn btn-sm fw-semibold transition-btn" 
-                   style="background-color:#198754; color:#fff; border-radius:8px;">
-                  Open
+                   style="background-color:#1496b6; color:#fff; border-radius:8px;">
+                  Start
                 </a>
               {% else %}
                 <button class="btn btn-sm fw-semibold transition-btn unlock-btn" 
@@ -62,8 +62,8 @@
     {% if next_course %}
       <a href="{{ url_for('show_course', course_name=next_course) }}" 
          class="btn fw-bold transition-btn flex-fill text-center" 
-         style="background-color:#0d8b1e; color:#ffffff; border-radius:8px; padding:12px 24px;">
-        Next Course ({{ next_course }})
+         style="background-color:#1496b6; color:#ffffff; border-radius:8px; padding:12px 24px;">
+        Next (Introduction to {{ next_course }})
       </a>
     {% endif %}
   </div>
@@ -79,7 +79,7 @@
       </div>
       <div class="modal-body text-center">
         <p class="fw-semibold">This chapter is locked 🔒</p>
-        <p>Subscribe now for <strong>KES 2500</strong> and gain unlimited access to all chapters and courses forever!</p>
+        <p>Subscribe now for <strong>USD 25</strong> and gain unlimited access to all chapters and courses forever!</p>
         <a href="{{ url_for('subscribe') }}" 
            class="btn btn-lg fw-bold transition-btn shadow-sm mt-3" 
            style="background-color:#ffd700; color:#002b36; border-radius:8px; padding:12px 24px;">

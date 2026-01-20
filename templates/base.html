@@ -14,33 +14,21 @@
 </head>
 <body style="background-color: #d6e1e9;">
   <!-- Navbar -->
-  <nav class="navbar shadow-sm navbar-expand-lg" style="background-color:#002b36;" aria-label="Main navigation">
+  <nav class="navbar navbar-dark shadow-sm navbar-expand-lg" style="background-color:#002b36;" aria-label="Main navigation">
     <div class="container">
       <a class="navbar-brand fw-bold text-white transition-brand" href="{{ url_for('index') }}">
         <i class="bi bi-bar-chart-fill me-2"></i>DataSolve Academy
       </a>
-      <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <!-- Home -->
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{{ url_for('index') }}">Home</a>
-          </li>
-          <!-- Dashboard -->
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{{ url_for('dashboard') }}">Dashboard</a>
-          </li>
-          <!-- Subscribe -->
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{{ url_for('subscribe') }}">Subscribe</a>
-          </li>
-          <!-- Logout -->
+          <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('index') }}">Home</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('subscribe') }}">Subscribe</a></li>
           {% if user %}
-          <li class="nav-item">
-            <a class="nav-link text-white fw-bold" href="{{ url_for('logout') }}">Logout</a>
-          </li>
+          <li class="nav-item"><a class="nav-link text-white fw-bold" href="{{ url_for('logout') }}">Logout</a></li>
           {% endif %}
         </ul>
       </div>

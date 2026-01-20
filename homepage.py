@@ -30,6 +30,11 @@ if not SECRET_KEY:
 app.secret_key = SECRET_KEY
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
+# Secure session cookies
+app.config["SESSION_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+
 # -------------------- Database Configuration --------------------
 db_url = os.getenv("DATABASE_URL")
 
@@ -248,10 +253,13 @@ def paypal_success():
             timeout=10,
         )
         order_res.raise_for_status()
+        order_data = order_res.json()
 
-        if order_res.json().get("status") == "COMPLETED":
+        if (order_data.get("status") == "COMPLETED" and
+            order_data["purchase_units"][0]["amount"]["value"] == "25.00"):
             user.is_subscribed = True
             db.session.commit()
+            logger.info("User %s subscribed successfully", user.email)
             return jsonify({"status": "ok"})
 
     except Exception as e:
