@@ -2,9 +2,9 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  color: #d6e1e9; /* updated aqua text for readability */
+  color: #d6e1e9;
   line-height: 1.6;
-  background-color: #002b36; /* navy background */
+  background-color: #002b36;
   scroll-behavior: smooth;
 }
 
@@ -12,19 +12,19 @@ body {
 .navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
-  background-color: #002b36; /* navy consistent with hero/cards */
+  background-color: #002b36;
   padding: 12px 20px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.4);
   z-index: 1000;
 }
 .navbar-brand {
-  color: #ffd700 !important; /* gold brand text */
+  color: #ffd700 !important;
   font-weight: 700;
   letter-spacing: 0.5px;
   text-decoration: none;
 }
 .navbar-brand:hover {
-  color: #d6e1e9 !important; /* updated aqua highlight on hover */
+  color: #d6e1e9 !important;
   text-shadow: 0 0 6px rgba(255, 215, 0, 0.7);
 }
 
@@ -36,44 +36,61 @@ body {
 
 /* Buttons */
 .btn {
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-weight: 600;
 }
-.btn-primary {
-  background-color: #ffd700 !important; /* gold buttons */
-  color: #002b36 !important; /* navy text */
-  border: none;
-}
+.btn-primary,
 .btn-warning {
-  background-color: #ffd700 !important;
+  background: linear-gradient(135deg, #ffd700, #ff9800) !important;
   color: #002b36 !important;
   border: none;
 }
 .btn-primary:hover,
 .btn-warning:hover {
-  background-color: #d6e1e9 !important; /* updated aqua hover */
-  color: #002b36 !important;
-  box-shadow: 0 0 8px rgba(0,0,0,0.3);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #ff9800, #ff5722) !important;
+  color: #fff !important;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transform: scale(1.05);
 }
 
 /* Chapter sections */
 .chapter-section {
   background-color: #002b36;
   color: #ffd700;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 1rem;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 .chapter-section:hover {
-  transform: scale(1.01);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  transform: scale(1.02);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.4);
 }
 .chapter-tagline {
-  color: #063600;
-  background-color: #d6e1e9; /* updated aqua background */
-  padding: 8px 12px;
-  border-radius: 6px;
+  color: #004d40;
+  background-color: #d6e1e9;
+  padding: 8px 14px;
+  border-radius: 20px;
   display: inline-block;
+  font-weight: 600;
+}
+
+/* Badges */
+.badge {
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.badge-free {
+  background-color: #00bfa5;
+  color: #fff;
+}
+.badge-locked {
+  background-color: #ff5722;
+  color: #fff;
 }
 
 /* Locked message */
@@ -82,33 +99,34 @@ body {
 }
 .locked-message p {
   font-weight: bold;
-  color: #ffd700; /* gold lock message */
+  color: #ffd700;
 }
 
 /* Navigation buttons */
 .nav-buttons a {
-  min-width: 120px;
-  transition: all 0.2s ease-in-out;
-  background-color: #ffd700;
+  min-width: 140px;
+  transition: all 0.3s ease-in-out;
+  background: linear-gradient(135deg, #ffd700, #ff9800);
   color: #002b36;
   border-radius: 8px;
+  padding: 10px 16px;
 }
 .nav-buttons a:hover {
-  background-color: #d6e1e9; /* updated aqua hover */
-  color: #002b36;
-  box-shadow: 0 0 8px rgba(0,0,0,0.3);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #ff9800, #ff5722);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transform: scale(1.05);
 }
 
 /* Course list items */
 .list-group-item {
   background-color: #002b36 !important;
-  color: #d6e1e9; /* updated aqua text */
+  color: #d6e1e9;
   border-radius: 10px;
   border: none;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 .list-group-item:hover {
-  transform: scale(1.01);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  transform: scale(1.02);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.4);
 }

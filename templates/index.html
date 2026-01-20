@@ -3,20 +3,82 @@
 {% block content %}
 
 <!-- Hero -->
-<section class="hero text-center py-5" style="background:linear-gradient(135deg,#002b36,#004d40); color:#e0f7fa;">
+<section class="hero text-center py-5" 
+         style="background:linear-gradient(135deg,#002b36,#004d40); color:#e0f7fa; position:relative; overflow:hidden;">
   <div class="container">
-    <h1 class="display-3 fw-bold" style="color:#ffd700;">Learn. Apply. Grow.</h1>
+    <h1 class="display-3 fw-bold mb-3" style="color:#ffd700;">Learn. Apply. Grow.</h1>
     <p class="lead tagline mb-4">Your journey starts here!</p>
     <a href="{{ url_for('login') }}" class="btn btn-lg fw-bold mt-3 transition-btn"
        style="background-color:#ffd700; color:#002b36; border-radius:8px;">
       🚀 Start Free Course
     </a>
+    <a href="{{ url_for('list_courses') }}" class="btn btn-lg fw-bold mt-3 ms-3 transition-btn"
+       style="background-color:#1496b6; color:#ffffff; border-radius:8px;">
+      📚 Browse Courses
+    </a>
+    <p class="mt-4" style="color:#e0f7fa; font-size:1rem;">
+      🌍 Trusted by learners worldwide
+    </p>
   </div>
 </section>
 
+<!-- Highlights -->
+<section class="py-5">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-4 mb-4">
+        <div class="highlight-card shadow-sm" style="background-color:#e0f7fa;">
+          <i class="bi bi-bar-chart-fill display-4 mb-3" style="color:#002b36;"></i>
+          <h4 class="fw-bold" style="color:#002b36;">📊 Data Science</h4>
+          <p>Master analytics and visualization with practical examples.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="highlight-card shadow-sm" style="background-color:#e0f7fa;">
+          <i class="bi bi-code-slash display-4 mb-3" style="color:#002b36;"></i>
+          <h4 class="fw-bold" style="color:#002b36;">💻 Programming</h4>
+          <p>Learn R and Python step‑by‑step with beginner‑friendly guides.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="highlight-card shadow-sm" style="background-color:#e0f7fa;">
+          <i class="bi bi-rocket-takeoff-fill display-4 mb-3" style="color:#002b36;"></i>
+          <h4 class="fw-bold" style="color:#002b36;">🚀 Career Growth</h4>
+          <p>Apply your skills to real projects and boost your portfolio.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-4" style="background-color:#002b36; color:#e0f7fa;">
+  <div class="container text-center">
+    <p class="mb-2">© 2026 DataSolve Academy. All rights reserved.</p>
+    <div>
+      <a href="#" class="text-decoration-none text-white me-3">About</a>
+      <a href="#" class="text-decoration-none text-white me-3">Contact</a>
+      <a href="#" class="text-decoration-none text-white">Privacy</a>
+    </div>
+    <div class="mt-3">
+      <!-- Email -->
+      <a href="mailto:datasolveke@gmail.com" class="text-white me-3" title="Email Us">
+        <i class="bi bi-envelope-fill fs-4"></i>
+      </a>
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/mwangievanson?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bnbwk2JmwQAy41DE5hlt%2Blw%3D%3D" target="_blank" class="text-white me-3" title="LinkedIn">
+        <i class="bi bi-linkedin fs-4"></i>
+      </a>
+      <!-- WhatsApp -->
+      <a href="https://wa.me/254726572187" target="_blank" class="text-white" title="WhatsApp">
+        <i class="bi bi-whatsapp fs-4"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
 <!-- Styles -->
 <style>
-  /* Hero tagline toggle */
   .tagline {
     transition: color 0.4s ease, transform 0.4s ease, text-shadow 0.4s ease;
     cursor: pointer;
@@ -28,24 +90,24 @@
     text-shadow: 0 0 12px rgba(255,215,0,0.7);
   }
 
-  /* Highlight cards toggle */
   .highlight-card {
     cursor: pointer;
-    transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
-    border-radius: 8px;
-    padding: 20px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease, border 0.4s ease;
+    border-radius: 12px;
+    padding: 25px;
   }
   .highlight-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    border: 2px solid #ffd700;
   }
   .highlight-card.active {
     background: linear-gradient(135deg,#004d40,#00695c);
     transform: scale(1.05);
     box-shadow: 0 0 20px rgba(255,215,0,0.6);
+    color:#e0f7fa;
   }
 
-  /* Button hover */
   .transition-btn {
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
@@ -55,18 +117,23 @@
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   }
+
+  footer a:hover i {
+    color:#ffd700 !important;
+    transform: scale(1.2);
+    transition: all 0.3s ease;
+  }
 </style>
 
 <!-- Toggle Script -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Toggle tagline with animation
     const tagline = document.querySelector(".tagline");
-    tagline.addEventListener("click", () => {
-      tagline.classList.toggle("active");
-    });
-
-    // Toggle highlight cards with glow effect
+    if (tagline) {
+      tagline.addEventListener("click", () => {
+        tagline.classList.toggle("active");
+      });
+    }
     document.querySelectorAll(".highlight-card").forEach(card => {
       card.addEventListener("click", () => {
         card.classList.toggle("active");

@@ -1,110 +1,75 @@
 {% extends "base.html" %}
-{% block title %}{{ course.title }}{% endblock %}
+{% block title %}{{ course_name }}{% endblock %}
 {% block content %}
-<div class="container mt-4 p-4 rounded shadow-lg" style="background-color:#d6e1e9;">
-  <div class="text-center mb-4">
-    <h2 class="fw-bold" style="color:#000000;">{{ course.icon }} {{ course.title }}</h2>
-    <p class="lead course-tagline" style="background-color:#d6e1e9; color:#002b36; display:inline-block; padding:6px 12px; border-radius:6px;">
-      {{ course.description }}
-    </p>
-  </div>
-  <hr class="mb-4" style="border-color:#ffd700;">
 
-  <h4 class="mb-3 fw-bold" style="color:#000000;">Course Overview</h4>
-  <div class="col-12">
-    {% for chapter in chapter_list %}
-      <div class="card shadow-lg transition-card mb-4" 
-           style="background-color:#002b36; color:#ffd700; border:none; border-radius:10px;">
-        <div class="card-body d-flex flex-column">
-          <div class="d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center">
-              <h5 class="card-title fw-bold mb-0" style="color:#d6e1e9;">
-                Chapter {{ loop.index }}: {{ chapter.title }}
-              </h5>
-              {% if chapter.id <= 5 %}
-                <span class="badge bg-success ms-2">Free</span>
-              {% else %}
-                <span class="badge bg-warning text-dark ms-2">Locked</span>
-              {% endif %}
-            </div>
+<!-- Course Header -->
+<section class="py-5 text-center text-white" style="background:linear-gradient(135deg,#002b36,#004d40);">
+  <div class="container">
+    <h1 class="display-4 fw-bold mb-3" style="color:#ffd700;">{{ course_name }}</h1>
+    <p class="lead mt-2">{{ course.description }}</p>
+  </div>
+</section>
+
+<!-- Course Overview -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="fw-bold text-center mb-4" style="color:#004d40;">Course Overview</h2>
+    <div class="row gy-4">
+      {% for chapter in chapter_list %}
+      <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm h-100 border-0 rounded-4" style="background-color:#fefefe;">
+          <div class="card-body d-flex flex-column justify-content-between">
             <div>
-              {% if user and (user.is_subscribed or chapter.id <= 5) %}
-                <a href="{{ url_for('show_chapter', course_name=course_name, chapter_id=chapter.id) }}" 
-                   class="btn btn-sm fw-semibold transition-btn" 
-                   style="background-color:#1496b6; color:#fff; border-radius:8px;">
-                  Start
-                </a>
-              {% else %}
-                <button class="btn btn-sm fw-semibold transition-btn unlock-btn" 
-                        style="background-color:#ffd700; color:#002b36; border-radius:8px;" 
-                        data-bs-toggle="modal" data-bs-target="#paypalUnlockAllModal"
-                        aria-label="Unlock chapter">
-                  🔓 Unlock
-                </button>
-              {% endif %}
+              <h5 class="card-title fw-bold" style="color:#002b36;">
+                Chapter {{ chapter.id }}: {{ chapter.title }}
+              </h5>
+              <p class="card-text text-muted">{{ chapter.description }}</p>
+            </div>
+            <div class="mt-4 d-flex flex-column align-items-start">
+              <!-- Attractive Badge -->
+              <span class="badge rounded-pill px-3 py-2 mb-3" 
+                    style="background-color:#00bfa5; color:#fff; font-size:0.85rem; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+                ✅ Free Access
+              </span>
+              <!-- Attractive Button -->
+              <a href="{{ url_for('show_chapter', course_name=course_name, chapter_id=chapter.id) }}" 
+                 class="btn transition-btn fw-bold w-100"
+                 style="background:linear-gradient(135deg,#ffd700,#ff9800); color:#002b36; border-radius:8px; padding:12px 0; font-size:1rem;">
+                ▶ Start Chapter
+              </a>
             </div>
           </div>
-          <p class="card-text mt-3">{{ chapter.description }}</p>
         </div>
       </div>
-    {% endfor %}
-  </div>
-
-  <!-- Navigation Buttons -->
-  <div class="container mt-4 d-flex justify-content-center gap-3 flex-wrap">
-    <a href="{{ url_for('dashboard') }}" 
-       class="btn fw-bold transition-btn flex-fill text-center" 
-       style="background-color:#ffd700; color:#000000; border-radius:8px; padding:12px 24px;">
-      ← Go Back
-    </a>
-
-    {% set next_course = "Statistics" if course_name == "Data Science" else "R Programming" if course_name == "Statistics" else None %}
-    {% if next_course %}
-      <a href="{{ url_for('show_course', course_name=next_course) }}" 
-         class="btn fw-bold transition-btn flex-fill text-center" 
-         style="background-color:#1496b6; color:#ffffff; border-radius:8px; padding:12px 24px;">
-        Next (Introduction to {{ next_course }})
-      </a>
-    {% endif %}
-  </div>
-</div>
-
-<!-- Unlock Modal -->
-<div class="modal fade" id="paypalUnlockAllModal" tabindex="-1" aria-labelledby="unlockModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content" style="border-radius:10px;">
-      <div class="modal-header" style="background-color:#ffd700; color:#002b36;">
-        <h5 class="modal-title fw-bold" id="unlockModalLabel">Unlock All Courses</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body text-center">
-        <p class="fw-semibold">This chapter is locked 🔒</p>
-        <p>Subscribe now for <strong>USD 25</strong> and gain unlimited access to all chapters and courses forever!</p>
-        <a href="{{ url_for('subscribe') }}" 
-           class="btn btn-lg fw-bold transition-btn shadow-sm mt-3" 
-           style="background-color:#ffd700; color:#002b36; border-radius:8px; padding:12px 24px;">
-          Proceed to Payment
-        </a>
-      </div>
+      {% endfor %}
     </div>
   </div>
-</div>
+</section>
 
-<!-- Hover Effects CSS -->
+<!-- Styles -->
 <style>
-  .transition-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .transition-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-  }
   .transition-btn {
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
   .transition-btn:hover {
-    filter: brightness(1.1);
-    transform: translateY(-2px);
+    background: linear-gradient(135deg,#ff9800,#ff5722);
+    color: #fff !important;
+    transform: scale(1.05);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+    text-decoration: none;
+  }
+  @media (max-width: 576px) {
+    h1.display-4 {
+      font-size: 2rem;
+    }
+    .card-title {
+      font-size: 1rem;
+    }
+    .transition-btn {
+      font-size: 0.95rem;
+      padding: 10px 0;
+    }
   }
 </style>
+
 {% endblock %}
