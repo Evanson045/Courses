@@ -34,7 +34,7 @@
             {% if user %}
               <a href="{{ url_for('show_course', course_name=course.name) }}" 
                  class="btn fw-bold mt-3 transition-btn" 
-                 style="background-color:#ffd700; color:#002b36; border-radius:8px;"
+                 style="background-color:#ff5722; color:#ffffff; border-radius:8px;"
                  aria-label="Start {{ course.name }} course">
                 Start Course
               </a>
@@ -57,7 +57,7 @@
     {% if not user or not user.is_subscribed %}
       <div class="alert alert-info text-center fw-semibold shadow-sm" role="alert">
         🔒 Some chapters are locked.<br>
-        Make a one-time subscription of <strong>USD 25</strong> to unlock all courses forever! 🚀
+        Make a one-time subscription of <strong>$25</strong> to unlock all courses forever! 🚀
        <a href="{{ url_for('subscribe') }}" 
    class="btn btn-warning btn-sm ms-2 fw-bold">
    Click here to Subscribe
