@@ -151,7 +151,7 @@ body {
 /* Prev/Next (green theme) */
 .nav-buttons a.prev-btn {
   background-color: #00695c !important;
-  color: #1f1e1e !important; /* black text */
+  color: #d6e1e9 !important; /* black text */
 }
 .nav-buttons a.prev-btn:hover {
   background-color: #00695c !important; /* darker green */
